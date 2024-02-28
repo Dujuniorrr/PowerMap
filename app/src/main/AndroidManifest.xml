@@ -18,6 +18,9 @@
         android:theme="@style/Theme.PowerMap"
         tools:targetApi="31">
         <activity
+            android:name=".activity.users.RegisterAdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.users.LoginActivity$ProfileActivity"
             android:exported="false" />
         <activity

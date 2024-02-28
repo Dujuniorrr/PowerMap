@@ -7,7 +7,7 @@
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
     <string name="see">See</string>
-    <string name="back_button">Back button </string>
+    <string name="back_button">Back button</string>
     <string name="image_button">Add Image button</string>
     <string name="error_data">There was an error submitting data! Please try again later.</string>
     <string name="image_not_found">Image not found!</string>
@@ -21,6 +21,13 @@
     <string name="enter_google">Enter with google</string>
     <string name="editPassword">Edit password</string>
     <string name="add_img">Add image</string>
+    <string name="connectionError">No connection!</string>
+    <string name="successLogin">Login successfully!</string>
+    <string name="notfound">Not found</string>
+
+
+
+
 
 
 
@@ -37,6 +44,16 @@
     <string name="subtext_decoreition_register">Already have an account?</string>
     <string name="title_decoreition_register">Register</string>
     <string name="subtext_decoreition_register_two">Enter</string>
+    <string name="text_decoreition_register">Stay in control just like you control the steering wheel!</string>
+    <string name="title_decoreition_register_admin">Register Admin</string>
+
+
+    <!-- Register -->
+
+    <string name="name_error_register">You must provide your name!</string>
+    <string name="email_error">Email must be provided!</string>
+    <string name="password_error">Password must be provided!</string>
+    <string name="password_confirm_error">Confirm the password correctly!</string>
 
     <!-- Menu -->
     <string name="profile">Profile</string>

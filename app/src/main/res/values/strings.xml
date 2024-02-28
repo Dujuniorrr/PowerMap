@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">PowerMap</string>
-
     <string name="back">Voltar</string>
-    <string name="add"> Adicionar </string>
-    <string name="edit"> Editar </string>
-    <string name="remove"> Remover </string>
-    <string name="see"> Visualizar </string>
+    <string name="add">Adicionar </string>
+    <string name="edit">Editar </string>
+    <string name="remove">Remover </string>
+    <string name="see">Visualizar </string>
     <string name="back_button">Botão de Voltar </string>
     <string name="image_button">Botão de Adicionar Imagem</string>
     <string name="image_not_found">Imagem não encontrada!</string>
@@ -15,12 +14,14 @@
     <string name="register">Registrar</string>
     <string name="name">Nome completo</string>
     <string name="email">Email</string>
-    <string name="Password">senha</string>
+    <string name="Password">Senha</string>
     <string name="password_confirm">Confirme a senha</string>
     <string name="enter_google">Entre com o Google</string>
     <string name="editPassword">Editar senha</string>
     <string name="add_img">Adicionar imagem</string>
-
+    <string name="connectionError">Sem conexão!</string>
+    <string name="successLogin">Login feito com sucesso!</string>
+    <string name="notfound">Não encontrado</string>
 
 
     <!-- Decoração -->
@@ -34,30 +35,43 @@
     <string name="subtext_decoreition_register">Já possui conta?</string>
     <string name="title_decoreition_register">Registre-se</string>
     <string name="subtext_decoreition_register_two">Entre</string>
+    <string name="text_decoreition_register">Mantenha o controle assim como controla o volante!</string>
+    <string name="title_decoreition_register_admin">Registrar Admin</string>
 
+
+    <!-- Register -->
+
+    <string name="name_error_register">É necessário informar o seu nome!</string>
+    <string name="email_error">É necessário informar o e-mail!</string>
+    <string name="password_error">É necessário informar a senha!</string>
+    <string name="password_confirm_error">Confirme a senha de forma correta!</string>
 
     <!-- Menu -->
-    <string name="profile"> Perfil</string>
-    <string name="car"> Carro </string>
-    <string name="schedule"> Agenda</string>
-    <string name="map"> Mapa </string>
-    <string name="users"> Usuários </string>
-    <string name="models"> Modelos </string>
+    <string name="profile">Perfil</string>
+    <string name="car">Carro</string>
+    <string name="schedule">Agenda</string>
+    <string name="map">Mapa</string>
+    <string name="users">Usuários</string>
+    <string name="models">Modelos</string>
 
     <!-- Car Model-->
     <string name="search_model">Pesquisar modelo...</string>
-    <string name="eletric">Elétrico </string>
+    <string name="eletric">Elétrico</string>
     <string name="hybrid">Hibrído</string>
     <string name="name_input">Digite o nome do modelo…</string>
     <string name="year_input">Digite o ano do modelo…</string>
     <string name="energy_consumption_input">Consumo de Energia KwH/km…</string>
     <string name="fuel_consumption_input">Consumo de Combustível Litro/km…</string>
     <string name="wrong_year_error">O ano informado é inválido!</string>
-    <string name="image_error">É necessário informar uma imagem! </string>
-    <string name="name_error">É necessário informar o nome! </string>
-    <string name="year_error">É necessário informar o ano! </string>
+    <string name="image_error">É necessário informar uma imagem!</string>
+    <string name="name_error">É necessário informar o nome!</string>
+    <string name="year_error">É necessário informar o ano!</string>
     <string name="energy_consumption_error">É necessário informar o consumo de energia! </string>
     <string name="fuel_consumption_error">É necessário informar o consumo de combustível! </string>
+
+
+
+
 
     <string name="energy_consumption_label">%s kWh/Km</string>
     <string name="fuel_consumption_label">%s Litros/Km</string>
@@ -65,8 +79,6 @@
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>
     <!-- Strings used for fragments for navigation -->
-
-
 
 
 </resources>
