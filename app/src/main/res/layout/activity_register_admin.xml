@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".activity.users.RegisterActivity"
-android:background="@color/white">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.users.RegisterAdminActivity">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/nameUserRegister"
+        android:id="@+id/nameAdminRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
@@ -27,7 +26,7 @@ android:background="@color/white">
         android:textColorHint="@color/red_custom" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/emailUserRegister"
+        android:id="@+id/emailAdminRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
@@ -46,7 +45,7 @@ android:background="@color/white">
         android:textColorHint="@color/red_custom" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/passwordUserRegisterConfirme"
+        android:id="@+id/passwordConfirmeAdminRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
@@ -64,7 +63,7 @@ android:background="@color/white">
         android:textColorHint="@color/red_custom" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/RegisterUserBtn"
+        android:id="@+id/RegisterAdminBtn"
         android:textAllCaps="false"
         android:layout_width="wrap_content"
         android:layout_height="59dp"
@@ -85,7 +84,7 @@ android:background="@color/white">
         android:textColorHint="@color/white" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/passwordUserRegister"
+        android:id="@+id/passwordAdminRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
@@ -103,7 +102,7 @@ android:background="@color/white">
         android:textColorHint="@color/red_custom" />
 
     <TextView
-        android:id="@+id/titleDecorationRegisterUser"
+        android:id="@+id/titleDecorationAdminRegister"
         android:layout_width="384dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -112,38 +111,46 @@ android:background="@color/white">
         android:layout_marginStart="14dp"
         android:layout_marginTop="78dp"
         android:layout_marginEnd="14dp"
-        android:text="@string/title_decoreition_register"
+        android:text="@string/title_decoreition_register_admin"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40dp"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/backButonUserRegiter"
+        android:id="@+id/backButonAdminRegiter"
         android:layout_width="36dp"
         android:layout_height="38dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="7dp"
         android:layout_marginTop="4dp"
-        android:background="@drawable/baseline_arrow_back_24"
+        android:background="@drawable/baseline_arrow_back_"
         android:contentDescription="@string/back_button"
-         />
+        android:drawableEnd="@drawable/baseline_arrow_back_25" />
 
-    <TextView
-        android:id="@+id/txtDecorationUserRegister"
-        android:layout_width="384dp"
+
+    <FrameLayout
+        android:id="@+id/frameLayoutAdminRegister"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationMenuUserTelaAdminRegister">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationMenuUserTelaAdminRegister"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="675dp"
-        android:layout_marginEnd="6dp"
-        android:text="@string/text_decoreition_register"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="19dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@color/white"
+        app:itemIconSize="27dp"
+        app:itemTextColor="@drawable/icon_tint_selector"
+        app:itemIconTint="@drawable/icon_tint_selector"
+        app:itemActiveIndicatorStyle="@color/red_custom"
+        app:itemRippleColor="@color/red_custom"
+        app:menu="@menu/menu_admin" />
 
 
 </RelativeLayout>

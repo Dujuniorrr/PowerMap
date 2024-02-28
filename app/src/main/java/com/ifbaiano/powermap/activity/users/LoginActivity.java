@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +33,9 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button backButonLogin;
+    Button backButonLogin, enterLoginBtn;
+
+    TextInputEditText emailLogin, passwordLogin;
 
     private Button btnGoogleAuth;
     int RC_SIGN_IN=20;
@@ -50,9 +53,10 @@ public class LoginActivity extends AppCompatActivity {
 
         backButonLogin =findViewById(R.id.backButonLogin);
         btnGoogleAuth = findViewById(R.id.btnGoogleAuth);
-
+        enterLoginBtn = findViewById(R.id.enterLoginBtn);
+        emailLogin = findViewById(R.id.emailLogin);
+        passwordLogin = findViewById(R.id.passwordLogin);
         storageDao = new StorageDaoFirebase();
-
 
 
         backButonLogin.setOnClickListener(v -> {
@@ -90,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuth(account.getIdToken());
 
             }catch (Exception e){
-                Toast.makeText(this, "Algo está errado!" +e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string. connectionError) +e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -112,16 +116,15 @@ public class LoginActivity extends AppCompatActivity {
                     map.put("name", user.getDisplayName());
                     map.put("admin","false");
 
-
                     database.getReference().child("users").child(user.getUid()).setValue(map);
 
                     Intent intent= new Intent(LoginActivity.this,ProfileActivity.class);
                     startActivity(intent);
-                    Toast.makeText(LoginActivity.this, "Login feito com Sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
 
 
                 }else{
-                    Toast.makeText(LoginActivity.this, "Não necontrado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
                 }
             }
         });

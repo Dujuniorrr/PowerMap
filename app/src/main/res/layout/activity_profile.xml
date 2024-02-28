@@ -37,7 +37,6 @@
 
         android:drawableBottom="@drawable/baseline_add_photo_alternate_24" />
 
-
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editProfileUser"
         style="@style/EditTextWithBorderBlack"
@@ -69,7 +68,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="45dp"
         android:layout_marginBottom="330dp"
-        android:drawableEnd="@drawable/baseline_password"
+        android:drawableEnd="@drawable/baseline_email"
         android:hint="@string/email"
         android:inputType="text"
         android:singleLine="true"
@@ -94,7 +93,6 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
-
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/editProfileBtn"
@@ -139,9 +137,6 @@
         app:itemActiveIndicatorStyle="@color/red_custom"
         app:itemRippleColor="@color/red_custom"
         app:menu="@menu/menu_user" />
-
-
-
 
 </RelativeLayout>
 
