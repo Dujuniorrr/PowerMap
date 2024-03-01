@@ -9,6 +9,7 @@
     <string name="image_button">Botão de Adicionar Imagem</string>
     <string name="image_not_found">Imagem não encontrada!</string>
     <string name="error_data">Houve um erro na submissão de dados! Tente novamanete mais tarde.</string>
+    <string name="error_data_delete">Houve um erro ao deletar registro! Tente novamente mais tarde.</string>
     <string name="enter">Entrar</string>
     <string name="create">Criar</string>
     <string name="register">Registrar</string>
@@ -68,9 +69,6 @@
     <string name="year_error">É necessário informar o ano!</string>
     <string name="energy_consumption_error">É necessário informar o consumo de energia! </string>
     <string name="fuel_consumption_error">É necessário informar o consumo de combustível! </string>
-
-
-
 
 
     <string name="energy_consumption_label">%s kWh/Km</string>

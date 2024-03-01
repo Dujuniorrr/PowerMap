@@ -63,8 +63,14 @@ public class HybridCarModelDaoFirebase implements HybridCarModelDao {
     }
 
     @Override
-    public ArrayList<HybridCarModel> findAll() {
+    public ArrayList<HybridCarModel> findAll(String search) {
         Query query = firebaseDatabase.getReference(TABLE_NAME);
+        if(search != null){
+            query = firebaseDatabase.getReference(TABLE_NAME)
+                    .orderByChild("name")
+                    .startAt(search)
+                    .endAt(search + "\uf8ff");;
+        }
         try {
             DataSnapshot dataSnapshot = Tasks.await(query.get());
 

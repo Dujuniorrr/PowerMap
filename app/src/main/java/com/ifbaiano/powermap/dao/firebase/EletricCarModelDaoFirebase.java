@@ -65,12 +65,16 @@ public class EletricCarModelDaoFirebase implements EletricCarModelDao {
     }
 
     @Override
-    public  ArrayList<EletricCarModel> findAll() {
+    public  ArrayList<EletricCarModel> findAll(String search) {
         Query query = firebaseDatabase.getReference(TABLE_NAME);
+        if(search != null){
+            query = firebaseDatabase.getReference(TABLE_NAME)
+                    .orderByChild("name")
+                    .startAt(search)
+                    .endAt(search + "\uf8ff");;
+        }
         try {
-            Log.d("CARMODELS", "passou aq");
             DataSnapshot dataSnapshot = Tasks.await(query.get());
-            Log.d("CARMODELS", "passou aq");
 
             if (dataSnapshot.exists()) {
                 ArrayList<EletricCarModel> carModels = new ArrayList<>();

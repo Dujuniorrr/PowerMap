@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity.carModel.ListCarModels">
+    tools:context=".activity.carModel.ListCarModelsActivity">
 
     <TextView
         android:id="@+id/title"
@@ -35,21 +35,36 @@
         android:background="@drawable/button_red"
         android:end="@id/title"
         android:hint="@string/add"
-        android:text="@string/add"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/searchModel"
         style="@style/EditTextWithBorderBlack"
-        android:layout_height="40dp"
+        android:layout_width="312dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/title"
+        android:layout_centerHorizontal="false"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
-        android:drawableEnd="@drawable/baseline_filter_alt_24"
+        android:background="@drawable/form_border_black_rounded_10"
         android:hint="@string/search_model"
-        android:inputType="text"
+        android:padding="11dp"
         android:singleLine="true" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/searchBtn"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addBtn"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@+id/searchModel"
+        android:backgroundTint="@color/red"
+        android:drawableLeft="@drawable/baseline_search_24"
+        android:layout="@id/searchModel" />
 
     <ScrollView
         android:layout_width="match_parent"

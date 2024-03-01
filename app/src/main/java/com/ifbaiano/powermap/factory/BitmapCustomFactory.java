@@ -23,8 +23,6 @@ public class BitmapCustomFactory {
     private final ImageView imageView;
     AppCompatButton submitImgBtn;
 
-
-
     public BitmapCustomFactory(AppCompatActivity activity, byte[] byteArray, ImageView imageView, AppCompatButton submitImgBtn) {
         this.activity = activity;
         this.byteArray = byteArray;

@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.carModel.ListCarModels;
+import com.ifbaiano.powermap.activity.carModel.ListCarModelsActivity;
 import com.ifbaiano.powermap.activity.users.ProfileActivity;
 import com.ifbaiano.powermap.fragment.FragmentProfileAdmin;
 import com.ifbaiano.powermap.fragment.MapFragment;
@@ -44,9 +44,9 @@ public class DataBindingFactory {
         if (itemId == R.id.icon_car_admin) {
 
             replaceFragment(new ModelsFragment());
-            if (!(activity instanceof ListCarModels)) {
+            if (!(activity instanceof ListCarModelsActivity)) {
 
-                intent = new Intent(activity.getApplicationContext(), ListCarModels.class);
+                intent = new Intent(activity.getApplicationContext(), ListCarModelsActivity.class);
                 activity.startActivity(intent);
             }
 

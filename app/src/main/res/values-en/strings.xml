@@ -10,6 +10,7 @@
     <string name="back_button">Back button</string>
     <string name="image_button">Add Image button</string>
     <string name="error_data">There was an error submitting data! Please try again later.</string>
+    <string name="error_data_delete">An error occurred while deleting the record! Please try again later.</string>
     <string name="image_not_found">Image not found!</string>
     <string name="enter">Enter</string>
     <string name="create">Create</string>
