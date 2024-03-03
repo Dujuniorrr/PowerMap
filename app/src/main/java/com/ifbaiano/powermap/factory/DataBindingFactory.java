@@ -11,11 +11,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.car.ListCarActivity;
-import com.ifbaiano.powermap.activity.carModel.ListCarModelsActivity;
+import com.ifbaiano.powermap.activity.cars.ListCarActivity;
+import com.ifbaiano.powermap.activity.carModels.ListCarModelsActivity;
 import com.ifbaiano.powermap.activity.users.ProfileUserGoogleActivity;
 import com.ifbaiano.powermap.fragment.CarFragment;
-import com.ifbaiano.powermap.activity.users.ProfileUserActivity;
 import com.ifbaiano.powermap.fragment.FragmentProfileAdmin;
 import com.ifbaiano.powermap.fragment.MapFragment;
 import com.ifbaiano.powermap.fragment.ModelsFragment;

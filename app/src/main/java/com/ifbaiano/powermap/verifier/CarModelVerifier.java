@@ -51,7 +51,6 @@ public class CarModelVerifier extends Verifier {
         return true;
     }
 
-
     protected boolean validateImage(boolean field, AppCompatButton imgBtn, int errorMessageResId){
         if (!field){
             imgBtn.setBackgroundResource(R.drawable.button_submit_image_red);

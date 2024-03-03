@@ -1,4 +1,4 @@
-package com.ifbaiano.powermap.activity.carModel;
+package com.ifbaiano.powermap.activity.carModels;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -110,7 +110,7 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
 
     public void formatRecycleView(){
 
-        adapter = new ModelCarAdapter(carModels, getApplicationContext());
+        adapter = new ModelCarAdapter(carModels, getApplicationContext(), false);
         adapter.setEditClickListener(ListCarModelsActivity.this);
         adapter.setDeleteClickListener(ListCarModelsActivity.this);
         progressBar.setVisibility(View.GONE);

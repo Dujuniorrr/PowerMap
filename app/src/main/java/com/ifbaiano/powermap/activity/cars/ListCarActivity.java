@@ -1,4 +1,4 @@
-package com.ifbaiano.powermap.activity.car;
+package com.ifbaiano.powermap.activity.cars;
 
 import android.os.Bundle;
 
@@ -27,7 +27,5 @@ public class ListCarActivity extends AppCompatActivity {
         bindingFactory.replaceFragment(new CarFragment());
         binding.bottomNavigationMenuUser.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
     }
-
-
 
 }
