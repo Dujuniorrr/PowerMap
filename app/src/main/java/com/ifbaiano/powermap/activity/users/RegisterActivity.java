@@ -2,6 +2,7 @@ package com.ifbaiano.powermap.activity.users;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.car.ListCarActivity;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
 import com.ifbaiano.powermap.model.User;
 import com.ifbaiano.powermap.service.UserRegisterService;
 import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
@@ -34,8 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
         passwordUserRegister  = findViewById(R.id.passwordUserRegister);
         passwordUserRegisterConfirme  = findViewById(R.id.passwordUserRegisterConfirme);
 
-      UserRegisterService userRegisterService;
-      userRegisterService = new UserRegisterService(new UserDaoFirebase(this));
+        UserDaoFirebase userDaoFirebase = new UserDaoFirebase(this);
+        UserDaoSqlite userDaoSqlite = new UserDaoSqlite(this);
+
+        UserRegisterService userRegisterServiceFirebase = new UserRegisterService(userDaoFirebase);
+        UserRegisterService userRegisterServiceSqlite = new UserRegisterService(userDaoSqlite);
+
+
       verifier =  new RegisterUserVerifier(getApplicationContext());
 
         RegisterUserBtn.setOnClickListener(new View.OnClickListener() {
@@ -51,34 +59,53 @@ public class RegisterActivity extends AppCompatActivity {
 
                 verifyValid = verifier.verifyRegisterUser(nameUserRegister, emailUserRegister, passwordUserRegister, passwordUserRegisterConfirme);
 
-
-                // Check if all fields are filled
+                //Verifica se todos os campos estão preenchidos
                 if (verifyValid) {
-                    // Create a User object with the retrieved information
+                    // Cria um objeto User com as informações recuperadas
                     User newUser = new User();
                     newUser.setName(name);
                     newUser.setEmail(email);
                     newUser.setPassword(password);
                     newUser.setPassword(passwordConfirm);
+                    newUser.setAdmin(false);  // Assuming isAdmin is a boolean property
+                    newUser.setImgpath(null);
 
-                    // Call add method of UserRegisterService
-                    boolean isUserRegistered = userRegisterService.add(newUser);
+                    // Firebase
+                    boolean isUserRegisteredFirebase = userRegisterServiceFirebase.add(newUser);
+                    if (isUserRegisteredFirebase) {
+                        Log.d("Firebase", "Usuário adicionado ao firbase: " + newUser.getName());
+                    } else {
+                        Log.d("Firebase", "não adicionado ao firebase ");
+                    }
 
-                    // Check if user registration was successful
-                    if (isUserRegistered) {
-                        Intent intent= new Intent(RegisterActivity.this, LoginActivity.ProfileActivity.class);
+
+                    /*
+                    // SQLite
+                    boolean isUserRegisteredSqlite = userRegisterServiceSqlite.add(newUser);
+                    if (isUserRegisteredSqlite) {
+                        Log.d("SQLlite", "Usuário adicionado ao sqlite: " + newUser.getName());
+
+                    } else {
+                        Log.d("SQLite", "não adicionado ao sql");
+                    }
+
+                    */
+                    // Verifica se o registro do usuário foi bem-sucedido
+                    //if (isUserRegisteredFirebase && isUserRegisteredSqlite) {
+                    if (isUserRegisteredFirebase) {
+                        // Se bem-sucedido, vai para a tela de listar carros
+                        Intent intent= new Intent(RegisterActivity.this, ListCarActivity.class);
                         startActivity(intent);
 
-                        Toast.makeText(RegisterActivity.this, "Registro feito com sucesso!", Toast.LENGTH_SHORT).show();
-                        // If successful, perform necessary actions like displaying a success message or navigating to another activity
+                        Toast.makeText(RegisterActivity.this, getString(R.string.success_register), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(RegisterActivity.this, "bla bla", Toast.LENGTH_SHORT).show();
+                        // Se não for bem-sucedido, tenta novamente.
+                        Toast.makeText(RegisterActivity.this, getString(R.string.error_register), Toast.LENGTH_SHORT).show();
 
-                        // If unsuccessful, handle the failure (e.g., display an error message)
                     }
                 } else {
-                    // Display a message indicating that all fields are required
-                    Toast.makeText(RegisterActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                    // Se algum campo estiver vazio, exibe uma mensagem indicando que todos os campos são obrigatórios
+                    Toast.makeText(RegisterActivity.this, getString(R.string.fields_required), Toast.LENGTH_SHORT).show();
                 }
             }
         });

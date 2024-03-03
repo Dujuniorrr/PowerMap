@@ -8,6 +8,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/nameAdminRegister"
+        android:layout_centerInParent="true"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
         android:id="@+id/emailAdminRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -48,6 +50,7 @@
         android:id="@+id/passwordConfirmeAdminRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -64,15 +67,15 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/RegisterAdminBtn"
-        android:textAllCaps="false"
         android:layout_width="wrap_content"
         android:layout_height="59dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/passwordConfirmeAdminRegister"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="540dp"
-        android:layout_marginEnd="45dp"
+        android:layout_marginTop="-186dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginBottom="-4dp"
         android:background="@drawable/button_red"
         android:backgroundTint="@color/red"
@@ -80,6 +83,7 @@
         android:hint="@string/add"
         android:text="@string/register"
         android:textAlignment="center"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
@@ -87,6 +91,7 @@
         android:id="@+id/passwordAdminRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"

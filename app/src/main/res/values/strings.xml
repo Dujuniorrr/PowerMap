@@ -22,6 +22,12 @@
     <string name="connectionError">Sem conexão!</string>
     <string name="successLogin">Login feito com sucesso!</string>
     <string name="notfound">Não encontrado</string>
+    <string name="logout">Sair</string>
+    <string name="phone">Telefone</string>
+    <string name="not_phone_saved">Não há telefone salvo</string>
+
+
+
 
 
     <!-- Decoração -->
@@ -45,6 +51,17 @@
     <string name="email_error">É necessário informar o e-mail!</string>
     <string name="password_error">É necessário informar a senha!</string>
     <string name="password_confirm_error">Confirme a senha de forma correta!</string>
+    <string name="password_length_error">A senha precisa ter no minimo 8 caracteres!</string>
+    <string name="password_alpha_numeric_error">A senha precisa conter letras e números!</string>
+    <string name="password_symbol_error">A senha precisa conter símbolos!</string>
+    <string name="password_mismatch_error">As senhas não coincidem!</string>
+    <string name="name_invalid_error">É necessário informar pelo menos o seu nome e sobrenome!</string>
+    <string name="email_invalid_error">E-mail inválido!</string>
+    <string name="success_register">Registro feito com sucesso!</string>
+    <string name="email_already_registered_error">E-mail já registrado. Faça login!</string>
+    <string name="fields_required">Todos os campos são obrigatórios</string>
+    <string name="error_register">Erro, tente novamente!</string>
+
 
     <!-- Menu -->
     <string name="profile">Perfil</string>
@@ -68,9 +85,6 @@
     <string name="year_error">É necessário informar o ano!</string>
     <string name="energy_consumption_error">É necessário informar o consumo de energia! </string>
     <string name="fuel_consumption_error">É necessário informar o consumo de combustível! </string>
-
-
-
 
 
     <string name="energy_consumption_label">%s kWh/Km</string>

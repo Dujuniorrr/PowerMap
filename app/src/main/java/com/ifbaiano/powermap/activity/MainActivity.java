@@ -9,16 +9,20 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.car.ListCarActivity;
 import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int SPLASH_TIMEOUT = 1500;
+    private static final int SPLASH_TIMEOUT = 2000;
     private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         @SuppressLint({"MissingInflateId","LocalSuppress"})
         ImageView img_logo = findViewById(R.id.gifImageLogo);
@@ -29,14 +33,22 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Intent para abrir a próxima atividade após o tempo de espera
-                Intent intent = new Intent(MainActivity.this, InitialUsersActivity.class);
-                startActivity(intent);
 
-                // Finaliza a atividade atual
-                finish();
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser != null) {
+                    //Toast.makeText(MainActivity.this, "Usuário já logado", Toast.LENGTH_SHORT).show();
+                    Intent it = new Intent(MainActivity.this, ListCarActivity.class);
+                    startActivity(it);
+                    finish();
+                } else {
+
+                    Intent intent = new Intent(MainActivity.this, InitialUsersActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, SPLASH_TIMEOUT);
+
 
 
 

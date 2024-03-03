@@ -1,33 +1,34 @@
-package com.ifbaiano.powermap.activity;
+package com.ifbaiano.powermap.activity.car;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.databinding.ActivityListCarBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
-import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.databinding.ActivityMenuBinding;
 
-public class MenuActivity extends AppCompatActivity {
+public class ListCarActivity extends AppCompatActivity {
 
-    ActivityMenuBinding binding;
+    ActivityListCarBinding binding;
     DataBindingFactory bindingFactory;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_list_car);
         this.doBinding();
     }
 
+
     private void doBinding(){
         bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);
-        binding = ActivityMenuBinding.inflate(getLayoutInflater());
+        binding = ActivityListCarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         bindingFactory.replaceFragment(new CarFragment());
         binding.bottomNavigationMenuUser.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
     }
+
 
 
 }
