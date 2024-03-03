@@ -1,4 +1,4 @@
-package com.ifbaiano.powermap.activity.carModel;
+package com.ifbaiano.powermap.activity.carModels;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.databinding.ActivityListCarModelsBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.ModelsFragment;
-import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.CarModel;
 import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;
@@ -109,7 +108,7 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
 
     public void formatRecycleView(){
 
-        adapter = new ModelCarAdapter(carModels, getApplicationContext());
+        adapter = new ModelCarAdapter(carModels, getApplicationContext(), false);
         adapter.setEditClickListener(ListCarModelsActivity.this);
         adapter.setDeleteClickListener(ListCarModelsActivity.this);
         progressBar.setVisibility(View.GONE);

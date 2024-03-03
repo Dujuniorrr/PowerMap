@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.car.ListCarActivity;
+import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;

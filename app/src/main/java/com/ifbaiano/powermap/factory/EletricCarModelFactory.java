@@ -1,12 +1,8 @@
 package com.ifbaiano.powermap.factory;
 
-import android.content.Context;
 import android.database.Cursor;
 
-import com.ifbaiano.powermap.activity.carModel.AddCarModelActivity;
 import com.ifbaiano.powermap.model.EletricCarModel;
-
-import java.util.Objects;
 
 public class EletricCarModelFactory {
     public static EletricCarModel createByCursor(Cursor cursor){

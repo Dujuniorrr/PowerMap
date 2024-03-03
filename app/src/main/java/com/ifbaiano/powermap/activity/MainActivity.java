@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.car.ListCarActivity;
+import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
 
 public class MainActivity extends AppCompatActivity {

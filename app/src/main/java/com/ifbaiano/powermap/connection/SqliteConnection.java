@@ -12,22 +12,20 @@ import androidx.annotation.Nullable;
 public class SqliteConnection extends SQLiteOpenHelper {
 
     private final String TABLE_USERS = "CREATE TABLE IF NOT EXISTS  users (\n" +
-            "  id INT NOT NULL,\n" +
+            "  id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "  email VARCHAR(100) NOT NULL,\n" +
             "  name VARCHAR(50) NOT NULL,\n" +
             "  password VARCHAR(150) NOT NULL,\n" +
             "  imgPath VARCHAR(250) NOT NULL,\n" +
-            "  isAdmin TINYINT NOT NULL,\n" +
-            "  PRIMARY KEY (id));\n";
+            "  isAdmin TINYINT NOT NULL);\n";
 
     private final String TABLE_SCHEDULES = "CREATE TABLE IF NOT EXISTS  schedules (\n" +
-            "  id INT NOT NULL,\n" +
+            "  id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "  date DATE NOT NULL,\n" +
             "  dayOfWeek INT NOT NULL,\n" +
             "  description TEXT NOT NULL,\n" +
             "  repetition INT NOT NULL,\n" +
             "  users_id INT NOT NULL,\n" +
-            "  PRIMARY KEY (id, users_id),\n" +
             "  CONSTRAINT fk_schedules_users1\n" +
             "    FOREIGN KEY (users_id)\n" +
             "    REFERENCES users (id)\n" +
@@ -35,10 +33,9 @@ public class SqliteConnection extends SQLiteOpenHelper {
             "    ON UPDATE NO ACTION);";
 
     private final String TABLE_CARS = "CREATE TABLE IF NOT EXISTS cars (\n" +
-            "  id INT NOT NULL,\n" +
+            "  id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "  name VARCHAR(45) NOT NULL,\n" +
             "  users_id INT NOT NULL,\n" +
-            "  PRIMARY KEY (id, users_id),\n" +
             "  CONSTRAINT fk_cars_users\n" +
             "    FOREIGN KEY (users_id)\n" +
             "    REFERENCES  users (id)\n" +
@@ -46,14 +43,13 @@ public class SqliteConnection extends SQLiteOpenHelper {
             "    ON UPDATE NO ACTION);";
 
     private final String TABLE_CAR_MODELS = "CREATE TABLE IF NOT EXISTS  car_models (\n" +
-            "  id INT NOT NULL,\n" +
+            "  id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "  name VARCHAR(100) NOT NULL,\n" +
             "  year INT NOT NULL,\n" +
             "  pathImg VARCHAR(250) NOT NULL,\n" +
             "  energyConsumption FLOAT NOT NULL,\n" +
             "  fuelConsumption FLOAT DEFAULT NULL,\n" +
             "  cars_id INT NOT NULL,\n" +
-            "  PRIMARY KEY (id, cars_id),\n" +
             "  CONSTRAINT fk_car_models_cars1\n" +
             "    FOREIGN KEY (cars_id)\n" +
             "    REFERENCES cars (id)\n" +

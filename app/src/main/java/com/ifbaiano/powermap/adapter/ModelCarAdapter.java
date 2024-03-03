@@ -31,11 +31,16 @@ public class ModelCarAdapter extends RecyclerView.Adapter {
 
     private EditClickListener editClickListener;
     private DeleteClickListener deleteClickListener;
+    private OnClickListener onClickListener;
+
+    private final Boolean selectMode;
+    private int previousClickedIndex = -1;
 
 
-    public ModelCarAdapter(ArrayList<CarModel> carModels, Context context) {
+    public ModelCarAdapter(ArrayList<CarModel> carModels, Context context, Boolean selectMode) {
         this.carModels = carModels;
         this.context = context;
+        this.selectMode = selectMode;
     }
 
     @NonNull
@@ -66,16 +71,27 @@ public class ModelCarAdapter extends RecyclerView.Adapter {
             }
         }
 
-        vhClass.editButton.setOnClickListener( v -> {
-            if (editClickListener != null) {
-                editClickListener.onEditClick( vhClass.card, carModel);
-            }
-        });
-        vhClass.deleteButton.setOnClickListener( v -> {
-            if (deleteClickListener != null) {
-                deleteClickListener.onDeleteClick( vhClass.getLayoutPosition(), vhClass.card, carModel);
-            }
-        });
+        if(selectMode){
+            vhClass.editButton.setVisibility(View.GONE);
+            vhClass.deleteButton.setVisibility(View.GONE);
+            vhClass.card.setOnClickListener( v -> {
+                if (onClickListener != null) {
+                    onClickListener.onClick(vhClass.getLayoutPosition(), vhClass.card, carModel);
+                }
+            });
+        }
+        else{
+            vhClass.editButton.setOnClickListener( v -> {
+                if (editClickListener != null) {
+                    editClickListener.onEditClick( vhClass.card, carModel);
+                }
+            });
+            vhClass.deleteButton.setOnClickListener( v -> {
+                if (deleteClickListener != null) {
+                    deleteClickListener.onDeleteClick( vhClass.getLayoutPosition(), vhClass.card, carModel);
+                }
+            });
+        }
 
          new StorageDaoFirebase().transformInBitmap(carModel.getPathImg(), vhClass.imageView, vhClass.progressBar);
     }
@@ -86,7 +102,7 @@ public class ModelCarAdapter extends RecyclerView.Adapter {
     }
 
     public static class ViewHolderClass extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public boolean editClickListener;
+
         View card;
         TextView name, year, energyConsumption, fuelConsumption;
         ImageView imageView;
@@ -118,12 +134,28 @@ public class ModelCarAdapter extends RecyclerView.Adapter {
     public interface DeleteClickListener {
         void onDeleteClick(int position, View v, CarModel carModel);
     }
+    public interface OnClickListener{
+        void onClick(int position, View v, CarModel carModel);
+    }
 
     public void setEditClickListener(EditClickListener listener) {
         this.editClickListener = listener;
     }
 
+
     public void setDeleteClickListener(DeleteClickListener listener) {
         this.deleteClickListener = listener;
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public int getPreviousClickedIndex() {
+        return previousClickedIndex;
+    }
+
+    public void setPreviousClickedIndex(int previousClickedIndex) {
+        this.previousClickedIndex = previousClickedIndex;
     }
 }

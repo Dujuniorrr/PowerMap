@@ -1,4 +1,4 @@
-package com.ifbaiano.powermap.activity.carModel;
+package com.ifbaiano.powermap.activity.carModels;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
-import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.CarModel;
 import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;

@@ -1,4 +1,4 @@
-package com.ifbaiano.powermap.activity.carModel;
+package com.ifbaiano.powermap.activity.carModels;
 
 import android.content.Intent;
 import android.os.Bundle;

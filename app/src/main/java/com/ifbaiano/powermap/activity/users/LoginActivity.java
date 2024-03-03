@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.car.ListCarActivity;
+import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
