@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.carModels.ListCarModelsActivity;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
+import com.ifbaiano.powermap.appearance.CarModelAppearence;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
@@ -29,10 +32,14 @@ import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;
 import com.ifbaiano.powermap.service.EletricCarModelService;
 import com.ifbaiano.powermap.service.HybridCarModelService;
+import com.ifbaiano.powermap.verifier.CarModelVerifier;
+import com.ifbaiano.powermap.verifier.CarVerifier;
 
 import java.util.ArrayList;
 
 public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter.OnClickListener {
+
+    TextInputEditText name;
     @NonNull ActivityAddCarBinding binding;
     DataBindingFactory bindingFactory;
     AppCompatButton addBtn;
@@ -42,7 +49,8 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
     ModelCarAdapter adapter;
     HybridCarModelService hybridCarModelService;
     EletricCarModelService eletricCarModelService;
-    CarModel seletedCarModel = null;
+    CarModel seletedCarModel = new CarModel();
+    CarModelAppearence carModelAppearence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,17 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
         this.findViewById();
         this.makeInstances();
         listModels();
+        findViewById(R.id.submitForm).setOnClickListener(v -> {
+            submitForm();
+        });
+    }
+
+    private void submitForm(){
+        if(new CarVerifier(getApplicationContext()).verifyCar(name, seletedCarModel.getId() != null)){
+            // salvar carro com user
+            // salvar imagem do modelo localmente
+            // salvar modelo com carro
+        }
     }
 
     private void makeInstances(){
@@ -65,6 +84,11 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
     }
 
     private void findViewById(){
+        findViewById(R.id.backButon).setOnClickListener(v -> {
+            startActivity(new Intent(this, ListCarActivity.class));
+        });
+
+        name = findViewById(R.id.name);
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progressBar);
@@ -103,6 +127,12 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
         progressBar.setVisibility(View.GONE);
         recyclerView.setAdapter(adapter);
         recyclerView.setVisibility(View.VISIBLE);
+
+        carModelAppearence = new CarModelAppearence(
+                adapter,
+                recyclerView,
+                getApplicationContext()
+        );
     }
 
     private void doBinding(){
@@ -115,38 +145,14 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
 
     @Override
     public void onClick(int position, View v, CarModel carModel) {
-        restorePreviousClickedItem();
+        carModelAppearence.restorePreviousClickedItem();
 
-        setClickedItemColors(v);
+        carModelAppearence.setClickedItemColors(v);
 
         seletedCarModel = carModel;
         adapter.setPreviousClickedIndex(position);
 
     }
 
-    private void restorePreviousClickedItem() {
-        int previousClickedIndex = adapter.getPreviousClickedIndex();
-        if (previousClickedIndex != -1) {
-            View previousClickedView = recyclerView.getChildAt(previousClickedIndex);
-            changeTextViewColors(previousClickedView, R.color.black);
-            previousClickedView.setBackgroundResource(R.drawable.model_car_item);
-        }
-    }
-
-    private void setClickedItemColors(View view) {
-        view.setBackgroundResource(R.drawable.model_car_selected_item);
-        changeTextViewColors(view, R.color.red_custom);
-    }
-
-    private void changeTextViewColors(View view, int colorResource) {
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                changeTextViewColors(viewGroup.getChildAt(i), colorResource);
-            }
-        } else if (view instanceof TextView) {
-            ((TextView) view).setTextColor(getResources().getColor(colorResource));
-        }
-    }
 
 }

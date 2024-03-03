@@ -95,6 +95,7 @@
     <!-- Car -->
     <string name="add_car" >Add your car!</string>
     <string name="name_car_input">Enter the name of your car…</string>
+    <string name="selected_car_model_error">Select a car model!</string>
 
 
     <!--Login com Google-->

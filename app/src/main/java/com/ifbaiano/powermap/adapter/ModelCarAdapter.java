@@ -28,7 +28,6 @@ import java.util.ArrayList;
 public class ModelCarAdapter extends RecyclerView.Adapter {
     ArrayList<CarModel>  carModels;
     Context context;
-
     private EditClickListener editClickListener;
     private DeleteClickListener deleteClickListener;
     private OnClickListener onClickListener;

@@ -7,39 +7,7 @@
     android:background="@color/white"
     tools:context=".activity.cars.ListCarActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/backButonUserRegiter"
-        android:layout_width="36dp"
-        android:layout_height="38dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/baseline_arrow_back_24"
-        android:contentDescription="@string/back_button"
-        />
 
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/backButonUserRegiter"
-        android:layout_centerHorizontal="true"
-        android:text="@string/add_car"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/name"
-        style="@style/EditTextWithBorderBlack"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="25dp"
-        android:drawableEnd="@drawable/baseline_directions_car_24"
-        android:hint="@string/name_car_input"
-        android:inputType="text"
-        android:singleLine="true" />
 
     <FrameLayout
         android:id="@+id/frameLayoutUser"
