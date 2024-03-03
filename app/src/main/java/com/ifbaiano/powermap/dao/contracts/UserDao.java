@@ -4,13 +4,12 @@ import com.ifbaiano.powermap.model.User;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
-
 public interface UserDao{
     User add(User user);
     User edit(User user);
     Boolean remove(User user);
-     User findOne(String id);
+    User findOne(String id);
+    boolean findByEmail(String email);
     ArrayList<User>  findAll();
     ArrayList<User> findAllClients();
     ArrayList<User>  findAllAdmins();

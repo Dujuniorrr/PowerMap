@@ -2,6 +2,7 @@ package com.ifbaiano.powermap.factory;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.ifbaiano.powermap.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -23,12 +25,18 @@ public class BitmapCustomFactory {
     private final ImageView imageView;
     AppCompatButton submitImgBtn;
 
+    public BitmapCustomFactory(AppCompatActivity activity, ImageView imageView) {
+        this.activity = activity;
+        this.imageView = imageView;
+    }
+
     public BitmapCustomFactory(AppCompatActivity activity, byte[] byteArray, ImageView imageView, AppCompatButton submitImgBtn) {
         this.activity = activity;
         this.byteArray = byteArray;
         this.imageView = imageView;
         this.submitImgBtn = submitImgBtn;
     }
+
 
     public void onResult(ActivityResult result){
         {
@@ -54,6 +62,13 @@ public class BitmapCustomFactory {
         }
     }
 
+    public void setImageByUri(Uri photoUrl, int idSecondImage){
+        if (photoUrl != null) {
+            Picasso.get().load(photoUrl).into(imageView);
+        } else {
+            imageView.setImageResource(idSecondImage);
+        }
+    }
     public byte[] getByteArray() {
         return byteArray;
     }

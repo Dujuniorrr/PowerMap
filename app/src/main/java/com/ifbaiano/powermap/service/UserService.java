@@ -3,17 +3,21 @@ package com.ifbaiano.powermap.service;
 import com.ifbaiano.powermap.dao.contracts.UserDao;
 import com.ifbaiano.powermap.model.User;
 
-public class UserRegisterService {
+public class UserService {
 
     private UserDao dao;
 
-    public UserRegisterService(UserDao dao) {
+    public UserService(UserDao dao) {
         this.dao = dao;
     }
 
     public boolean add(User user) {
         User addedUser = this.dao.add(user);
         return addedUser != null;
+    }
+
+    public boolean findByEmail(String email){
+        return this.dao.findByEmail(email);
     }
     public UserDao getDao() {
         return dao;

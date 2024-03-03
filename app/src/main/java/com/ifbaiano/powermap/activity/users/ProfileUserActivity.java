@@ -29,7 +29,16 @@ public class ProfileUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
         this.doBinding();
+        this.findViewsById();
 
+        logouProfile.setOnClickListener(v -> {
+                Intent intent;
+                intent = new Intent(ProfileUserActivity.this, ListCarActivity.class);
+                startActivity(intent);
+         });
+    }
+
+    private void findViewsById(){
         submitEditImageProfile = findViewById(R.id.submitEditImageProfile);
         editProfileUserBtn = findViewById(R.id.editProfileUserBtn);
         logouProfile = findViewById(R.id.logouProfile);
@@ -38,17 +47,7 @@ public class ProfileUserActivity extends AppCompatActivity {
         emailEditProfile = findViewById(R.id.emailEditProfile);
         passwordEditProfile = findViewById(R.id.passwordEditProfile);
 
-        logouProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(ProfileUserActivity.this, ListCarActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
-
 
 
     private void doBinding(){

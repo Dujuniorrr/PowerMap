@@ -27,6 +27,7 @@ public class UserDaoFirebase implements UserDao {
     }
 
 
+
     @Override
     public User add(User user) {
         user.setId(firebaseDatabase.getReference(TABLE_NAME).push().getKey());
@@ -122,6 +123,13 @@ public class UserDaoFirebase implements UserDao {
             return null;
         }
     }
+
+
+    public boolean findByEmail(String email){
+        return this.findAll()
+                .stream()
+                .anyMatch(user -> user.getEmail().equals(email));
+    };
 
     @Override
     public Boolean changePassword(User user, String password) {

@@ -21,6 +21,8 @@ public class UserDaoSqlite implements UserDao {
     private final String FIND_ONE_QUERY = "SELECT * FROM "+ this.TABLE_NAME +" WHERE id = ?";
     private final String FIND_ALL_QUERY = "SELECT * FROM " + this.TABLE_NAME;
     private final String FIND_ALL_FILTER_QUERY = "SELECT * FROM "+ this.TABLE_NAME +" WHERE isAdmin = ? ";
+    private final String FIND_BY_EMAIL = "SELECT * FROM " + this.TABLE_NAME + " WHERE email = ?";
+
     private final String ADMIN = "1";
     private final String CLIENT = "0";
 
@@ -75,6 +77,13 @@ public class UserDaoSqlite implements UserDao {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean findByEmail(String email) {
+        this.db = this.conn.getWritableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_EMAIL, new String[]{email} );
+        return this.makeUserList(cursor).size() > 0;
     }
 
     @Override

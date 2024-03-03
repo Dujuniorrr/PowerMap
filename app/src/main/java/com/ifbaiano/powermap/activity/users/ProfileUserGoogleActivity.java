@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MainActivity;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserGoogleBinding;
+import com.ifbaiano.powermap.factory.BitmapCustomFactory;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
 import com.squareup.picasso.Picasso;
@@ -32,47 +33,43 @@ public class ProfileUserGoogleActivity extends AppCompatActivity {
     Button logouProfileGoogle;
     TextView textNameProfileGoogle, textEmailProfileGoogle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user_google);
 
         this.doBinding();
+        this.findViewsById();
+        this.setUserAttributes();
+
+        logouProfileGoogle.setOnClickListener( v -> {
+            logoutUser();
+        });
+    }
+
+    private void findViewsById(){
 
         imageProfilView = findViewById(R.id.imageProfilView);
         textNameProfileGoogle = findViewById(R.id.textNameProfileGoogle);
         textEmailProfileGoogle = findViewById(R.id.textEmailProfileGoogle);
         logouProfileGoogle = findViewById(R.id.logouProfileGoogle);
+    }
 
+    private void setUserAttributes(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user != null) {
-
-
+        if(user != null){
             String userName = user.getDisplayName();
             textNameProfileGoogle.setText(userName);
-
             String userEmail = user.getEmail();
             textEmailProfileGoogle.setText(userEmail);
 
-            Uri photoUrl = user.getPhotoUrl();
-            if (photoUrl != null) {
-                // carregar a imagem de perfil na imageProfilView
-                Picasso.get().load(photoUrl).into(imageProfilView);
-            } else {
-                // Se a URL da foto estiver vazia, definir uma imagem de perfil padrão
-                imageProfilView.setImageResource(R.drawable.baseline_person);
-            }
-
+            new BitmapCustomFactory(this, imageProfilView).setImageByUri(user.getPhotoUrl(), R.drawable.baseline_person);
         }
-
-        logouProfileGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoutUser();
-            }
-        });
-
+        else{
+            startActivity(new Intent(this, InitialUsersActivity.class));
+        }
 
     }
 
@@ -93,8 +90,8 @@ public class ProfileUserGoogleActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 // Redireciona para a tela de login
-                Intent it = new Intent(ProfileUserGoogleActivity.this, MainActivity.class);
-                startActivity(it);
+                Intent intent = new Intent(ProfileUserGoogleActivity.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

@@ -49,6 +49,8 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(), result ->  bitmapCustomFactory.onResult(result)
     );
 
+    abstract public void submitForm();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,5 +127,4 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
 
     }
 
-    abstract public void submitForm();
 }

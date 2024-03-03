@@ -44,14 +44,15 @@
             android:exported="false" />
         <activity
             android:name=".activity.MenuActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".activity.carModel.ListCarModels" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
+         <activity
+         android:name=".activity.carModel.ListCarModelsActivity"
+         android:exported="false" />
         <activity
             android:name=".activity.carModel.AddCarModelActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.carModel.ListCarModelsActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             tools:ignore="DuplicateActivity">
             <intent-filter>

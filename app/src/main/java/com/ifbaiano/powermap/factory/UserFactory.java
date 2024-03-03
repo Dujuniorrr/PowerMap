@@ -18,4 +18,9 @@ public class UserFactory {
                 null
         );
     }
+
+    public static User getUserInMemory(){
+        return new User();
+    }
+
 }

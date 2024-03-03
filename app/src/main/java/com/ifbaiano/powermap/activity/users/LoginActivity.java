@@ -53,16 +53,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        backButonLogin =findViewById(R.id.backButonLogin);
-        btnGoogleAuth = findViewById(R.id.btnGoogleAuth);
-        enterLoginBtn = findViewById(R.id.enterLoginBtn);
-        emailLogin = findViewById(R.id.emailLogin);
-        passwordLogin = findViewById(R.id.passwordLogin);
-        storageDao = new StorageDaoFirebase();
+        this.findViewsById();
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
 
         backButonLogin.setOnClickListener(v -> {
             Intent intent;
@@ -90,6 +84,15 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    private void findViewsById(){
+        backButonLogin =findViewById(R.id.backButonLogin);
+        btnGoogleAuth = findViewById(R.id.btnGoogleAuth);
+        enterLoginBtn = findViewById(R.id.enterLoginBtn);
+        emailLogin = findViewById(R.id.emailLogin);
+        passwordLogin = findViewById(R.id.passwordLogin);
+        storageDao = new StorageDaoFirebase();
     }
 
     private void googleSignIn(){
@@ -132,8 +135,6 @@ public class LoginActivity extends AppCompatActivity {
                     // Utilize the UserDaoFirebase to add the user to Firebase
                     UserDaoFirebase userDaoFirebase = new UserDaoFirebase(getApplicationContext());
                     userDaoFirebase.add(newUser);
-                    Log.d("Firebase", "Usuário adicionado ao firbase: " + newUser.getName());
-
 
                     Intent intent = new Intent(LoginActivity.this, ListCarActivity.class);
                     startActivity(intent);
