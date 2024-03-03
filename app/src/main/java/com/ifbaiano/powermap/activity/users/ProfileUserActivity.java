@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.car.ListCarActivity;
+import com.ifbaiano.powermap.appearance.StatusBarUtil;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
@@ -26,6 +27,7 @@ public class ProfileUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
+        StatusBarUtil.changeStatusBarColor(this, R.color.white);
         this.doBinding();
         this.findViewsById();
 
@@ -46,7 +48,6 @@ public class ProfileUserActivity extends AppCompatActivity {
         passwordEditProfile = findViewById(R.id.passwordEditProfile);
 
     }
-
 
     private void doBinding(){
         bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);

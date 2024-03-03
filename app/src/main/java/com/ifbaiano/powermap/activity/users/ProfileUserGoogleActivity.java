@@ -1,10 +1,8 @@
 package com.ifbaiano.powermap.activity.users;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,11 +17,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MainActivity;
+import com.ifbaiano.powermap.appearance.StatusBarUtil;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserGoogleBinding;
 import com.ifbaiano.powermap.factory.BitmapCustomFactory;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
-import com.squareup.picasso.Picasso;
 
 public class ProfileUserGoogleActivity extends AppCompatActivity {
 
@@ -38,6 +36,7 @@ public class ProfileUserGoogleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user_google);
+        StatusBarUtil.changeStatusBarColor(this, R.color.sub_background_form);
 
         this.doBinding();
         this.findViewsById();
@@ -49,7 +48,6 @@ public class ProfileUserGoogleActivity extends AppCompatActivity {
     }
 
     private void findViewsById(){
-
         imageProfilView = findViewById(R.id.imageProfilView);
         textNameProfileGoogle = findViewById(R.id.textNameProfileGoogle);
         textEmailProfileGoogle = findViewById(R.id.textEmailProfileGoogle);

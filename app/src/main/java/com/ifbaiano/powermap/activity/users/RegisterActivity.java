@@ -2,7 +2,6 @@ package com.ifbaiano.powermap.activity.users;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -11,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.car.ListCarActivity;
+import com.ifbaiano.powermap.appearance.StatusBarUtil;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
 import com.ifbaiano.powermap.model.User;
@@ -18,7 +18,6 @@ import com.ifbaiano.powermap.service.UserService;
 import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -35,7 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        
+        StatusBarUtil.changeStatusBarColor(this, R.color.white);
+
         this.findViewsById();
         this.makeInstances();
 //        userRegisterService.setDao(userDaoSqlite);
