@@ -15,6 +15,8 @@ import com.ifbaiano.powermap.activity.car.ListCarActivity;
 import com.ifbaiano.powermap.activity.carModel.ListCarModels;
 import com.ifbaiano.powermap.activity.users.ProfileUserGoogleActivity;
 import com.ifbaiano.powermap.fragment.CarFragment;
+import com.ifbaiano.powermap.activity.carModel.ListCarModelsActivity;
+import com.ifbaiano.powermap.activity.users.ProfileActivity;
 import com.ifbaiano.powermap.fragment.FragmentProfileAdmin;
 import com.ifbaiano.powermap.fragment.MapFragment;
 import com.ifbaiano.powermap.fragment.ModelsFragment;
@@ -48,9 +50,9 @@ public class DataBindingFactory {
         if (itemId == R.id.icon_car_admin) {
 
             replaceFragment(new ModelsFragment());
-            if (!(activity instanceof ListCarModels)) {
+            if (!(activity instanceof ListCarModelsActivity)) {
 
-                intent = new Intent(activity.getApplicationContext(), ListCarModels.class);
+                intent = new Intent(activity.getApplicationContext(), ListCarModelsActivity.class);
                 activity.startActivity(intent);
             }
 

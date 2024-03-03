@@ -25,7 +25,11 @@ public class StorageDaoFirebase implements StorageDao {
 
     public String add(byte[] imageData, String child){
         String path = child + "/" + UUID.randomUUID().toString() + ".png";
-        StorageReference imageRef = this.storageReference.child(path);
+        return this.putImage(imageData, path);
+    }
+
+    public String putImage(byte[] imageData, String child){
+        StorageReference imageRef = this.storageReference.child(child);
 
         UploadTask uploadTask = imageRef.putBytes(imageData);
 
@@ -33,19 +37,28 @@ public class StorageDaoFirebase implements StorageDao {
             Tasks.await(uploadTask);
 
             if (uploadTask.isSuccessful()) {
-                return path;
+                return child;
             }
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
+    public Boolean remove(String child){
+        try {
+            Tasks.await(this.storageReference.child(child).delete());
+            return true;
+        } catch (ExecutionException | InterruptedException e) {
+            return false;
+        }
+    }
 
     public void transformInBitmap(String path, ImageView imageView, ProgressBar progressBar){
         StorageReference storageRef = this.storageReference.child(path);
         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            Log.e("FirebaseImage", uri.toString());
-            progressBar.setVisibility(View.GONE);
+            if(progressBar != null){
+                progressBar.setVisibility(View.GONE);
+            }
             Picasso.get().load(uri).into(imageView);
         }).addOnFailureListener(exception -> {
             Log.e("FirebaseImage", "Error downloading image URL: " + exception.getMessage());

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity.carModel.ListCarModels">
+    tools:context=".activity.carModel.ListCarModelsActivity">
 
     <TextView
         android:id="@+id/title"
@@ -22,42 +22,28 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addBtn"
-        android:layout_width="144dp"
+        android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_alignBottom="@+id/title"
         android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="136dp"
         android:layout_marginTop="90dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="-4dp"
-        android:layout_toEndOf="@+id/title"
         android:background="@drawable/button_red"
         android:end="@id/title"
         android:hint="@string/add"
-        android:text="@string/add"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/searchModel"
-        style="@style/EditTextWithBorderBlack"
-        android:layout_height="40dp"
-        android:layout_below="@id/title"
-        android:layout_marginTop="16dp"
-        android:drawableEnd="@drawable/baseline_filter_alt_24"
-        android:hint="@string/search_model"
-        android:inputType="text"
-        android:singleLine="true" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavigationMenuAdminlist"
-        android:layout_below="@id/searchModel"
+        android:layout_below="@id/title"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        >
 
 
         <RelativeLayout
