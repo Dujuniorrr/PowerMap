@@ -37,7 +37,6 @@ import java.util.ArrayList;
 
 public class ListCarModelsActivity extends AppCompatActivity  implements ModelCarAdapter.EditClickListener, ModelCarAdapter.DeleteClickListener {
 
-    EditText searchModel;
     ActivityListCarModelsBinding binding;
     AppCompatButton addBtn;
     ProgressBar progressBar;
@@ -62,18 +61,8 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
         addBtn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), AddCarModelActivity.class));
         });
-        searchModel = findViewById(R.id.searchModel);
 
-        findViewById(R.id.searchBtn).setOnClickListener(v -> {
-            Log.d("PRINT MODEL", searchModel.getText().toString());
-            String searchText = searchModel.getText().toString();
-            if(searchText.isEmpty()){
-                listModels(null);
-            }
-            listModels(searchText);
-        });
-
-        listModels(null);
+        listModels();
     }
 
     private void makeInstances(){
@@ -93,16 +82,16 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
         binding.bottomNavigationMenuAdminlist.setOnItemSelectedListener( item -> bindingFactory.bindingMenu(item));
     }
 
-    private void listModels(String search){
+    private void listModels(){
         Log.d("LIST MODELS", "entrou aqq");
         recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         new Thread(() -> {
             carModels = new ArrayList<>();
-            ArrayList<EletricCarModel> eletricCarModels = this.eletricCarModelService.listAll(search);
+            ArrayList<EletricCarModel> eletricCarModels = this.eletricCarModelService.listAll();
 
-            ArrayList<HybridCarModel> hybridModels = this.hybridCarModelService.listAll(search);
+            ArrayList<HybridCarModel> hybridModels = this.hybridCarModelService.listAll();
 
             if(eletricCarModels != null){
                 carModels.addAll(eletricCarModels);

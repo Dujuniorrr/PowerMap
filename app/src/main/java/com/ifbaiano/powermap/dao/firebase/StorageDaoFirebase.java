@@ -25,7 +25,7 @@ public class StorageDaoFirebase implements StorageDao {
 
     public String add(byte[] imageData, String child){
         String path = child + "/" + UUID.randomUUID().toString() + ".png";
-        return this.putImage(imageData, child);
+        return this.putImage(imageData, path);
     }
 
     public String putImage(byte[] imageData, String child){

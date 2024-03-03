@@ -16,12 +16,8 @@ public class RegisterAdminActivity extends AppCompatActivity {
 
     ActivityRegisterAdminBinding binding;
     DataBindingFactory bindingFactory;
-
     Button backButonAdminRegiter,RegisterAdminBtn;
-
     TextInputEditText nameAdminRegister, emailAdminRegister,passwordAdminRegister, passwordConfirmeAdminRegister;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -31,8 +31,8 @@ public class HybridCarModelService {
         if(this.storageDao.remove(carModel.getPathImg())) return this.dao.remove(carModel);
         return false;
     }
-    public ArrayList<HybridCarModel> listAll(String search){
-        return this.dao.findAll(search);
+    public ArrayList<HybridCarModel> listAll(){
+        return this.dao.findAll();
     }
 
     public HybridCarModelDao getDao() {

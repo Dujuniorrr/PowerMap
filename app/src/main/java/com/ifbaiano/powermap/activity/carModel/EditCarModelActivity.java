@@ -55,7 +55,8 @@ public class EditCarModelActivity extends ActionCarModelBase {
         findViewById(R.id.eletric).setEnabled(false);
         findViewById(R.id.hybrid).setEnabled(false);
     }
-    private void submitForm() {
+
+    public void submitForm() {
 
         progressBar.setVisibility(View.VISIBLE);
         submitFormBtn.setVisibility(View.GONE);

@@ -18,7 +18,7 @@ public class AddCarModelActivity extends ActionCarModelBase {
         submitFormBtn.setOnClickListener(v ->  submitForm());
     }
 
-    private void submitForm() {
+    public void submitForm() {
 
         progressBar.setVisibility(View.VISIBLE);
         submitFormBtn.setVisibility(View.GONE);

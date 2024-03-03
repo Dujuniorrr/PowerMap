@@ -64,7 +64,7 @@ public class EletricCarModelDaoSqlite implements EletricCarModelDao {
     }
 
     @Override
-    public  ArrayList<EletricCarModel>  findAll(String search) {
+    public  ArrayList<EletricCarModel>  findAll( ) {
             this.db = this.conn.getWritableDatabase();
             @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_ALL_QUERY, null);
             return this.makeCarModelList(cursor);

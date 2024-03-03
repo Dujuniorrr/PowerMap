@@ -125,4 +125,5 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
 
     }
 
+    abstract public void submitForm();
 }

@@ -32,8 +32,8 @@ public class EletricCarModelService {
         if(this.storageDao.remove(carModel.getPathImg())) return this.dao.remove(carModel);
         return false;
     }
-    public ArrayList<EletricCarModel> listAll(String search){
-        return this.dao.findAll(search);
+    public ArrayList<EletricCarModel> listAll(){
+        return this.dao.findAll();
     }
     public EletricCarModelDao getDao() {
         return dao;

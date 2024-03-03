@@ -9,7 +9,7 @@ public interface EletricCarModelDao {
     EletricCarModel edit(EletricCarModel carModel);
     Boolean remove(EletricCarModel carModel);
     EletricCarModel findOne(String id);
-    ArrayList<EletricCarModel> findAll(String search);
+    ArrayList<EletricCarModel> findAll();
     ArrayList<EletricCarModel> findByCarId(String id);
 
 

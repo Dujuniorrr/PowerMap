@@ -1,6 +1,8 @@
 package com.ifbaiano.powermap.dao.firebase;
 
 import android.content.Context;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Tasks;
@@ -63,14 +65,9 @@ public class HybridCarModelDaoFirebase implements HybridCarModelDao {
     }
 
     @Override
-    public ArrayList<HybridCarModel> findAll(String search) {
+    public ArrayList<HybridCarModel> findAll() {
         Query query = firebaseDatabase.getReference(TABLE_NAME);
-        if(search != null){
-            query = firebaseDatabase.getReference(TABLE_NAME)
-                    .orderByChild("name")
-                    .startAt(search)
-                    .endAt(search + "\uf8ff");;
-        }
+
         try {
             DataSnapshot dataSnapshot = Tasks.await(query.get());
 
@@ -80,6 +77,8 @@ public class HybridCarModelDaoFirebase implements HybridCarModelDao {
                     HybridCarModel carModel = snapshot.getValue(HybridCarModel.class);
                     carModels.add(carModel);
                 }
+                Log.d("SIZE ARRAY", Integer.toString(carModels.size()));
+
                 return carModels;
             }
             return null;
