@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.appearance.StatusBarUtil;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.databinding.ActivityRegisterAdminBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.ModelsFragment;
@@ -23,7 +23,7 @@ public class RegisterAdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_admin);
-        StatusBarUtil.changeStatusBarColor(this, R.color.white);
+        StatusBarAppearance.changeStatusBarColor(this, R.color.white);
 
         this.findViewsById();
         this.doBinding();

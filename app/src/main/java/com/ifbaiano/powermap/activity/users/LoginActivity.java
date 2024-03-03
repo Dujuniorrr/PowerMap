@@ -22,6 +22,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.cars.ListCarActivity;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        StatusBarAppearance.changeStatusBarColor(this, R.color.black);
 
         this.findViewsById();
 
@@ -116,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         auth.signInWithCredential(credential).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 User user = UserFactory.createByFirebase(auth.getCurrentUser());
-                if(userService.add(user)){
+                if(userService.add(user) != null){
                     Intent intent = new Intent(LoginActivity.this, ListCarActivity.class);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();

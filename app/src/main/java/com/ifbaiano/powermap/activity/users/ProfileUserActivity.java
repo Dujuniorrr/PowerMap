@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
@@ -46,7 +47,6 @@ public class ProfileUserActivity extends AppCompatActivity {
         passwordEditProfile = findViewById(R.id.passwordEditProfile);
 
     }
-
 
     private void doBinding(){
         bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);

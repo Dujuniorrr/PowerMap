@@ -16,7 +16,7 @@ public class SqliteConnection extends SQLiteOpenHelper {
             "  email VARCHAR(100) NOT NULL,\n" +
             "  name VARCHAR(50) NOT NULL,\n" +
             "  password VARCHAR(150) NOT NULL,\n" +
-            "  imgPath VARCHAR(250) NOT NULL,\n" +
+            "  imgPath VARCHAR(250),\n" +
             "  isAdmin TINYINT NOT NULL);\n";
 
     private final String TABLE_SCHEDULES = "CREATE TABLE IF NOT EXISTS  schedules (\n" +

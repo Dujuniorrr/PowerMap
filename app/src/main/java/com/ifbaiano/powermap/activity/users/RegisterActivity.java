@@ -13,12 +13,12 @@ import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
+import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.User;
 import com.ifbaiano.powermap.service.UserService;
 import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        
+
         this.findViewsById();
         this.makeInstances();
 //        userRegisterService.setDao(userDaoSqlite);
@@ -78,9 +78,11 @@ public class RegisterActivity extends AppCompatActivity {
                         false
                 );
 
-                boolean isUserRegisteredFirebase = userRegisterService.add(newUser);
+                User userAddedFirebase = userRegisterService.add(newUser);
+                userRegisterService.setDao(new UserDaoSqlite(getApplicationContext()));
+                User userAddedSqlite = userRegisterService.add(newUser);
 
-                executeAfterRegistration(isUserRegisteredFirebase);
+                executeAfterRegistration(userAddedFirebase != null&& userAddedSqlite != null, userAddedSqlite);
             }
         }).start();
     }
@@ -90,10 +92,13 @@ public class RegisterActivity extends AppCompatActivity {
         return userRegisterService.findByEmail(emailText);
     }
 
-    private void executeAfterRegistration(boolean isUserRegisteredFirebase) {
+    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user) {
         runOnUiThread(() -> {
             if (isUserRegisteredFirebase) {
                 // Se bem-sucedido, vai para a tela de listar carros
+                UserFactory.saveUserMemory(user, getApplicationContext());
+                Log.d("USER SHARED", UserFactory.getUserInMemory(getApplicationContext()).getName());
+
                 Intent intent= new Intent(RegisterActivity.this, ListCarActivity.class);
                 startActivity(intent);
             } else {

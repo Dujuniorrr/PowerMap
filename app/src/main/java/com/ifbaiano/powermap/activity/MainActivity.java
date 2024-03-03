@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
-import com.ifbaiano.powermap.appearance.StatusBarUtil;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 
 public class MainActivity extends AppCompatActivity {
     private static final int SPLASH_TIMEOUT = 2000;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        StatusBarUtil.changeStatusBarColor(this, R.color.white);
+        StatusBarAppearance.changeStatusBarColor(this, R.color.white);
 
         @SuppressLint({"MissingInflateId","LocalSuppress"})
         ImageView img_logo = findViewById(R.id.gifImageLogo);

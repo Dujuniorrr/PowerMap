@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
-import com.ifbaiano.powermap.appearance.StatusBarUtil;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
@@ -44,7 +44,6 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_car_models);
-        StatusBarUtil.changeStatusBarColor(this, R.color.white);
 
         this.doBinding();
         this.makeInstances();

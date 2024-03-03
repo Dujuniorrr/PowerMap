@@ -11,9 +11,9 @@ public class UserService {
         this.dao = dao;
     }
 
-    public boolean add(User user) {
+    public User add(User user) {
         User addedUser = this.dao.add(user);
-        return addedUser != null;
+        return addedUser ;
     }
 
     public boolean findByEmail(String email){

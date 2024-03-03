@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MainActivity;
-import com.ifbaiano.powermap.appearance.StatusBarUtil;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserGoogleBinding;
 import com.ifbaiano.powermap.factory.BitmapCustomFactory;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
@@ -36,7 +36,7 @@ public class ProfileUserGoogleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user_google);
-        StatusBarUtil.changeStatusBarColor(this, R.color.sub_background_form);
+        StatusBarAppearance.changeStatusBarColor(this, R.color.sub_background_form);
 
         this.doBinding();
         this.findViewsById();

@@ -7,7 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.appearance.StatusBarUtil;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 
 public class InitialUsersActivity extends AppCompatActivity {
 
@@ -16,7 +16,6 @@ public class InitialUsersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_users);
-        StatusBarUtil.changeStatusBarColor(this, R.color.white);
         createBtn = findViewById(R.id.createBtn);
         enterBtn = findViewById(R.id.enterBtn);
 

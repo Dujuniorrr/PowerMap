@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.appearance.StatusBarUtil;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.contracts.EletricCarModelDao;
 import com.ifbaiano.powermap.dao.contracts.HybridCarModelDao;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
@@ -54,7 +54,7 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_car_model);
-        StatusBarUtil.changeStatusBarColor(this, R.color.sub_background_form);
+        StatusBarAppearance.changeStatusBarColor(this, R.color.sub_background_form);
         type = R.id.hybrid;
 
         this.doBinding();
