@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".activity.users.ProfileUserGoogleActivity">
+
+
+    <ImageView
+        android:id="@+id/imgBaseDecoration"
+        android:layout_width="match_parent"
+        android:layout_height="537dp"
+        android:layout_above="@+id/bottomNavigationMenuUser"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-2dp"
+        app:srcCompat="@drawable/base_white" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageProfilView"
+        android:layout_width="wrap_content"
+        android:layout_height="245dp"
+        android:layout_alignBottom="@+id/imgBaseDecoration"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="393dp"
+        android:background="@drawable/baseline_person_gray"
+        android:contentDescription="@string/profile"
+        app:civ_border_width="@dimen/cardview_compat_inset_shadow" />
+
+
+    <TextView
+        android:id="@+id/textEmailProfileGoogle"
+        android:layout_width="331dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textNameProfileGoogle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/email"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/light_gray"
+        android:textSize="22dp" />
+
+    <TextView
+        android:id="@+id/textNameProfileGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageProfilView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="-54dp"
+        android:text="@string/name"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/dark_grey"
+        android:textSize="30dp"
+        android:textStyle="bold"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logouProfileGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/textNameProfileGoogle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/button_red"
+        android:backgroundTint="@color/red_custom"
+        android:text="@string/logout"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:id="@+id/frameLayoutUser"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationMenuUser">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationMenuUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@color/white"
+        app:itemIconSize="27dp"
+        app:itemTextColor="@drawable/icon_tint_selector"
+        app:itemIconTint="@drawable/icon_tint_selector"
+        app:itemActiveIndicatorStyle="@color/red_custom"
+        app:itemRippleColor="@color/red_custom"
+        app:menu="@menu/menu_user" />
+
+
+</RelativeLayout>

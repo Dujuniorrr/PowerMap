@@ -25,16 +25,14 @@
     <string name="connectionError">No connection!</string>
     <string name="successLogin">Login successfully!</string>
     <string name="notfound">Not found</string>
-
-
-
-
-
-
+    <string name="logout">Logout</string>
+    <string name="phone">Phone</string>
+    <string name="not_phone_saved">There is no phone saved</string>
 
 
 
     <!-- Decoração -->
+
     <string name="text_decoreition_initial">Find the best place to recharge your car\'s energies!</string>
     <string name="title_decoreition_initial">Welcome to PowerMap</string>
     <string name="title_decoreition_login">Sign in with Your Account</string>
@@ -49,12 +47,23 @@
     <string name="title_decoreition_register_admin">Register Admin</string>
 
 
+
     <!-- Register -->
 
     <string name="name_error_register">You must provide your name!</string>
     <string name="email_error">Email must be provided!</string>
     <string name="password_error">Password must be provided!</string>
     <string name="password_confirm_error">Confirm the password correctly!</string>
+    <string name="password_length_error">Password must be at least 8 characters long!</string>
+    <string name="password_alpha_numeric_error">Password must contain letters and numbers!</string>
+    <string name="password_symbol_error">Password must contain symbols!</string>
+    <string name="password_mismatch_error">Passwords do not match!</string>
+    <string name="name_invalid_error">You must provide at least your first and last name!</string>
+    <string name="email_invalid_error">Invalid email!</string>
+    <string name="success_register">Registration successfully!</string>
+    <string name="email_already_registered_error">Email already registered. Log in!</string>
+    <string name="fields_required">All fields are required!</string>
+    <string name="error_register">Erro, tente novamente</string>
 
     <!-- Menu -->
     <string name="profile">Profile</string>

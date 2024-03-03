@@ -3,6 +3,7 @@ package com.ifbaiano.powermap.activity.users;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -25,10 +26,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.car.ListCarActivity;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
-
-import java.util.HashMap;
+import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.model.User;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -58,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         passwordLogin = findViewById(R.id.passwordLogin);
         storageDao = new StorageDaoFirebase();
 
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+
 
         backButonLogin.setOnClickListener(v -> {
             Intent intent;
@@ -65,19 +70,25 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
-
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         btnGoogleAuth.setOnClickListener(v -> {
             googleSignIn();
         });
+
+        //verifica se já está logado
+
+        if(auth.getCurrentUser() != null){
+            Intent it = new Intent(LoginActivity.this, ListCarActivity.class);
+            startActivity(it);
+            finish();
+        }
 
     }
 
@@ -94,10 +105,12 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuth(account.getIdToken());
 
             }catch (Exception e){
-                Toast.makeText(this, getString(R.string. connectionError) +e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string. connectionError), Toast.LENGTH_SHORT).show();
             }
 
         }
+
+
     }
 
     private void firebaseAuth(String idToken) {
@@ -106,24 +119,27 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     FirebaseUser user = auth.getCurrentUser();
-                    HashMap<String, Object> map = new HashMap<>();
+                    User newUser = new User();
 
-                    map.put("email", user.getEmail().toString());
-                    map.put("id", user.getUid());
-                    map.put("imgpath", user.getPhotoUrl().toString());
-                    map.put("name", user.getDisplayName());
-                    map.put("admin","false");
+                    newUser.setEmail(user.getEmail());
+                    newUser.setId(user.getUid());
+                    newUser.setImgpath(user.getPhotoUrl().toString());
+                    newUser.setName(user.getDisplayName());
+                    newUser.setAdmin(false);
 
-                    database.getReference().child("users").child(user.getUid()).setValue(map);
+                    // Utilize the UserDaoFirebase to add the user to Firebase
+                    UserDaoFirebase userDaoFirebase = new UserDaoFirebase(getApplicationContext());
+                    userDaoFirebase.add(newUser);
+                    Log.d("Firebase", "Usuário adicionado ao firbase: " + newUser.getName());
 
-                    Intent intent= new Intent(LoginActivity.this,ProfileActivity.class);
+
+                    Intent intent = new Intent(LoginActivity.this, ListCarActivity.class);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
 
-
-                }else{
+                } else {
                     Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -134,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_profile);
+            setContentView(R.layout.activity_list_car);
         }
     }
 

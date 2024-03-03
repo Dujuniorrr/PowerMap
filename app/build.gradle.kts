@@ -53,8 +53,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.github.bumptech.glide:glide:4.14.1")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.14.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.1") //compilar o gif
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation ("de.hdodenhof:circleimageview:3.1.0") //colocar imagem circular
 }
 
 

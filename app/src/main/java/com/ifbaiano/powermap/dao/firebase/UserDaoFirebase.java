@@ -26,6 +26,7 @@ public class UserDaoFirebase implements UserDao {
         firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
+
     @Override
     public User add(User user) {
         user.setId(firebaseDatabase.getReference(TABLE_NAME).push().getKey());

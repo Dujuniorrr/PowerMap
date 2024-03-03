@@ -1,6 +1,7 @@
 package com.ifbaiano.powermap.factory;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -10,6 +11,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.car.ListCarActivity;
+import com.ifbaiano.powermap.activity.carModel.ListCarModels;
+import com.ifbaiano.powermap.activity.users.ProfileUserGoogleActivity;
+import com.ifbaiano.powermap.fragment.CarFragment;
 import com.ifbaiano.powermap.activity.carModel.ListCarModelsActivity;
 import com.ifbaiano.powermap.activity.users.ProfileActivity;
 import com.ifbaiano.powermap.fragment.FragmentProfileAdmin;
@@ -38,6 +43,7 @@ public class DataBindingFactory {
 
     public boolean bindingMenu(MenuItem item) {
         int itemId = item.getItemId();
+        Log.d("log binding", Integer.toString(itemId));
 
         Intent intent = null;
 
@@ -51,7 +57,7 @@ public class DataBindingFactory {
             }
 
 
-        } else if (itemId == R.id.icon_useres_admin) {
+        } else if (itemId == R.id.icon_users_admin) {
             replaceFragment(new UsersFragment());
             Toast.makeText(activity, "usarios em admin", Toast.LENGTH_SHORT).show();
 
@@ -72,11 +78,11 @@ public class DataBindingFactory {
         }
         else if (itemId == R.id.icon_car_user) {
             Toast.makeText(activity, "carros do usario", Toast.LENGTH_SHORT).show();
-           //replaceFragment(new CarFragment());
-            //if (!(activity instanceof ListCarModels)) {
-           //     intent = new Intent(activity.getApplicationContext(), ListCarModels.class);
-           //     activity.startActivity(intent);
-            //}
+            replaceFragment(new CarFragment());
+            if (!(activity instanceof ListCarActivity)) {
+                intent = new Intent(activity.getApplicationContext(), ListCarActivity.class);
+                activity.startActivity(intent);
+            }
         } else if (itemId == R.id.icon_map_user) {
             replaceFragment(new MapFragment());
             Toast.makeText(activity, "mapa do usuario", Toast.LENGTH_SHORT).show();
@@ -98,10 +104,9 @@ public class DataBindingFactory {
         } else if (itemId == R.id.icon_profile_user) {
             replaceFragment(new ProfileFragment());
             Toast.makeText(activity, "perfil do usario", Toast.LENGTH_SHORT).show();
-
-            if (!(activity instanceof ProfileActivity)) {
-            intent = new Intent(activity.getApplicationContext(), ProfileActivity.class);
-            activity.startActivity(intent);
+            if (!(activity instanceof ProfileUserGoogleActivity)) {
+                intent = new Intent(activity.getApplicationContext(), ProfileUserGoogleActivity.class);
+                activity.startActivity(intent);
             }
         }
 

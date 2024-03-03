@@ -4,51 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".activity.users.ProfileActivity">
-
-    <ImageView
-        android:id="@+id/EditimgProfile"
-        android:layout_width="match_parent"
-        android:layout_height="271dp"
-        app:srcCompat="@drawable/baseline_person" />
-
-    <ImageView
-        android:id="@+id/baseEditProfile"
-        android:layout_width="match_parent"
-        android:layout_height="425dp"
-
-        android:layout_above="@+id/bottomNavigationMenuProfile"
-        android:layout_marginBottom="-6dp"
-        app:srcCompat="@drawable/form_container" />
-
+    tools:context=".activity.users.ProfileUserActivity">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/submitImageProfileEdit"
+        android:id="@+id/submitEditImageProfile"
         android:layout_width="50dp"
         android:layout_height="41dp"
-        android:contentDescription="Adicionar imagem"
+        android:contentDescription="Enter How Much Cookies You Want"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="0dp"
         android:background="@drawable/button_submit_image"
         android:paddingStart="13dp"
         android:paddingBottom="12dp"
-
         android:drawableBottom="@drawable/baseline_add_photo_alternate_24" />
 
+
+    <ImageView
+        android:id="@+id/imageEditProfil"
+        android:layout_width="match_parent"
+        android:layout_height="224dp"
+        android:layout_alignBottom="@+id/imgBase"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="422dp"
+        android:src="@drawable/map_decoration" />
+
+
+
+    <ImageView
+        android:id="@+id/imgBase"
+        android:layout_width="match_parent"
+        android:layout_height="460dp"
+        android:layout_above="@+id/bottomNavigationMenuUser"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-2dp"
+        app:srcCompat="@drawable/base_white" />
+
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editProfileUser"
+        android:id="@+id/nameEditProfile"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="402dp"
+        android:layout_alignTop="@+id/imageEditProfil"
+        android:layout_marginTop="246dp"
         android:drawableEnd="@drawable/baseline_person"
         android:handwritingBoundsOffsetRight="@dimen/cardview_compat_inset_shadow"
         android:hint="@string/name"
@@ -56,76 +58,82 @@
         android:singleLine="true"
         android:textColorHint="@color/red_custom" />
 
+
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editEmailUser"
+        android:id="@+id/emailEditProfile"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="330dp"
+        android:layout_alignTop="@+id/nameEditProfile"
+        android:layout_marginTop="76dp"
         android:drawableEnd="@drawable/baseline_email"
+        android:handwritingBoundsOffsetRight="@dimen/cardview_compat_inset_shadow"
         android:hint="@string/email"
         android:inputType="text"
         android:singleLine="true"
         android:textColorHint="@color/red_custom" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordEditProfile"
+        style="@style/EditTextWithBorderBlack"
+        android:layout_width="338dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/emailEditProfile"
+        android:layout_marginTop="76dp"
+        android:drawableEnd="@drawable/baseline_password"
+        android:handwritingBoundsOffsetRight="@dimen/cardview_compat_inset_shadow"
+        android:hint="@string/Password"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColorHint="@color/red_custom" />
+
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/editPasswordProfileBtn"
+        android:id="@+id/editProfileUserBtn"
         android:layout_width="wrap_content"
-        android:layout_height="59dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/passwordEditProfile"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="480dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="-4dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/button_red"
         android:backgroundTint="@color/red"
-        android:end="@id/title"
-        android:textAllCaps="false"
-        android:text="@string/editPassword"
+        android:text="@string/edit"
         android:textAlignment="center"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/editProfileBtn"
+        android:id="@+id/logouProfile"
         android:layout_width="wrap_content"
-        android:layout_height="59dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/passwordEditProfile"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="555dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="-4dp"
-        android:background="@drawable/button_rounded_dark"
-        android:backgroundTint="@color/dark_grey"
-        android:end="@id/title"
-        android:text="@string/edit"
-        android:textAllCaps="false"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="167dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/button_red"
+        android:backgroundTint="@color/lighter_gray"
+        android:text="@string/logout"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textColor="@color/dark_grey"
         android:textColorHint="@color/white" />
 
     <FrameLayout
-        android:id="@+id/frameLayoutUserProfile"
+        android:id="@+id/frameLayoutUser"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="411dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationMenuProfile">
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationMenuUser">
 
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationMenuProfile"
+        android:id="@+id/bottomNavigationMenuUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -138,7 +146,6 @@
         app:itemRippleColor="@color/red_custom"
         app:menu="@menu/menu_user" />
 
+
+
 </RelativeLayout>
-
-
-
