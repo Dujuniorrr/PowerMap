@@ -49,8 +49,6 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(), result ->  bitmapCustomFactory.onResult(result)
     );
 
-    abstract public void submitForm();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +61,20 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
 
         submitImgBtn.setOnClickListener(v -> submitImage());
         backButton.setOnClickListener(v -> backActivity());
+    }
+
+    abstract public void submitForm();
+
+    public boolean verifyCarModelValidity(boolean hasImg) {
+        boolean verifyValid = false;
+
+        if (type == R.id.eletric) {
+            verifyValid = verifier.verifyCarModel(name, year, energyConsumption, submitImgBtn, hasImg);
+        } else if (type == R.id.hybrid) {
+            verifyValid = verifier.verifyCarModel(name, year, energyConsumption, submitImgBtn, hasImg, fuelConsumption);
+        }
+
+        return verifyValid;
     }
 
     public void onRadioButtonClicked(@NonNull View view) {

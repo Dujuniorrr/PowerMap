@@ -6,22 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".activity.car.ListCarActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/backButonUserRegiter"
+        android:layout_width="36dp"
+        android:layout_height="38dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/baseline_arrow_back_24"
+        android:contentDescription="@string/back_button"
+        />
+
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="414dp"
-        android:text="Lista de Carros de Usuario"
-        android:textSize="30dp"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="188dp" />
+        android:layout_below="@+id/backButonUserRegiter"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_car"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/name"
+        style="@style/EditTextWithBorderBlack"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="25dp"
+        android:drawableEnd="@drawable/baseline_directions_car_24"
+        android:hint="@string/name_car_input"
+        android:inputType="text"
+        android:singleLine="true" />
 
     <FrameLayout
         android:id="@+id/frameLayoutUser"

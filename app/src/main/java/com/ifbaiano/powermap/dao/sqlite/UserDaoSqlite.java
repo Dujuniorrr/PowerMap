@@ -80,7 +80,7 @@ public class UserDaoSqlite implements UserDao {
     }
 
     @Override
-    public boolean findByEmail(String email) {
+    public Boolean findByEmail(String email) {
         this.db = this.conn.getWritableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_EMAIL, new String[]{email} );
         return this.makeUserList(cursor).size() > 0;

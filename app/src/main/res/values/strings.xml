@@ -27,12 +27,8 @@
     <string name="phone">Telefone</string>
     <string name="not_phone_saved">Não há telefone salvo</string>
 
-
-
-
-
     <!-- Decoração -->
-    <string name="text_decoreition_initial">Encontre o melhor lugar para recarregar as energias do seu caro!</string>
+    <string name="text_decoreition_initial">Encontre o melhor lugar para recarregar as energias do seu carro!</string>
     <string name="title_decoreition_initial">Seja Bem Vindo  ao PowerMap</string>
     <string name="title_decoreition_login">Entre Com  Sua Conta</string>
     <string name="subtext_decoreition_login">Não possui conta?</string>
@@ -90,6 +86,10 @@
 
     <string name="energy_consumption_label">%s kWh/Km</string>
     <string name="fuel_consumption_label">%s Litros/Km</string>
+
+    <!--    Car-->
+    <string name="add_car" >Adicione seu carro!</string>
+    <string name="name_car_input">Digite o nome do seu carro…</string>
 
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>

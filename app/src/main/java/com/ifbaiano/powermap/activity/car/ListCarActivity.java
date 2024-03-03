@@ -20,7 +20,6 @@ public class ListCarActivity extends AppCompatActivity {
         this.doBinding();
     }
 
-
     private void doBinding(){
         bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);
         binding = ActivityListCarBinding.inflate(getLayoutInflater());

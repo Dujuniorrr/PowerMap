@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
     StorageDao storageDao;
     UserService userService;
 
-
     @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(intent,RC_SIGN_IN);
     }
+
     protected void onActivityResult(int requestCode,int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==RC_SIGN_IN){
@@ -108,8 +108,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         }
-
-
     }
 
     private void firebaseAuth(String idToken) {

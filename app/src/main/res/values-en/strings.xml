@@ -92,6 +92,11 @@
     <string name="energy_consumption_error">Energy consumption is required!</string>
     <string name="fuel_consumption_error">Fuel consumption is required!</string>
 
+    <!-- Car -->
+    <string name="add_car" >Add your car!</string>
+    <string name="name_car_input">Enter the name of your car…</string>
+
+
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>
 

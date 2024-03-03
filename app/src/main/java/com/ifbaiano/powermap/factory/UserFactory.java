@@ -5,6 +5,8 @@ import android.database.Cursor;
 import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.model.User;
 
+import java.util.Objects;
+
 public class UserFactory {
 
     public static User createByCursor(Cursor cursor){
@@ -26,7 +28,7 @@ public class UserFactory {
                 user.getDisplayName(),
                 user.getEmail(),
                 null,
-                user.getPhotoUrl().toString(),
+                Objects.requireNonNull(user.getPhotoUrl()).toString(),
                 false,
                 null,
                 null

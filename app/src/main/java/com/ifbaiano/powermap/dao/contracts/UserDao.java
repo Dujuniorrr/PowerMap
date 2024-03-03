@@ -9,7 +9,7 @@ public interface UserDao{
     User edit(User user);
     Boolean remove(User user);
     User findOne(String id);
-    boolean findByEmail(String email);
+    Boolean findByEmail(String email);
     ArrayList<User>  findAll();
     ArrayList<User> findAllClients();
     ArrayList<User>  findAllAdmins();

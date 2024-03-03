@@ -19,24 +19,16 @@ public class InitialUsersActivity extends AppCompatActivity {
         createBtn = findViewById(R.id.createBtn);
         enterBtn = findViewById(R.id.enterBtn);
 
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(InitialUsersActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
+        createBtn.setOnClickListener(v -> {
+            Intent intent;
+            intent = new Intent(InitialUsersActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
-        enterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        enterBtn.setOnClickListener( v -> {
                 Intent intent;
                 intent = new Intent(InitialUsersActivity.this, LoginActivity.class);
                 startActivity(intent);
-            }
-        });
-
-
+            });
     }
 }

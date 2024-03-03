@@ -19,6 +19,7 @@ import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.databinding.ActivityListCarModelsBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.ModelsFragment;
+import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.CarModel;
 import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;
@@ -38,6 +39,7 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
     ModelCarAdapter adapter;
     HybridCarModelService hybridCarModelService;
     EletricCarModelService eletricCarModelService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,16 +47,20 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
 
         this.doBinding();
         this.makeInstances();
+        this.findViewById();
 
-        recyclerView = findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        progressBar = findViewById(R.id.progressBar);
-        addBtn = findViewById(R.id.addBtn);
         addBtn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), AddCarModelActivity.class));
         });
 
         listModels();
+    }
+
+    private void findViewById(){
+        recyclerView = findViewById(R.id.recycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        progressBar = findViewById(R.id.progressBar);
+        addBtn = findViewById(R.id.addBtn);
     }
 
     private void makeInstances(){
@@ -66,6 +72,7 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
                 new EletricCarModelDaoFirebase(getApplicationContext()),
                 new StorageDaoFirebase());
     }
+
     private void doBinding(){
         bindingFactory = new DataBindingFactory(this, R.id.frameLayoutAdminlist);
         binding = ActivityListCarModelsBinding.inflate(getLayoutInflater());
@@ -80,29 +87,34 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
         progressBar.setVisibility(View.VISIBLE);
 
         new Thread(() -> {
-            carModels = new ArrayList<>();
-            ArrayList<EletricCarModel> eletricCarModels = this.eletricCarModelService.listAll();
+            setModelList();
 
-            ArrayList<HybridCarModel> hybridModels = this.hybridCarModelService.listAll();
-
-            if(eletricCarModels != null){
-                carModels.addAll(eletricCarModels);
-            }
-
-            if(hybridModels != null){
-                carModels.addAll(hybridModels);
-            }
-
-            runOnUiThread(() -> {
-                adapter = new ModelCarAdapter(carModels, getApplicationContext());
-                adapter.setEditClickListener(ListCarModelsActivity.this);
-                adapter.setDeleteClickListener(ListCarModelsActivity.this);
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setVisibility(View.VISIBLE);
-            });
-
+            runOnUiThread( this::formatRecycleView);
         }).start();
+    }
+
+    public void setModelList(){
+        carModels = new ArrayList<>();
+        ArrayList<EletricCarModel> eletricCarModels = this.eletricCarModelService.listAll();
+        ArrayList<HybridCarModel> hybridModels = this.hybridCarModelService.listAll();
+
+        if(eletricCarModels != null){
+            carModels.addAll(eletricCarModels);
+        }
+
+        if(hybridModels != null){
+            carModels.addAll(hybridModels);
+        }
+    }
+
+    public void formatRecycleView(){
+
+        adapter = new ModelCarAdapter(carModels, getApplicationContext());
+        adapter.setEditClickListener(ListCarModelsActivity.this);
+        adapter.setDeleteClickListener(ListCarModelsActivity.this);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override

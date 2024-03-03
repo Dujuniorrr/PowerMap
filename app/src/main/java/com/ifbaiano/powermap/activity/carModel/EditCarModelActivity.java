@@ -57,58 +57,19 @@ public class EditCarModelActivity extends ActionCarModelBase {
     }
 
     public void submitForm() {
-
         progressBar.setVisibility(View.VISIBLE);
         submitFormBtn.setVisibility(View.GONE);
 
-        boolean verifyValid = false;
-
-        if (type == R.id.eletric) {
-            verifyValid = verifier.verifyCarModel(name, year, energyConsumption, submitImgBtn,   true);
-        } else if (type == R.id.hybrid) {
-            verifyValid = verifier.verifyCarModel(name, year, energyConsumption, submitImgBtn,   true, fuelConsumption);
-        }
-
-        if (verifyValid) {
+        if (verifyCarModelValidity(true)) {
             new Thread(() -> {
-                final boolean[] success = {false};
+                boolean success = false;
                 if (type == R.id.eletric) {
-                    success[0] = new EletricCarModelService(eletricCarModelDao, storageDao).edit(
-                            new EletricCarModel(
-                                    carModel.getId(),
-                                    Objects.requireNonNull(name.getText()).toString(),
-                                    Integer.valueOf(Objects.requireNonNull(year.getText()).toString()),
-                                    carModel.getPathImg(),
-                                    Float.parseFloat(Objects.requireNonNull(energyConsumption.getText()).toString())
-                            ),
-                            null,
-                            bitmapCustomFactory.getByteArray()
-                    );
+                    success = editEletricCarModel();
                 } else if (type == R.id.hybrid) {
-                    success[0] = new HybridCarModelService(hybridCarModelDao, storageDao).edit(
-                            new HybridCarModel(
-                                    carModel.getId(),
-                                    Objects.requireNonNull(name.getText()).toString(),
-                                    Integer.valueOf(Objects.requireNonNull(year.getText()).toString()),
-                                    carModel.getPathImg(),
-                                    Float.parseFloat(Objects.requireNonNull(energyConsumption.getText()).toString()),
-                                    Float.parseFloat(Objects.requireNonNull(fuelConsumption.getText()).toString())
-                            ),
-                            null,
-                            bitmapCustomFactory.getByteArray()
-                    );
+                    success = editHybridCarModel();
                 }
 
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    submitFormBtn.setVisibility(View.VISIBLE);
-
-                    if (success[0]) {
-                        backActivity();
-                    } else {
-                        Toast.makeText(this, R.string.error_data, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                handleAfterEditCarModel(success);
             }).start();
         } else {
             progressBar.setVisibility(View.GONE);
@@ -116,5 +77,46 @@ public class EditCarModelActivity extends ActionCarModelBase {
         }
     }
 
+    private boolean editEletricCarModel() {
+        return new EletricCarModelService(eletricCarModelDao, storageDao).edit(
+                new EletricCarModel(
+                        carModel.getId(),
+                        Objects.requireNonNull(name.getText()).toString(),
+                        Integer.valueOf(Objects.requireNonNull(year.getText()).toString()),
+                        carModel.getPathImg(),
+                        Float.parseFloat(Objects.requireNonNull(energyConsumption.getText()).toString())
+                ),
+                null,
+                bitmapCustomFactory.getByteArray()
+        );
+    }
+
+    private boolean editHybridCarModel() {
+        return new HybridCarModelService(hybridCarModelDao, storageDao).edit(
+                new HybridCarModel(
+                        carModel.getId(),
+                        Objects.requireNonNull(name.getText()).toString(),
+                        Integer.valueOf(Objects.requireNonNull(year.getText()).toString()),
+                        carModel.getPathImg(),
+                        Float.parseFloat(Objects.requireNonNull(energyConsumption.getText()).toString()),
+                        Float.parseFloat(Objects.requireNonNull(fuelConsumption.getText()).toString())
+                ),
+                null,
+                bitmapCustomFactory.getByteArray()
+        );
+    }
+
+    private void handleAfterEditCarModel(boolean success) {
+        runOnUiThread(() -> {
+            progressBar.setVisibility(View.GONE);
+            submitFormBtn.setVisibility(View.VISIBLE);
+
+            if (success) {
+                backActivity();
+            } else {
+                Toast.makeText(this, R.string.error_data, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

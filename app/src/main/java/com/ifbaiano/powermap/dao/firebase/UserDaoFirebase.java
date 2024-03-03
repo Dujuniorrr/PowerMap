@@ -125,7 +125,7 @@ public class UserDaoFirebase implements UserDao {
     }
 
 
-    public boolean findByEmail(String email){
+    public Boolean findByEmail(String email){
         return this.findAll()
                 .stream()
                 .anyMatch(user -> user.getEmail().equals(email));
