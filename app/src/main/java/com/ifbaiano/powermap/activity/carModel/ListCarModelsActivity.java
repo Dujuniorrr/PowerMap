@@ -2,15 +2,8 @@ package com.ifbaiano.powermap.activity.carModel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,15 +11,14 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
+import com.ifbaiano.powermap.databinding.ActivityListCarModelsBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.ModelsFragment;
-import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.databinding.ActivityListCarModelsBinding;
 import com.ifbaiano.powermap.model.CarModel;
 import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;
@@ -83,7 +75,7 @@ public class ListCarModelsActivity extends AppCompatActivity  implements ModelCa
     }
 
     private void listModels(){
-        Log.d("LIST MODELS", "entrou aqq");
+
         recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 

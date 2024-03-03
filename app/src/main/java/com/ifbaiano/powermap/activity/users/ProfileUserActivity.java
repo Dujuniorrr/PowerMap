@@ -2,7 +2,6 @@ package com.ifbaiano.powermap.activity.users;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -20,7 +19,6 @@ public class ProfileUserActivity extends AppCompatActivity {
     Button submitEditImageProfile,editProfileUserBtn, logouProfile;
     ImageView imageEditProfil;
     TextInputEditText nameEditProfile, emailEditProfile, passwordEditProfile;
-
     ActivityProfileUserBinding binding;
     DataBindingFactory bindingFactory;
 

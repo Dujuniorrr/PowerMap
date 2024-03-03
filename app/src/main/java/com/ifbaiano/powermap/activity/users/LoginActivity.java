@@ -3,11 +3,9 @@ package com.ifbaiano.powermap.activity.users;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,13 +14,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ifbaiano.powermap.R;
@@ -30,7 +25,9 @@ import com.ifbaiano.powermap.activity.car.ListCarActivity;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.User;
+import com.ifbaiano.powermap.service.UserService;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -44,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     GoogleSignInClient mGoogleSignInClient;
-
     StorageDao storageDao;
+    UserService userService;
 
 
     @SuppressLint("MissingInflatedId")
@@ -55,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
         this.findViewsById();
 
+        userService = new UserService(new UserDaoFirebase(getApplicationContext()));
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
@@ -63,9 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             intent = new Intent(LoginActivity.this, InitialUsersActivity.class);
             startActivity(intent);
         });
-
-
-
+        
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
@@ -118,42 +114,25 @@ public class LoginActivity extends AppCompatActivity {
 
     private void firebaseAuth(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken,  null);
-        auth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = auth.getCurrentUser();
-                    User newUser = new User();
-
-                    newUser.setEmail(user.getEmail());
-                    newUser.setId(user.getUid());
-                    newUser.setImgpath(user.getPhotoUrl().toString());
-                    newUser.setName(user.getDisplayName());
-                    newUser.setAdmin(false);
-
-                    // Utilize the UserDaoFirebase to add the user to Firebase
-                    UserDaoFirebase userDaoFirebase = new UserDaoFirebase(getApplicationContext());
-                    userDaoFirebase.add(newUser);
-
+        auth.signInWithCredential(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                User user = UserFactory.createByFirebase(auth.getCurrentUser());
+                if(userService.add(user)){
                     Intent intent = new Intent(LoginActivity.this, ListCarActivity.class);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    Toast.makeText(LoginActivity.this, getString(R.string.error_data), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
-    public static class ProfileActivity extends AppCompatActivity {
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_list_car);
-        }
-    }
 
 }
 

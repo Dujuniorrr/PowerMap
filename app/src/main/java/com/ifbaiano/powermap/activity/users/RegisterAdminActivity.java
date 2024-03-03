@@ -13,7 +13,6 @@ import com.ifbaiano.powermap.fragment.ModelsFragment;
 
 public class RegisterAdminActivity extends AppCompatActivity {
 
-
     ActivityRegisterAdminBinding binding;
     DataBindingFactory bindingFactory;
     Button backButonAdminRegiter,RegisterAdminBtn;

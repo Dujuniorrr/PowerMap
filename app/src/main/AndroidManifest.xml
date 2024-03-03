@@ -31,13 +31,10 @@
             android:name=".activity.users.RegisterAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.users.LoginActivity$ProfileActivity"
+            android:name=".activity.users.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".activity.users.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.users.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".activity.users.InitialUsersActivity"
