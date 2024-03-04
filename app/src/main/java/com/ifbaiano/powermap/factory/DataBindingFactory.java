@@ -11,8 +11,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.activity.carModels.ListCarModelsActivity;
+import com.ifbaiano.powermap.activity.cars.ListCarActivity;
+import com.ifbaiano.powermap.activity.users.ProfileUserActivity;
 import com.ifbaiano.powermap.activity.users.ProfileUserGoogleActivity;
 import com.ifbaiano.powermap.fragment.CarFragment;
 import com.ifbaiano.powermap.fragment.FragmentProfileAdmin;
@@ -103,7 +104,7 @@ public class DataBindingFactory {
             replaceFragment(new ProfileFragment());
             Toast.makeText(activity, "perfil do usario", Toast.LENGTH_SHORT).show();
             if (!(activity instanceof ProfileUserGoogleActivity)) {
-                intent = new Intent(activity.getApplicationContext(), ProfileUserGoogleActivity.class);
+                intent = new Intent(activity.getApplicationContext(), ProfileUserActivity.class);
                 activity.startActivity(intent);
             }
         }

@@ -51,6 +51,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         StatusBarAppearance.changeStatusBarColor(this, R.color.black);
 
+        //quando for feito o login normal
+        //UserFactory.saveUserMemory(user, getApplicationContext());
+        // Log.d("USER SHARED - Google", UserFactory.getUserInMemory(getApplicationContext()).getName());
+
         this.findViewsById();
 
         userService = new UserService(new UserDaoFirebase(getApplicationContext()));
@@ -73,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             googleSignIn();
         });
 
-        //verifica se já está logado
+        //verifica se já está logado com o google
 
         if(auth.getCurrentUser() != null){
             Intent it = new Intent(LoginActivity.this, ListCarActivity.class);
@@ -119,6 +123,8 @@ public class LoginActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 User user = UserFactory.createByFirebase(auth.getCurrentUser());
                 if(userService.add(user) != null){
+                    UserFactory.saveUserInMemory(user, getApplicationContext());
+
                     Intent intent = new Intent(LoginActivity.this, ListCarActivity.class);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();

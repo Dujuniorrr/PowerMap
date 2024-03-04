@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             if (isUserRegisteredFirebase) {
                 // Se bem-sucedido, vai para a tela de listar carros
-                UserFactory.saveUserMemory(user, getApplicationContext());
+                UserFactory.saveUserInMemory(user, getApplicationContext());
                 Log.d("USER SHARED", UserFactory.getUserInMemory(getApplicationContext()).getName());
 
                 Intent intent= new Intent(RegisterActivity.this, ListCarActivity.class);

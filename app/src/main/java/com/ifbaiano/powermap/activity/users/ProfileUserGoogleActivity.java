@@ -21,7 +21,9 @@ import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserGoogleBinding;
 import com.ifbaiano.powermap.factory.BitmapCustomFactory;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
+import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
+import com.ifbaiano.powermap.model.User;
 
 public class ProfileUserGoogleActivity extends AppCompatActivity {
 
@@ -55,15 +57,19 @@ public class ProfileUserGoogleActivity extends AppCompatActivity {
     }
 
     private void setUserAttributes(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        //depois retirar a instancia do firebase
+        FirebaseUser userF = FirebaseAuth.getInstance().getCurrentUser();
+        User user = UserFactory.getUserInMemory(this);
 
         if(user != null){
-            String userName = user.getDisplayName();
+            String userName = user.getName();
             textNameProfileGoogle.setText(userName);
             String userEmail = user.getEmail();
             textEmailProfileGoogle.setText(userEmail);
 
-            new BitmapCustomFactory(this, imageProfilView).setImageByUri(user.getPhotoUrl(), R.drawable.baseline_person);
+            //lembrar de ajustar de onde vem a imagem - trocar para o share
+            new BitmapCustomFactory(this, imageProfilView).setImageByUri(userF.getPhotoUrl(), R.drawable.baseline_person);
         }
         else{
             startActivity(new Intent(this, InitialUsersActivity.class));

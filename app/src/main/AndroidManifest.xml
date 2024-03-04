@@ -56,6 +56,9 @@
             android:exported="false" />
         <activity
             android:name=".activity.cars.AddCarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true"
             tools:ignore="DuplicateActivity" >
             <intent-filter>

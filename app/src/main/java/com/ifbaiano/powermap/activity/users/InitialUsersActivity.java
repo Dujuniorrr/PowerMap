@@ -7,7 +7,6 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 
 public class InitialUsersActivity extends AppCompatActivity {
 
@@ -31,4 +30,5 @@ public class InitialUsersActivity extends AppCompatActivity {
                 startActivity(intent);
             });
     }
+
 }

@@ -53,7 +53,7 @@ public class UserFactory {
 
     }
 
-    public static boolean saveUserMemory(User user, Context ctx){
+    public static boolean saveUserInMemory(User user, Context ctx){
         SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", ctx.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
 
@@ -65,6 +65,16 @@ public class UserFactory {
         edit.putBoolean("isAdmin", user.isAdmin());
 
         edit.commit();
+
+        return true;
+    }
+
+    public static boolean clearUserInMemory(Context ctx) {
+        SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", ctx.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+
+        edit.clear();
+        edit.apply();
 
         return true;
     }

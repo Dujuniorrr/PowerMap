@@ -9,11 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.appearance.StatusBarAppearance;
-import com.ifbaiano.powermap.activity.cars.ListCarActivity;
+import com.ifbaiano.powermap.activity.MainActivity;
 import com.ifbaiano.powermap.databinding.ActivityProfileUserBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
+import com.ifbaiano.powermap.verifier.LoginVerifier;
 
 public class ProfileUserActivity extends AppCompatActivity {
 
@@ -29,10 +29,13 @@ public class ProfileUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_user);
         this.doBinding();
         this.findViewsById();
+        LoginVerifier logout = new LoginVerifier(this);
 
         logouProfile.setOnClickListener(v -> {
+            logout.userLogout();
+
                 Intent intent;
-                intent = new Intent(ProfileUserActivity.this, ListCarActivity.class);
+                intent = new Intent(ProfileUserActivity.this, MainActivity.class);
                 startActivity(intent);
          });
     }
