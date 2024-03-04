@@ -13,6 +13,7 @@ import com.google.firebase.storage.UploadTask;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -26,6 +27,16 @@ public class StorageDaoFirebase implements StorageDao {
     public String add(byte[] imageData, String child){
         String path = child + "/" + UUID.randomUUID().toString() + ".png";
         return this.putImage(imageData, path);
+    }
+
+    public byte[] getImageAsByteArray(String imagePath)  {
+        StorageReference storageRef = this.storageReference.child(imagePath);
+
+        try {
+            return Tasks.await(storageRef.getBytes(Long.MAX_VALUE));
+        } catch (ExecutionException | InterruptedException e) {
+            return null;
+        }
     }
 
     public String putImage(byte[] imageData, String child){

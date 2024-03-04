@@ -10,32 +10,35 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.carModels.ListCarModelsActivity;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
 import com.ifbaiano.powermap.appearance.CarModelAppearence;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
+import com.ifbaiano.powermap.dao.media.StorageDaoMedia;
+import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
+import com.ifbaiano.powermap.dao.sqlite.EletricCarModelDaoSqlite;
+import com.ifbaiano.powermap.dao.sqlite.HybridCarModelDaoSqlite;
 import com.ifbaiano.powermap.databinding.ActivityAddCarBinding;
-import com.ifbaiano.powermap.databinding.ActivityListCarBinding;
-import com.ifbaiano.powermap.databinding.ActivityListCarModelsBinding;
 import com.ifbaiano.powermap.factory.DataBindingFactory;
+import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
+import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.CarModel;
 import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;
+import com.ifbaiano.powermap.service.CarService;
 import com.ifbaiano.powermap.service.EletricCarModelService;
 import com.ifbaiano.powermap.service.HybridCarModelService;
-import com.ifbaiano.powermap.verifier.CarModelVerifier;
 import com.ifbaiano.powermap.verifier.CarVerifier;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter.OnClickListener {
 
@@ -49,13 +52,15 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
     ModelCarAdapter adapter;
     HybridCarModelService hybridCarModelService;
     EletricCarModelService eletricCarModelService;
-    CarModel seletedCarModel = new CarModel();
+    CarModel selectedCarModel = new CarModel();
     CarModelAppearence carModelAppearence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getApplicationContext().deleteDatabase("powermap.db");
         setContentView(R.layout.activity_add_car);
+
         this.doBinding();
         this.findViewById();
         this.makeInstances();
@@ -66,11 +71,38 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
     }
 
     private void submitForm(){
-        if(new CarVerifier(getApplicationContext()).verifyCar(name, seletedCarModel.getId() != null)){
-            // salvar carro com user
-            // salvar imagem do modelo localmente
-            // salvar modelo com carro
-        }
+        boolean isValid = new CarVerifier(getApplicationContext()).verifyCar(name, selectedCarModel.getId() != null);
+        new Thread(() -> {
+            if(isValid){
+               try{
+                   Car car = new CarService(new CarDaoSqlite(getApplicationContext())).add(
+                           new Car(Objects.requireNonNull(name.getText()).toString()),
+                           UserFactory.getUserInMemory(getApplicationContext()).getId()
+                   );
+
+                   Log.d("IMAGE SERVICE", selectedCarModel.getName());
+                   byte[] imageBytes = new StorageDaoFirebase().getImageAsByteArray(selectedCarModel.getPathImg());
+                   StorageDaoMedia storageDaoMedia = new StorageDaoMedia(getApplicationContext());
+
+                   if(selectedCarModel instanceof HybridCarModel){
+                       new HybridCarModelService(
+                               new HybridCarModelDaoSqlite(getApplicationContext()),
+                               storageDaoMedia).add((HybridCarModel) selectedCarModel, car.getId(), imageBytes );
+                   }
+                   else if(selectedCarModel instanceof EletricCarModel){
+                       new EletricCarModelService(
+                               new EletricCarModelDaoSqlite(getApplicationContext()),
+                               storageDaoMedia).add((EletricCarModel) selectedCarModel, car.getId(), imageBytes );
+                   }
+                   startActivity(new Intent(this, ListCarActivity.class));
+               }
+               catch (Exception e){
+                   runOnUiThread(() -> {
+                       Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.error_data), Toast.LENGTH_SHORT).show();
+                   });
+               }
+            }
+        }).start();
     }
 
     private void makeInstances(){
@@ -149,7 +181,7 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
 
         carModelAppearence.setClickedItemColors(v);
 
-        seletedCarModel = carModel;
+        selectedCarModel = carModel;
         adapter.setPreviousClickedIndex(position);
 
     }

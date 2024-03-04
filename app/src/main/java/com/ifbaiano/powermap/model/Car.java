@@ -12,13 +12,17 @@ public class Car implements  Serializable{
     @Exclude
     private CarModel carModel;
 
+    public Car() {
+    }
+
+    public Car(String name) {
+        this.name = name;
+
+    }
     public Car(String id, String name, CarModel carModel) {
         this.id = id;
         this.name = name;
         this.carModel = carModel;
-    }
-
-    public Car() {
     }
 
     public CarModel getCarModel() {

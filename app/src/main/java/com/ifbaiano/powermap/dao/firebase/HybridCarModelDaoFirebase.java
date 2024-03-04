@@ -88,7 +88,7 @@ public class HybridCarModelDaoFirebase implements HybridCarModelDao {
     }
 
     @Override
-    public ArrayList<HybridCarModel> findByCarId(final String carId) {
+    public HybridCarModel findByCarId(final String carId) {
         Query query = firebaseDatabase.getReference(TABLE_NAME).
                 orderByChild("cars_id").equalTo(carId);
 
@@ -96,12 +96,12 @@ public class HybridCarModelDaoFirebase implements HybridCarModelDao {
             DataSnapshot dataSnapshot = Tasks.await(query.get());
 
             if (dataSnapshot.exists()) {
-                ArrayList<HybridCarModel> carModels = new ArrayList<>();
+                HybridCarModel carModel = null;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    HybridCarModel carModel = snapshot.getValue(HybridCarModel.class);
-                    carModels.add(carModel);
+                    carModel = snapshot.getValue(HybridCarModel.class);
+                    break;
                 }
-                return carModels;
+                return carModel;
             }
             return null;
         } catch (ExecutionException | InterruptedException e) {

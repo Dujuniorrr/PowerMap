@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.ifbaiano.powermap.connection.SqliteConnection;
 import com.ifbaiano.powermap.dao.contracts.HybridCarModelDao;
+import com.ifbaiano.powermap.factory.EletricCarModelFactory;
 import com.ifbaiano.powermap.factory.HybridCarModelFactory;
 import com.ifbaiano.powermap.model.HybridCarModel;
 
@@ -54,7 +55,7 @@ public class HybridCarModelDaoSqlite implements HybridCarModelDao {
 
     @Override
     public HybridCarModel findOne(String id) {
-        this.db = this.conn.getWritableDatabase();
+        this.db = this.conn.getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_ONE_QUERY, new String[]{id});
 
         if(cursor.moveToFirst()){
@@ -66,21 +67,25 @@ public class HybridCarModelDaoSqlite implements HybridCarModelDao {
 
     @Override
     public ArrayList<HybridCarModel> findAll() {
-            this.db = this.conn.getWritableDatabase();
-            @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_ALL_QUERY, null);
-            return this.makeCarModelList(cursor);
+        this.db = this.conn.getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_ALL_QUERY, null);
+        return this.makeCarModelList(cursor);
     }
 
     @Override
-    public ArrayList<HybridCarModel> findByCarId(String id) {
-            this.db = this.conn.getWritableDatabase();
-            @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_CAR_QUERY, new String[]{ id });
+    public HybridCarModel findByCarId(String id) {
+        this.db = this.conn.getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_CAR_QUERY, new String[]{ id });
 
-            return this.makeCarModelList(cursor);
+        if(cursor.moveToFirst()){
+            return HybridCarModelFactory.createByCursor(cursor);
+        }
+        return null;
     }
 
     public ContentValues makeContentValues(HybridCarModel carModel){
         ContentValues values = new ContentValues();
+        values.put("name", carModel.getName());
         values.put("year", carModel.getYear());
         values.put("pathImg", carModel.getPathImg());
         values.put("energyConsumption", carModel.getEnergyConsumption());

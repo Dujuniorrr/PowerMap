@@ -11,7 +11,7 @@ import com.ifbaiano.powermap.R;
 import java.time.Year;
 import java.util.Objects;
 
-public class Verifier {
+abstract public class Verifier {
     private Context ctx;
 
     public Verifier(Context ctx) {

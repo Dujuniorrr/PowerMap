@@ -87,7 +87,7 @@ public class EletricCarModelDaoFirebase implements EletricCarModelDao {
 
 
     @Override
-    public  ArrayList<EletricCarModel> findByCarId(final String carId) {
+    public  EletricCarModel findByCarId(final String carId) {
         Query query = firebaseDatabase.getReference(TABLE_NAME).
                 orderByChild("cars_id");
 
@@ -95,12 +95,12 @@ public class EletricCarModelDaoFirebase implements EletricCarModelDao {
             DataSnapshot dataSnapshot = Tasks.await(query.get());
 
             if (dataSnapshot.exists()) {
-                ArrayList<EletricCarModel> carModels = new ArrayList<>();
+                 EletricCarModel carModel = null;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    EletricCarModel carModel = snapshot.getValue(EletricCarModel.class);
-                    carModels.add(carModel);
+                    carModel = snapshot.getValue(EletricCarModel.class);
+                    break;
                 }
-                return carModels;
+                return carModel;
             }
             return null;
         } catch (ExecutionException | InterruptedException e) {

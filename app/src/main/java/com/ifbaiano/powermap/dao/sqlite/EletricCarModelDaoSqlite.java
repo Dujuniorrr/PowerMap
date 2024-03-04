@@ -71,14 +71,18 @@ public class EletricCarModelDaoSqlite implements EletricCarModelDao {
     }
 
     @Override
-    public ArrayList<EletricCarModel> findByCarId(String id) {
-            this.db = this.conn.getWritableDatabase();
-            @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_CAR_QUERY, new String[]{ id });
-            return this.makeCarModelList(cursor);
+    public  EletricCarModel findByCarId(String id) {
+        this.db = this.conn.getWritableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_CAR_QUERY, new String[]{ id });
+        if(cursor.moveToFirst()){
+            return EletricCarModelFactory.createByCursor(cursor);
+        }
+        return null;
     }
 
     public ContentValues makeContentValues(EletricCarModel carModel){
         ContentValues values = new ContentValues();
+        values.put("name", carModel.getName());
         values.put("year", carModel.getYear());
         values.put("pathImg", carModel.getPathImg());
         values.put("energyConsumption", carModel.getEnergyConsumption());

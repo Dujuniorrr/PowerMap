@@ -10,12 +10,14 @@ import com.ifbaiano.powermap.connection.SqliteConnection;
 import com.ifbaiano.powermap.dao.contracts.CarDao;
 import com.ifbaiano.powermap.factory.CarFactory;
 import com.ifbaiano.powermap.model.Car;
+import com.ifbaiano.powermap.model.CarModel;
 
 import java.util.ArrayList;
 
 public class CarDaoSqlite implements CarDao {
 
     private final SqliteConnection conn;
+    private final Context ctx;
     private SQLiteDatabase db;
     private final String TABLE_NAME = "cars";
     private final String FIND_ONE_QUERY = "SELECT * FROM "+ this.TABLE_NAME +" WHERE id = ?";
@@ -25,6 +27,7 @@ public class CarDaoSqlite implements CarDao {
 
     public CarDaoSqlite(Context ctx) {
         this.conn = new SqliteConnection(ctx);
+        this.ctx = ctx;
     }
 
     @Override
@@ -59,11 +62,11 @@ public class CarDaoSqlite implements CarDao {
 
     @Override
     public Car findOne(String id) {
-        this.db = this.conn.getWritableDatabase();
+        this.db = this.conn.getReadableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_ONE_QUERY, new String[]{id});
 
         if(cursor.moveToFirst()){
-            return CarFactory.createByCursor(cursor);
+            return CarFactory.createByCursor(cursor, this.ctx);
         }
 
         return null;
@@ -71,22 +74,22 @@ public class CarDaoSqlite implements CarDao {
 
     @Override
     public ArrayList<Car> findAll() {
-        this.db = this.conn.getWritableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_ALL_QUERY, null);
+        this.db = this.conn.getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = this.db.rawQuery(this.FIND_ALL_QUERY, null);
         return this.makeCarList(cursor);
     }
 
     @Override
     public ArrayList<Car> findByUserId(String id) {
-        this.db = this.conn.getWritableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_CLIENT_QUERY, new String[]{ id });
+        this.db = this.conn.getReadableDatabase();
+        @SuppressLint("Recycle") Cursor cursor =  this.db.rawQuery(this.FIND_BY_CLIENT_QUERY, new String[]{ id });
         return this.makeCarList(cursor);
     }
 
     public ArrayList<Car> makeCarList(Cursor cursor){
         ArrayList<Car> carList = new ArrayList<>();
         while(cursor.moveToNext()) {
-            carList.add(CarFactory.createByCursor(cursor));
+            carList.add(CarFactory.createByCursor(cursor, this.ctx));
         }
         return carList.size() > 0 ? carList : null;
     }
