@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.carModels.ListCarModelsActivity;
 import com.ifbaiano.powermap.activity.cars.ListCarActivity;
+import com.ifbaiano.powermap.activity.users.ListUsersActivity;
 import com.ifbaiano.powermap.activity.users.ProfileUserActivity;
 import com.ifbaiano.powermap.activity.users.ProfileUserGoogleActivity;
 import com.ifbaiano.powermap.fragment.CarFragment;
@@ -60,10 +61,10 @@ public class DataBindingFactory {
             replaceFragment(new UsersFragment());
             Toast.makeText(activity, "usarios em admin", Toast.LENGTH_SHORT).show();
 
-            // if (!(activity instanceof ListCarModels)) {
-                //intent = new Intent(activity.getApplicationContext(), ListCarModels.class);
-                //activity.startActivity(intent);
-            //}
+            if (!(activity instanceof ListUsersActivity)) {
+                intent = new Intent(activity.getApplicationContext(), ListUsersActivity.class);
+                activity.startActivity(intent);
+            }
 
         } else if (itemId == R.id.icon_profile_admin) {
 

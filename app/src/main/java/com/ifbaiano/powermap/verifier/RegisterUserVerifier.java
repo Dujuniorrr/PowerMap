@@ -5,12 +5,9 @@ import android.text.TextUtils;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.dao.contracts.UserDao;
-import com.ifbaiano.powermap.model.User;
-import com.ifbaiano.powermap.service.UserService;
+import com.ifbaiano.powermap.factory.UserFactory;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,6 +38,26 @@ public class RegisterUserVerifier extends Verifier {
 
         return isValid;
     }
+
+    public boolean verifyEditUser(TextInputEditText name, TextInputEditText email, boolean emailAlreadyExists) {
+        boolean isValid = true;
+
+        isValid &= validateField(name, R.string.name_error_register);
+        isValid &= isValidName(name, R.string.name_invalid_error);
+        isValid &= isValidEmail(email, R.string.email_invalid_error);
+
+        // Check if the provided email is the same as the one stored in SharedPreferences
+        String storedEmail = UserFactory.getUserInMemory(getCtx()).getEmail();
+        if (!email.getText().toString().equals(storedEmail)) {
+            // If the provided email is different, call emailExists method
+            isValid &= emailExists(email, emailAlreadyExists, R.string.email_already_registered_error);
+        }
+
+        return isValid;
+    }
+
+
+
 
 
     private boolean isValidName(TextInputEditText name, int messageId) {
@@ -113,6 +130,7 @@ public class RegisterUserVerifier extends Verifier {
 
         return true;
     }
+
 
     private boolean emailExists(TextInputEditText email, boolean alreadyExists, int messageId) {
          if(alreadyExists){
