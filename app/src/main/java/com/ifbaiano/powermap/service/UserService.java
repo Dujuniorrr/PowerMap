@@ -16,6 +16,11 @@ public class UserService {
         return addedUser ;
     }
 
+    public User edit(User user) {
+        User editUser = this.dao.edit(user);
+        return editUser;
+    }
+
     public boolean findByEmail(String email){
         return this.dao.findByEmail(email);
     }

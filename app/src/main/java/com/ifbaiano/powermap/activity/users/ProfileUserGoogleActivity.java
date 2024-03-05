@@ -68,8 +68,13 @@ public class ProfileUserGoogleActivity extends AppCompatActivity {
             String userEmail = user.getEmail();
             textEmailProfileGoogle.setText(userEmail);
 
-            //lembrar de ajustar de onde vem a imagem - trocar para o share
-            new BitmapCustomFactory(this, imageProfilView).setImageByUri(userF.getPhotoUrl(), R.drawable.baseline_person);
+            String userImgpath = user.getImgpath();
+
+            if(userImgpath != null){
+                //lembrar de ajustar de onde vem a imagem - trocar para o share
+                new BitmapCustomFactory(this, imageProfilView).setImageByUri(userF.getPhotoUrl(), R.drawable.baseline_person);
+            }
+
         }
         else{
             startActivity(new Intent(this, InitialUsersActivity.class));

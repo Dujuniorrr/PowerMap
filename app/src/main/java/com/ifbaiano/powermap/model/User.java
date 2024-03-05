@@ -1,4 +1,5 @@
 package com.ifbaiano.powermap.model;
+
 import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
@@ -26,6 +27,13 @@ public class User implements Serializable {
         this.password = password;
         this.isAdmin = isAdmin;
     }
+
+    public User(String id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
     public User(String id, String name, String email, String password, String imgPath, boolean isAdmin, ArrayList<Schedule> schedules, ArrayList<Car> cars) {
         this.id = id;
         this.name = name;
@@ -36,6 +44,7 @@ public class User implements Serializable {
         this.schedules = schedules;
         this.cars = cars;
     }
+
 
     public String getId() {
         return id;

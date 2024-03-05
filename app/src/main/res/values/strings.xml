@@ -18,7 +18,7 @@
     <string name="Password">Senha</string>
     <string name="password_confirm">Confirme a senha</string>
     <string name="enter_google">Entre com o Google</string>
-    <string name="editPassword">Editar senha</string>
+    <string name="edit_password">Editar senha</string>
     <string name="add_img">Adicionar imagem</string>
     <string name="connectionError">Sem conexão!</string>
     <string name="successLogin">Login feito com sucesso!</string>
@@ -26,6 +26,12 @@
     <string name="logout">Sair</string>
     <string name="phone">Telefone</string>
     <string name="not_phone_saved">Não há telefone salvo</string>
+    <string name="delete_account">Deletar Conta</string>
+    <string name="new_password">Nova senha</string>
+    <string name="old_password">Senha antiga</string>
+    <string name="error_admin_register">Somente Admins podem adicionar novos Admins!</string>
+
+
 
     <!-- Decoração -->
     <string name="text_decoreition_initial">Encontre o melhor lugar para recarregar as energias do seu carro!</string>
@@ -88,7 +94,7 @@
     <string name="fuel_consumption_label">%s Litros/Km</string>
 
     <!--    Car-->
-    <string name="add_car" >Adicione seu carro!</string>
+    <string name="add_car">Adicione seu carro!</string>
     <string name="name_car_input">Digite o nome do seu carro…</string>
     <string name="selected_car_model_error">É necessário selecionar um modelo de carro!</string>
     <!--Login com Google-->

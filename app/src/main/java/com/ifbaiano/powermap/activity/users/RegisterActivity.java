@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
 import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.User;
+import com.ifbaiano.powermap.service.CryptographyPasswordService;
 import com.ifbaiano.powermap.service.UserService;
 import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
 
@@ -24,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     Button backButonRegister, registerUserBtn;
     RegisterUserVerifier verifier;
+    TextView textAccountLogin;
 
     TextInputEditText nameUserRegister, emailUserRegister,passwordUserRegister, passwordUserRegisterConfirme;
 
@@ -45,13 +48,18 @@ public class RegisterActivity extends AppCompatActivity {
         registerUserBtn.setOnClickListener(v -> { submitForm(); });
 
         backButonRegister.setOnClickListener(v -> {
-                Intent intent;
-                intent = new Intent(RegisterActivity.this, InitialUsersActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, InitialUsersActivity.class);
                 startActivity(intent);
             }
         );
+
+        textAccountLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+
     }
-    
+
     private void findViewsById(){
         backButonRegister = findViewById(R.id.backButonUserRegiter);
         registerUserBtn = findViewById(R.id.RegisterUserBtn);
@@ -59,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailUserRegister  = findViewById(R.id.emailUserRegister);
         passwordUserRegister  = findViewById(R.id.passwordUserRegister);
         passwordUserRegisterConfirme  = findViewById(R.id.passwordUserRegisterConfirme);
+        textAccountLogin = findViewById(R.id.textAccountLogin);
     }
     private void makeInstances(){
         userDaoFirebase = new UserDaoFirebase(this);
@@ -71,10 +80,11 @@ public class RegisterActivity extends AppCompatActivity {
             boolean emailAlreadyExists = checkEmailExists();
 
             if (verifyFormValidity(emailAlreadyExists)) {
+                String passwordCryp = CryptographyPasswordService.encryptPassword(passwordUserRegister.getText().toString().trim());
                 User newUser = new User(
                         Objects.requireNonNull(nameUserRegister.getText()).toString().trim(),
                         Objects.requireNonNull(emailUserRegister.getText()).toString().trim(),
-                        Objects.requireNonNull(passwordUserRegister.getText()).toString().trim(),
+                        passwordCryp,
                         false
                 );
 
@@ -97,12 +107,12 @@ public class RegisterActivity extends AppCompatActivity {
             if (isUserRegisteredFirebase) {
                 // Se bem-sucedido, vai para a tela de listar carros
                 UserFactory.saveUserInMemory(user, getApplicationContext());
-                Log.d("USER SHARED", UserFactory.getUserInMemory(getApplicationContext()).getName());
+                Log.d("USER SHARED", UserFactory.getUserInMemory(getApplicationContext()).getPassword());
 
                 Intent intent= new Intent(RegisterActivity.this, ListCarActivity.class);
                 startActivity(intent);
             } else {
-                // Se não for bem-sucedido, exibe uma mensagem de erro
+                // Se não for bem-sucedido
                 Toast.makeText(RegisterActivity.this, getString(R.string.error_register), Toast.LENGTH_SHORT).show();
             }
         });
@@ -115,6 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
         Object lock = new Object();
 
         runOnUiThread(() -> {
+
             verifyValid[0] = verifier.verifyRegisterUser(nameUserRegister, emailUserRegister, passwordUserRegister, passwordUserRegisterConfirme, emailAlreadyExists);
             synchronized (lock) {
                 lock.notify();

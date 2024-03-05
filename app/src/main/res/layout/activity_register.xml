@@ -7,6 +7,25 @@ android:layout_height="match_parent"
 tools:context=".activity.users.RegisterActivity"
 android:background="@color/white">
 
+
+    <TextView
+        android:id="@+id/textAccountLogin"
+        android:layout_width="301dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/passwordUserRegisterConfirme"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="-30dp"
+        android:clickable="true"
+        android:onClick="onTextViewClicked"
+        android:text="@string/subtext_decoreition_register"
+        android:textAlignment="textEnd"
+        android:textColor="@color/sub_background_form_lighter"
+        android:textSize="17dp" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/nameUserRegister"
         style="@style/EditTextWithBorderBlack"
@@ -31,6 +50,7 @@ android:background="@color/white">
         android:id="@+id/emailUserRegister"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
+        android:inputType="textEmailAddress"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
@@ -43,7 +63,6 @@ android:background="@color/white">
         android:drawableEnd="@drawable/baseline_email"
         android:handwritingBoundsOffsetRight="@dimen/cardview_compat_inset_shadow"
         android:hint="@string/email"
-        android:inputType="text"
         android:singleLine="true"
         android:textColorHint="@color/red_custom" />
 
@@ -51,18 +70,18 @@ android:background="@color/white">
         android:id="@+id/passwordUserRegisterConfirme"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
-        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="45dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="45dp"
         android:layout_marginBottom="233dp"
         android:drawableEnd="@drawable/baseline_password"
         android:hint="@string/password_confirm"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:singleLine="true"
         android:textColorHint="@color/red_custom" />
 
@@ -95,6 +114,7 @@ android:background="@color/white">
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:inputType="textPassword"
         android:layout_centerInParent="true"
         android:layout_marginStart="45dp"
         android:layout_marginTop="40dp"
@@ -102,7 +122,6 @@ android:background="@color/white">
         android:layout_marginBottom="313dp"
         android:drawableEnd="@drawable/baseline_password"
         android:hint="@string/Password"
-        android:inputType="text"
         android:singleLine="true"
         android:textColorHint="@color/red_custom" />
 

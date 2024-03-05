@@ -8,7 +8,23 @@ tools:context=".activity.users.LoginActivity"
 android:background="@color/black">
 
 
-
+    <TextView
+        android:id="@+id/textNotAccount"
+        android:layout_width="301dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/passwordLogin"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="-30dp"
+        android:clickable="true"
+        android:onClick="onTextViewClicked"
+        android:text="@string/subtext_decoreition_login"
+        android:textAlignment="textEnd"
+        android:textColor="@color/light_gray"
+        android:textSize="17dp" />
 
     <ImageView
         android:id="@+id/imageViewLogin"
@@ -23,25 +39,24 @@ android:background="@color/black">
         android:src="@drawable/car_white_decoration" />
 
 
-
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/passwordLogin"
         style="@style/EditTextWithBorderBlack"
         android:layout_width="338dp"
-        android:layout_centerInParent="true"
-        android:textColorHint="@color/red_custom"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         android:layout_marginStart="45dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="291dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="294dp"
         android:drawableEnd="@drawable/baseline_password"
         android:hint="@string/Password"
         android:inputType="text"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColorHint="@color/red_custom" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/emailLogin"
@@ -54,8 +69,8 @@ android:background="@color/black">
         android:layout_centerInParent="true"
         android:layout_marginStart="45dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="363dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="369dp"
         android:drawableEnd="@drawable/baseline_email"
         android:handwritingBoundsOffsetRight="@dimen/cardview_compat_inset_shadow"
         android:hint="@string/email"
