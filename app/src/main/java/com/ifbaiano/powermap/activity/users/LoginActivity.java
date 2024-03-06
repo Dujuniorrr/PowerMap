@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
     TextInputEditText emailLogin, passwordLogin;
 
+    TextView textNotAccount;
+
     private Button btnGoogleAuth;
     int RC_SIGN_IN=20;
     FirebaseAuth auth;
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     StorageDao storageDao;
     UserService userService;
+
 
     @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,20 @@ public class LoginActivity extends AppCompatActivity {
         backButonLogin.setOnClickListener(v -> {
             Intent intent;
             intent = new Intent(LoginActivity.this, InitialUsersActivity.class);
+            startActivity(intent);
+        });
+
+        textNotAccount.setOnClickListener(v -> {
+            Intent intent;
+            intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        enterLoginBtn.setOnClickListener(v -> {
+
+        //aqui a logica de login
+            Intent intent;
+            intent = new Intent(LoginActivity.this, ListCarActivity.class);
             startActivity(intent);
         });
         
@@ -93,6 +111,8 @@ public class LoginActivity extends AppCompatActivity {
         enterLoginBtn = findViewById(R.id.enterLoginBtn);
         emailLogin = findViewById(R.id.emailLogin);
         passwordLogin = findViewById(R.id.passwordLogin);
+
+        textNotAccount = findViewById(R.id.textNotAccount);
         storageDao = new StorageDaoFirebase();
     }
 

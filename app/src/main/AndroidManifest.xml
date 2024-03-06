@@ -22,6 +22,10 @@
 <!--            android:name=".activity.cars.AddCarActivity"-->
 <!--            android:exported="false" />-->
 
+
+        <activity
+            android:name=".activity.users.EditPasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.users.ProfileUserActivity"
             android:exported="false" />
@@ -40,10 +44,12 @@
         <activity
             android:name=".activity.users.InitialUsersActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".activity.MenuActivity"-->
-<!--            android:exported="false" />-->
-
+        <activity
+            android:name=".activity.MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.carModels.ListCarModelsActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.carModels.AddCarModelActivity"
             android:exported="false" />
@@ -51,7 +57,7 @@
             android:name=".activity.cars.AddCarActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.MenuActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             tools:ignore="DuplicateActivity" >
             <intent-filter>

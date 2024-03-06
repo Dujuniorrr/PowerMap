@@ -20,7 +20,7 @@
     <string name="Password">Password</string>
     <string name="password_confirm">Confirm the password</string>
     <string name="enter_google">Enter with google</string>
-    <string name="editPassword">Edit password</string>
+    <string name="edit_password">Edit password</string>
     <string name="add_img">Add image</string>
     <string name="connectionError">No connection!</string>
     <string name="successLogin">Login successfully!</string>
@@ -28,7 +28,10 @@
     <string name="logout">Logout</string>
     <string name="phone">Phone</string>
     <string name="not_phone_saved">There is no phone saved</string>
-
+    <string name="delete_account">Delete Account</string>
+    <string name="new_password">New password</string>
+    <string name="old_password">Old password</string>
+    <string name="error_admin_register">Only Administrators can add new Administrators!</string>
 
 
     <!-- Decoração -->
