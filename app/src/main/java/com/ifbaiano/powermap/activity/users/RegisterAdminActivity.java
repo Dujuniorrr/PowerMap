@@ -1,7 +1,10 @@
 package com.ifbaiano.powermap.activity.users;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +13,10 @@ import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
+import com.ifbaiano.powermap.databinding.ActivityRegisterAdminBinding;
+import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.factory.UserFactory;
+import com.ifbaiano.powermap.fragment.ModelsFragment;
 import com.ifbaiano.powermap.model.User;
 import com.ifbaiano.powermap.service.CryptographyPasswordService;
 import com.ifbaiano.powermap.service.UserService;
@@ -20,7 +26,8 @@ import java.util.Objects;
 
 public class RegisterAdminActivity extends AppCompatActivity {
 
-    Button backButonAdminRegiter,registerAdminBtn;
+
+    Button backButonAdminRegiter, registerAdminBtn;
     TextInputEditText nameAdminRegister, emailAdminRegister,passwordAdminRegister, passwordConfirmeAdminRegister;
 
     RegisterUserVerifier verifier;
@@ -45,6 +52,7 @@ public class RegisterAdminActivity extends AppCompatActivity {
             if(user.isAdmin()==true){
                 this.submitForm();
             } else{
+                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, getString(R.string.error_admin_register), Toast.LENGTH_SHORT).show();
             }
 

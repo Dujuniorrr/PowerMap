@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //aqui a logica de login
             Intent intent;
-            intent = new Intent(LoginActivity.this, ListCarActivity.class);
+            intent = new Intent(LoginActivity.this, MenuActivity.class);
             startActivity(intent);
         });
         

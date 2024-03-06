@@ -26,7 +26,6 @@ public class EditPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_password);
         this.findViewsById();
-        this.doBinding();
 
         backButonProfilePassword.setOnClickListener(v -> {
                     Intent intent = new Intent(EditPasswordActivity.this, ProfileUserActivity.class);
@@ -44,12 +43,6 @@ public class EditPasswordActivity extends AppCompatActivity {
         editPasswordConfirmText = findViewById(R.id.editPasswordConfirmText);
     }
 
-    private void doBinding(){
-        bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);
-        binding = ActivityEditPasswordBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingFactory.replaceFragment(new ModelsFragment());
-        binding.bottomNavigationMenuUser.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
-    }
+
 
 }

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.cars.ListCarActivity;
+import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
 import com.ifbaiano.powermap.factory.UserFactory;
@@ -109,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
                 UserFactory.saveUserInMemory(user, getApplicationContext());
                 Log.d("USER SHARED", UserFactory.getUserInMemory(getApplicationContext()).getPassword());
 
-                Intent intent= new Intent(RegisterActivity.this, ListCarActivity.class);
+                Intent intent= new Intent(RegisterActivity.this, MenuActivity.class);
                 startActivity(intent);
             } else {
                 // Se não for bem-sucedido

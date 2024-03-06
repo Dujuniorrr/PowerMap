@@ -47,9 +47,7 @@
         <activity
             android:name=".activity.MenuActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity.carModels.ListCarModelsActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activity.carModels.AddCarModelActivity"
             android:exported="false" />

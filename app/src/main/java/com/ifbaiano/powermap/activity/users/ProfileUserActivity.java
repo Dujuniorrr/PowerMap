@@ -26,7 +26,6 @@ public class ProfileUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
-        this.doBinding();
         this.findViewsById();
         LoginVerifier logout = new LoginVerifier(this);
 
@@ -46,17 +45,10 @@ public class ProfileUserActivity extends AppCompatActivity {
         imageEditProfil = findViewById(R.id.imageEditProfil);
         nameEditProfile = findViewById(R.id.nameEditProfile);
         emailEditProfile = findViewById(R.id.emailEditProfile);
-        passwordEditProfile = findViewById(R.id.passwordEditProfile);
 
     }
 
-    private void doBinding(){
-        bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);
-        binding = ActivityProfileUserBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingFactory.replaceFragment(new CarFragment());
-        binding.bottomNavigationMenuUser.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
-    }
+
 
 
 }
