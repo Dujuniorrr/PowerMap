@@ -14,8 +14,7 @@ import com.ifbaiano.powermap.fragment.ModelsFragment;
 
 public class RegisterAdminActivity extends AppCompatActivity {
 
-    ActivityRegisterAdminBinding binding;
-    DataBindingFactory bindingFactory;
+
     Button backButonAdminRegiter,RegisterAdminBtn;
     TextInputEditText nameAdminRegister, emailAdminRegister,passwordAdminRegister, passwordConfirmeAdminRegister;
 
@@ -26,7 +25,6 @@ public class RegisterAdminActivity extends AppCompatActivity {
         StatusBarAppearance.changeStatusBarColor(this, R.color.white);
 
         this.findViewsById();
-        this.doBinding();
     }
 
     private void findViewsById(){
@@ -38,12 +36,6 @@ public class RegisterAdminActivity extends AppCompatActivity {
         passwordConfirmeAdminRegister  = findViewById(R.id.passwordConfirmeAdminRegister);
     }
 
-    private void doBinding(){
-        bindingFactory = new DataBindingFactory(this, R.id.frameLayoutAdminRegister);
-        binding = ActivityRegisterAdminBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingFactory.replaceFragment(new ModelsFragment());
-        binding.bottomNavigationMenuUserTelaAdminRegister.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
-    }
+
 
 }

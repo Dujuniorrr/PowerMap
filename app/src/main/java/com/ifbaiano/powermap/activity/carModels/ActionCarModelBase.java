@@ -17,6 +17,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.contracts.EletricCarModelDao;
 import com.ifbaiano.powermap.dao.contracts.HybridCarModelDao;
@@ -24,15 +25,11 @@ import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
-import com.ifbaiano.powermap.databinding.ActivityFormCarModelBinding;
 import com.ifbaiano.powermap.factory.BitmapCustomFactory;
-import com.ifbaiano.powermap.factory.DataBindingFactory;
-import com.ifbaiano.powermap.fragment.ModelsFragment;
 import com.ifbaiano.powermap.verifier.CarModelVerifier;
 
 abstract public class ActionCarModelBase extends AppCompatActivity {
 
-    ActivityFormCarModelBinding binding;
     TextInputEditText name, year, fuelConsumption, energyConsumption;
     ProgressBar progressBar;
     ImageView imageView;
@@ -43,7 +40,6 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
     StorageDao storageDao;
     int type;
     byte[] byteArray = null;
-    DataBindingFactory bindingFactory;
     BitmapCustomFactory bitmapCustomFactory;
     RadioButton radioButton;
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
@@ -57,7 +53,6 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
         StatusBarAppearance.changeStatusBarColor(this, R.color.sub_background_form);
         type = R.id.hybrid;
 
-        this.doBinding();
         this.syncViewObjects();
         this.makeInstances();
 
@@ -129,16 +124,8 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
     }
 
     protected void backActivity(){
-        startActivity(new Intent(this, ListCarModelsActivity.class));
+        startActivity(new Intent(this, MenuActivity.class));
     }
-    private void doBinding(){
-        bindingFactory = new DataBindingFactory(this, R.id.frameLayoutAdminlist);
-        binding = ActivityFormCarModelBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingFactory.replaceFragment(new ModelsFragment());
 
-        binding.bottomNavigationMenuAdmin.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
-
-    }
 
 }

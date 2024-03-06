@@ -20,14 +20,12 @@ public class ProfileUserActivity extends AppCompatActivity {
     Button submitEditImageProfile,editProfileUserBtn, logouProfile;
     ImageView imageEditProfil;
     TextInputEditText nameEditProfile, emailEditProfile, passwordEditProfile;
-    ActivityProfileUserBinding binding;
-    DataBindingFactory bindingFactory;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
-        this.doBinding();
         this.findViewsById();
         LoginVerifier logout = new LoginVerifier(this);
 
@@ -51,13 +49,6 @@ public class ProfileUserActivity extends AppCompatActivity {
 
     }
 
-    private void doBinding(){
-        bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);
-        binding = ActivityProfileUserBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingFactory.replaceFragment(new CarFragment());
-        binding.bottomNavigationMenuUser.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
-    }
 
 
 }

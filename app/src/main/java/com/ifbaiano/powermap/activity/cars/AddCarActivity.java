@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
 import com.ifbaiano.powermap.appearance.CarModelAppearence;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
@@ -43,8 +44,6 @@ import java.util.Objects;
 public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter.OnClickListener {
 
     TextInputEditText name;
-    @NonNull ActivityAddCarBinding binding;
-    DataBindingFactory bindingFactory;
     AppCompatButton addBtn;
     ProgressBar progressBar;
     RecyclerView recyclerView;
@@ -58,10 +57,9 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getApplicationContext().deleteDatabase("powermap.db");
+
         setContentView(R.layout.activity_add_car);
 
-        this.doBinding();
         this.findViewById();
         this.makeInstances();
         listModels();
@@ -80,7 +78,6 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
                            UserFactory.getUserInMemory(getApplicationContext()).getId()
                    );
 
-                   Log.d("IMAGE SERVICE", selectedCarModel.getName());
                    byte[] imageBytes = new StorageDaoFirebase().getImageAsByteArray(selectedCarModel.getPathImg());
                    StorageDaoMedia storageDaoMedia = new StorageDaoMedia(getApplicationContext());
 
@@ -94,7 +91,7 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
                                new EletricCarModelDaoSqlite(getApplicationContext()),
                                storageDaoMedia).add((EletricCarModel) selectedCarModel, car.getId(), imageBytes );
                    }
-                   startActivity(new Intent(this, ListCarActivity.class));
+                   startActivity(new Intent(this, MenuActivity.class));
                }
                catch (Exception e){
                    runOnUiThread(() -> {
@@ -117,7 +114,7 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
 
     private void findViewById(){
         findViewById(R.id.backButon).setOnClickListener(v -> {
-            startActivity(new Intent(this, ListCarActivity.class));
+            startActivity(new Intent(this, MenuActivity.class));
         });
 
         name = findViewById(R.id.name);
@@ -167,13 +164,7 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
         );
     }
 
-    private void doBinding(){
-        bindingFactory = new DataBindingFactory(this, R.id.frameLayoutUser);
-        binding = ActivityAddCarBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        bindingFactory.replaceFragment(new CarFragment());
-        binding.bottomNavigationMenuUser.setOnItemSelectedListener(item -> bindingFactory.bindingMenu(item));
-    }
+
 
     @Override
     public void onClick(int position, View v, CarModel carModel) {

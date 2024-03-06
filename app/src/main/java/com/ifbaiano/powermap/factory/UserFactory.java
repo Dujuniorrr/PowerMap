@@ -38,7 +38,7 @@ public class UserFactory {
     }
 
     public static User getUserInMemory(Context ctx){
-        SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", ctx.MODE_PRIVATE);
+        SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", Context.MODE_PRIVATE);
 
         return new User(
                 preferences.getString("id", ""),

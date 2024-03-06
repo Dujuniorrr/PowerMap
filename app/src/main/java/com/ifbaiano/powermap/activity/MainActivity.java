@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.cars.ListCarActivity;
 import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.verifier.LoginVerifier;
@@ -40,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
                 if (currentUser != null) {
-                    Intent intent = new Intent(MainActivity.this, ListCarActivity.class);
+                    Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
                     // Se não estiver logado com o Google, verifica usando SharedPreferences
                     if (loginVerifier.isUserLogged()) {
-                        Intent intent = new Intent(MainActivity.this, ListCarActivity.class);
+                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                         startActivity(intent);
                         finish();
                     } else {

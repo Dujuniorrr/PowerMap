@@ -88,11 +88,13 @@
     <string name="fuel_consumption_label">%s Litros/Km</string>
 
     <!--    Car-->
-    <string name="add_car" >Adicione seu carro!</string>
+    <string name="add_car">Adicione seu carro!</string>
     <string name="name_car_input">Digite o nome do seu carro…</string>
     <string name="selected_car_model_error">É necessário selecionar um modelo de carro!</string>
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- Strings used for fragments for navigation -->
 
 

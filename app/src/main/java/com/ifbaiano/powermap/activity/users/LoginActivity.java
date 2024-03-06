@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.cars.ListCarActivity;
+import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         //verifica se já está logado com o google
 
         if(auth.getCurrentUser() != null){
-            Intent it = new Intent(LoginActivity.this, ListCarActivity.class);
+            Intent it = new Intent(LoginActivity.this, MenuActivity.class);
             startActivity(it);
             finish();
         }
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(userService.add(user) != null){
                     UserFactory.saveUserInMemory(user, getApplicationContext());
 
-                    Intent intent = new Intent(LoginActivity.this, ListCarActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
                 }

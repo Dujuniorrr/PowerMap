@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/sub_background_form"
-    tools:context=".activity.users.ProfileUserGoogleActivity">
+    tools:context=".fragment.UserGoogleFragment">
 
 
     <ImageView
         android:id="@+id/imgBaseDecoration"
         android:layout_width="match_parent"
-        android:layout_height="537dp"
-        android:layout_above="@+id/bottomNavigationMenuUser"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="-2dp"
-        app:srcCompat="@drawable/base_white" />
+        app:srcCompat="@drawable/base_white"
+        />
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -89,28 +89,6 @@
         android:textColorHint="@color/white"
         android:textSize="22dp"
         android:textStyle="bold" />
-
-    <FrameLayout
-        android:id="@+id/frameLayoutUser"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationMenuUser">
-
-    </FrameLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationMenuUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:background="@color/white"
-        app:itemIconSize="27dp"
-        app:itemTextColor="@drawable/icon_tint_selector"
-        app:itemIconTint="@drawable/icon_tint_selector"
-        app:itemActiveIndicatorStyle="@color/red_custom"
-        app:itemRippleColor="@color/red_custom"
-        app:menu="@menu/menu_user" />
 
 
 </RelativeLayout>
