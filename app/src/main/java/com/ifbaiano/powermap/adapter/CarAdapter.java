@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class CarAdapter extends RecyclerView.Adapter {
     ArrayList<Car> cars;
     Context context;
-    private EditClickListener editClickListener;
     private DeleteClickListener deleteClickListener;
     private OnClickListener onClickListener;
 
@@ -43,7 +42,7 @@ public class CarAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_model_car,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_car,parent,false);
         return new ViewHolderClass(view);
     }
 
@@ -66,17 +65,15 @@ public class CarAdapter extends RecyclerView.Adapter {
                         )
                 );
             }
+            else{
+                vhClass.fuelConsumption.setVisibility(View.GONE);
+            }
         }
 
         if(selectMode){
             //
         }
         else{
-            vhClass.editButton.setOnClickListener( v -> {
-                if (editClickListener != null) {
-                    editClickListener.onEditClick( vhClass.card, car);
-                }
-            });
             vhClass.deleteButton.setOnClickListener( v -> {
                 if (deleteClickListener != null) {
                     deleteClickListener.onDeleteClick( vhClass.getLayoutPosition(), vhClass.card, car);
@@ -110,7 +107,6 @@ public class CarAdapter extends RecyclerView.Adapter {
             fuelConsumption =  itemView.findViewById(R.id.fuelConsumption);
             imageView = itemView.findViewById(R.id.imageView);
             progressBar = itemView.findViewById(R.id.progressBar);
-            editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }
 
@@ -118,9 +114,6 @@ public class CarAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {}
     }
 
-    public interface EditClickListener {
-        void onEditClick(View v, Car car);
-    }
 
     public interface DeleteClickListener {
         void onDeleteClick(int position, View v, Car car);
@@ -128,11 +121,6 @@ public class CarAdapter extends RecyclerView.Adapter {
     public interface OnClickListener{
         void onClick(int position, View v, Car car);
     }
-
-    public void setEditClickListener(EditClickListener listener) {
-        this.editClickListener = listener;
-    }
-
 
     public void setDeleteClickListener(DeleteClickListener listener) {
         this.deleteClickListener = listener;

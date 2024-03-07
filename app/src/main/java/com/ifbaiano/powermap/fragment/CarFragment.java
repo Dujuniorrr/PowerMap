@@ -15,31 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.carModels.AddCarModelActivity;
-import com.ifbaiano.powermap.activity.carModels.EditCarModelActivity;
 import com.ifbaiano.powermap.activity.cars.AddCarActivity;
-import com.ifbaiano.powermap.activity.cars.EditCarActivity;
 import com.ifbaiano.powermap.adapter.CarAdapter;
-import com.ifbaiano.powermap.adapter.ModelCarAdapter;
-import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
-import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
-import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
-import com.ifbaiano.powermap.dao.media.StorageDaoMedia;
 import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
 import com.ifbaiano.powermap.model.Car;
-import com.ifbaiano.powermap.model.CarModel;
-import com.ifbaiano.powermap.model.EletricCarModel;
-import com.ifbaiano.powermap.model.HybridCarModel;
 import com.ifbaiano.powermap.service.CarService;
-import com.ifbaiano.powermap.service.EletricCarModelService;
-import com.ifbaiano.powermap.service.HybridCarModelService;
-
 import java.util.ArrayList;
 
 
-public class CarFragment extends Fragment  implements CarAdapter.EditClickListener, CarAdapter.DeleteClickListener {
+public class CarFragment extends Fragment  implements  CarAdapter.DeleteClickListener {
 
-    LayoutInflater inflater;
     AppCompatButton addBtn;
     ProgressBar progressBar;
     RecyclerView recyclerView;
@@ -48,7 +33,6 @@ public class CarFragment extends Fragment  implements CarAdapter.EditClickListen
     CarService carService;
     AppCompatActivity mainActivity;
     View rootView;
-
 
 
     public CarFragment() {
@@ -103,16 +87,8 @@ public class CarFragment extends Fragment  implements CarAdapter.EditClickListen
         carService = new CarService(new CarDaoSqlite(mainActivity.getApplicationContext()));
     }
 
-    @Override
-    public void onEditClick(View v, Car car) {
-        Intent intent = new Intent(mainActivity, EditCarActivity.class);
-        intent.putExtra("car", car);
-        startActivity(intent);
-    }
-
     public void formatRecycleView(){
         adapter = new CarAdapter(cars, mainActivity.getApplicationContext(), false);
-        adapter.setEditClickListener(CarFragment.this);
         adapter.setDeleteClickListener(CarFragment.this);
         progressBar.setVisibility(View.GONE);
         recyclerView.setAdapter(adapter);

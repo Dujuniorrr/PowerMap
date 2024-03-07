@@ -34,9 +34,14 @@ public class StorageDaoMedia implements StorageDao {
 
     public String add(byte[] imageData, String child) {
         String title = UUID.randomUUID().toString();
+        return putImage(imageData, title);
+    }
+
+    @Override
+    public String putImage(byte[] imageData, String child) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
         try {
-            Uri savedImageUri = saveBitmap(this.ctx, bitmap, Bitmap.CompressFormat.PNG, "image/png", title);
+            Uri savedImageUri = saveBitmap(this.ctx, bitmap, Bitmap.CompressFormat.PNG, "image/png", child);
             if (savedImageUri != null) {
                 return savedImageUri.toString();
             } else {
@@ -45,11 +50,6 @@ public class StorageDaoMedia implements StorageDao {
         } catch (IOException e) {
             return null;
         }
-    }
-
-    @Override
-    public String putImage(byte[] imageData, String child) {
-        return null;
     }
 
     public void transformInBitmap(String path, ImageView imageView, ProgressBar progressBar)  {

@@ -41,12 +41,25 @@
       android:inputType="text"
       android:singleLine="true" />
 
+  <TextView
+      android:id="@+id/select"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/name"
+      android:layout_marginTop="15dp"
+      android:layout_marginStart="30dp"
+      android:text="@string/select_car_model"
+      android:textColor="@color/black"
+      android:textSize="18dp"
+      android:textStyle="bold" />
+
   <ScrollView
-      android:layout_below="@id/name"
-      android:layout_marginVertical="15dp"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-       >
+      android:layout_above="@+id/submitForm"
+      android:layout_below="@id/select"
+      android:layout_marginVertical="15dp"
+      android:layout_marginBottom="-57dp">
 
     <RelativeLayout
         android:id="@+id/recycleViewBase"
@@ -64,8 +77,7 @@
         <RelativeLayout
             android:id="@+id/deltaRelative"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
           <ProgressBar
               android:id="@+id/progressBar"
@@ -97,22 +109,21 @@
 
       </ScrollView>
 
-      <androidx.appcompat.widget.AppCompatButton
-          android:id="@+id/submitForm"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/scroll"
-          android:layout_alignParentBottom="true"
-          android:layout_marginHorizontal="30dp"
-          android:layout_marginTop="15dp"
-          android:background="@drawable/button_rounded_dark"
-          android:hint="@string/add"
-          android:padding="15dp"
-          android:textColorHint="@color/white"
-          android:textSize="20dp" />
 
     </RelativeLayout>
 
   </ScrollView>
+  <androidx.appcompat.widget.AppCompatButton
+      android:id="@+id/submitForm"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_marginHorizontal="30dp"
+      android:background="@drawable/button_rounded_dark"
+      android:hint="@string/add"
+      android:padding="15dp"
+      android:layout_marginBottom="15dp"
+      android:textColorHint="@color/white"
+      android:textSize="20dp" />
 
 </RelativeLayout>

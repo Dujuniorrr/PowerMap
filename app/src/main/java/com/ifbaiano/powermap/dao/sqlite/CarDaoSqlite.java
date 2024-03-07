@@ -91,6 +91,6 @@ public class CarDaoSqlite implements CarDao {
         while(cursor.moveToNext()) {
             carList.add(CarFactory.createByCursor(cursor, this.ctx));
         }
-        return carList.size() > 0 ? carList : null;
+        return carList;
     }
 }

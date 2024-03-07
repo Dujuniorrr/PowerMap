@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">PowerMap</string>
+    <string name="maps_key">AIzaSyCN2c343t_dg98fYSpNnjy9KbASfQit2rc</string>
+    <string name="your_location">Sua localização!</string>
+
     <string name="back">Voltar</string>
     <string name="add">Adicionar </string>
     <string name="edit">Editar </string>
@@ -93,10 +96,11 @@
     <string name="fuel_consumption_label">%s Litros/Km</string>
 
     <!--    Car-->
-    <string name="cars">Carros</string>
+    <string name="cars">Meus carros!</string>
     <string name="add_car">Adicione seu carro!</string>
     <string name="name_car_input">Digite o nome do seu carro…</string>
     <string name="selected_car_model_error">É necessário selecionar um modelo de carro!</string>
+    <string name="select_car_model">Escolha um modelo</string>
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->

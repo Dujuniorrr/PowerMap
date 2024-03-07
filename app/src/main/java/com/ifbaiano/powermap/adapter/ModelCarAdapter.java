@@ -68,6 +68,9 @@ public class ModelCarAdapter extends RecyclerView.Adapter {
                         )
                 );
             }
+            else{
+                vhClass.fuelConsumption.setVisibility(View.GONE);
+            }
         }
 
         if(selectMode){

@@ -41,7 +41,6 @@ import java.util.Objects;
  */
 public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditClickListener, ModelCarAdapter.DeleteClickListener {
 
-    LayoutInflater inflater;
     AppCompatButton addBtn;
     ProgressBar progressBar;
     RecyclerView recyclerView;
@@ -70,7 +69,6 @@ public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.mainActivity =  (AppCompatActivity) getActivity();
-        this.inflater = inflater;
         rootView = inflater.inflate(R.layout.fragment_models, container, false);
         this.makeInstances();
         this.findViewById();
