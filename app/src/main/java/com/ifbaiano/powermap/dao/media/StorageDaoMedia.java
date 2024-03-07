@@ -11,10 +11,15 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.storage.StorageReference;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,6 +52,19 @@ public class StorageDaoMedia implements StorageDao {
         return null;
     }
 
+    public void transformInBitmap(String path, ImageView imageView, ProgressBar progressBar)  {
+      try{
+          Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.ctx.getContentResolver() , Uri.parse(path));
+          if(bitmap != null){
+              progressBar.setVisibility(View.GONE);
+              imageView.setImageBitmap(bitmap);
+
+          }
+      }
+      catch (IOException e){
+          Log.e("StorageImg", "Error downloading image URI: " + e.getMessage());
+      }
+    }
     @Override
     public Boolean remove(String child) {
         return null;

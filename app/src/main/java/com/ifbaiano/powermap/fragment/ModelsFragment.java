@@ -41,7 +41,6 @@ import java.util.Objects;
  */
 public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditClickListener, ModelCarAdapter.DeleteClickListener {
 
-
     LayoutInflater inflater;
     AppCompatButton addBtn;
     ProgressBar progressBar;

@@ -6,6 +6,8 @@ import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.EletricCarModel;
 
+import java.util.ArrayList;
+
 public class CarService {
     private CarDao dao;
     public CarService(CarDao dao) {
@@ -15,5 +17,11 @@ public class CarService {
         return this.dao.add(car, userId);
     }
 
+    public ArrayList<Car> findAll(){
+        return this.dao.findAll();
+    }
+    public Boolean remove(Car car){
+        return this.dao.remove(car);
+    }
 
 }

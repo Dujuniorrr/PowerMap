@@ -164,8 +164,6 @@ public class AddCarActivity extends AppCompatActivity implements ModelCarAdapter
         );
     }
 
-
-
     @Override
     public void onClick(int position, View v, CarModel carModel) {
         carModelAppearence.restorePreviousClickedItem();

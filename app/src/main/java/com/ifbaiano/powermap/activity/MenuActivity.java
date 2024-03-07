@@ -51,7 +51,6 @@ public class MenuActivity extends AppCompatActivity  {
                 }
                 else{
                     replaceFragment(new ProfileFragment());
-
                 }
             }
 
