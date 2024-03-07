@@ -3,14 +3,15 @@ package com.ifbaiano.powermap.dao.media;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
@@ -29,9 +30,14 @@ public class StorageDaoMedia implements StorageDao {
 
     public String add(byte[] imageData, String child) {
         String title = UUID.randomUUID().toString();
+        return putImage(imageData, title);
+    }
+
+    @Override
+    public String putImage(byte[] imageData, String child) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
         try {
-            Uri savedImageUri = saveBitmap(this.ctx, bitmap, Bitmap.CompressFormat.PNG, "image/png", title);
+            Uri savedImageUri = saveBitmap(this.ctx, bitmap, Bitmap.CompressFormat.PNG, "image/png", child);
             if (savedImageUri != null) {
                 return savedImageUri.toString();
             } else {
@@ -42,11 +48,19 @@ public class StorageDaoMedia implements StorageDao {
         }
     }
 
-    @Override
-    public String putImage(byte[] imageData, String child) {
-        return null;
-    }
+    public void transformInBitmap(String path, ImageView imageView, ProgressBar progressBar)  {
+      try{
+          Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.ctx.getContentResolver() , Uri.parse(path));
+          if(bitmap != null){
+              progressBar.setVisibility(View.GONE);
+              imageView.setImageBitmap(bitmap);
 
+          }
+      }
+      catch (IOException e){
+          Log.e("StorageImg", "Error downloading image URI: " + e.getMessage());
+      }
+    }
     @Override
     public Boolean remove(String child) {
         return null;

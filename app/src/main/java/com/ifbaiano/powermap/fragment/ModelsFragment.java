@@ -2,6 +2,11 @@ package com.ifbaiano.powermap.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -9,16 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.MainActivity;
-import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.activity.carModels.AddCarModelActivity;
 import com.ifbaiano.powermap.activity.carModels.EditCarModelActivity;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
@@ -32,7 +28,6 @@ import com.ifbaiano.powermap.service.EletricCarModelService;
 import com.ifbaiano.powermap.service.HybridCarModelService;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,8 +36,6 @@ import java.util.Objects;
  */
 public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditClickListener, ModelCarAdapter.DeleteClickListener {
 
-
-    LayoutInflater inflater;
     AppCompatButton addBtn;
     ProgressBar progressBar;
     RecyclerView recyclerView;
@@ -71,7 +64,6 @@ public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.mainActivity =  (AppCompatActivity) getActivity();
-        this.inflater = inflater;
         rootView = inflater.inflate(R.layout.fragment_models, container, false);
         this.makeInstances();
         this.findViewById();

@@ -58,6 +58,7 @@
           >
               <com.google.android.material.textfield.TextInputEditText
               android:id="@+id/name"
+              android:maxLength="25"
               style="@style/EditTextWithBorderBlack"
               android:layout_marginTop="60dp"
               android:drawableEnd="@drawable/baseline_directions_car_24"
@@ -109,6 +110,7 @@
               style="@style/EditTextWithBorderBlack"
               android:layout_alignTop="@+id/type"
               android:layout_marginTop="60dp"
+              android:maxLength="8"
               android:drawableRight="@drawable/baseline_electric_bolt_24"
               android:hint="@string/energy_consumption_input"
               android:inputType="numberDecimal"
@@ -116,6 +118,7 @@
 
           <com.google.android.material.textfield.TextInputEditText
               android:id="@+id/fuelConsumption"
+              android:maxLength="8"
               style="@style/EditTextWithBorderBlack"
               android:layout_alignTop="@+id/energyConsumption"
               android:layout_marginTop="83dp"

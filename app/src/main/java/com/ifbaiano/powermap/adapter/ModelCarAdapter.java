@@ -2,9 +2,6 @@ package com.ifbaiano.powermap.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
-import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.CarModel;
 import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;
@@ -67,6 +63,9 @@ public class ModelCarAdapter extends RecyclerView.Adapter {
                                 R.string.fuel_consumption_label, Float.toString(((HybridCarModel) carModel).getFuelConsumption())
                         )
                 );
+            }
+            else{
+                vhClass.fuelConsumption.setVisibility(View.GONE);
             }
         }
 
