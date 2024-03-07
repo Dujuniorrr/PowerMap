@@ -10,7 +10,6 @@ import com.ifbaiano.powermap.connection.SqliteConnection;
 import com.ifbaiano.powermap.dao.contracts.CarDao;
 import com.ifbaiano.powermap.factory.CarFactory;
 import com.ifbaiano.powermap.model.Car;
-import com.ifbaiano.powermap.model.CarModel;
 
 import java.util.ArrayList;
 

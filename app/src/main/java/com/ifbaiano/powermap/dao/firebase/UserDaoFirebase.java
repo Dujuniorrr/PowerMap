@@ -137,4 +137,29 @@ public class UserDaoFirebase implements UserDao {
         firebaseDatabase.getReference(TABLE_NAME).child(user.getId()).child("password").setValue(password);
         return true;
     }
+
+    @Override
+    public User findByEmailAndPassword(final String email, final String password) {
+        final User[] foundUser = new User[1];
+        Query query = firebaseDatabase.getReference(TABLE_NAME);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                        foundUser[0] = user;
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+            }
+        });
+        return foundUser[0];
+    }
+
 }

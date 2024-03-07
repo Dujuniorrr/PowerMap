@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.factory.UserFactory;
+import com.ifbaiano.powermap.service.CryptographyPasswordService;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -56,8 +57,26 @@ public class RegisterUserVerifier extends Verifier {
         return isValid;
     }
 
+    public boolean verifyPasswordEdit(TextInputEditText passworOld, TextInputEditText passwordNew) {
+        boolean isValid = true;
+
+        isValid &= validateField(passworOld, R.string.password_error);
+        isValid &= validateField(passwordNew, R.string.password_error);
+        isValid &= isValidPassword(passwordNew);
+        isValid &= oldPasswordMatches(passworOld, R.string.password_mismatch_error);
+
+        return isValid;
+    }
 
 
+        public boolean verifyPasswordLogin( TextInputEditText email, TextInputEditText password) {
+            boolean isValid = true;
+
+            isValid &= validateField(email, R.string.email_error);
+            isValid &= validateField(password, R.string.password_error);
+            isValid &= isValidEmail(email, R.string.email_invalid_error);
+            return isValid;
+        }
 
 
     private boolean isValidName(TextInputEditText name, int messageId) {
@@ -78,9 +97,31 @@ public class RegisterUserVerifier extends Verifier {
         if (!TextUtils.equals(passwordText, passwordConfirmText)) {
             passwordConfirm.setError(getCtx().getString(messageId));
             return false;
+        } else{
+            return true;
         }
-        return true;
     }
+
+
+
+    private boolean oldPasswordMatches(TextInputEditText passwordOld, int messageId){
+
+        String passwordShared = UserFactory.getUserInMemory(getCtx()).getPassword();
+        String passwordText = Objects.requireNonNull(passwordOld.getText()).toString();
+
+        String passwordCryp = CryptographyPasswordService.encryptPassword(passwordText.toString());
+
+        if (!passwordCryp.equals(passwordShared)) {
+            passwordOld.setError(getCtx().getString(messageId));
+            return false;
+        } else{
+
+            return true;
+
+        }
+
+    }
+
 
     private boolean isValidPassword(TextInputEditText password){
         return this.validatePasswordLength(password, R.string.password_length_error) &&
@@ -139,5 +180,10 @@ public class RegisterUserVerifier extends Verifier {
 
         return !alreadyExists;
     }
+
+
+
+
+
 
 }
