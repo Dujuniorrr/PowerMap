@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -46,6 +47,7 @@ import okhttp3.Response;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    AppCompatActivity mainActivity;
     PlacesClient placesClient;
     private Marker mMarker;
     private FusedLocationProviderClient fusedLocationClient;
@@ -58,6 +60,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mainActivity = (AppCompatActivity) getActivity();
 
         Places.initialize(requireContext(), getString(R.string.maps_key));
 
@@ -96,7 +99,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         if (location != null) {
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             if (mMap != null) {
-                                @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = getResources().getDrawable(R.drawable.img_byddolphin01);
+                                @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = mainActivity.getResources().getDrawable(R.drawable.img_byddolphin01);
                                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                                 Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 150, 100, false);
 
