@@ -32,6 +32,12 @@
     <string name="new_password">New password</string>
     <string name="old_password">Old password</string>
     <string name="error_admin_register">Only Administrators can add new Administrators!</string>
+    <string name="welcome">Welcome back</string>
+    <string name="success_edit">Profile edited successfully!</string>
+    <string name="email_already_not_error">Email not registered!</string>
+    <string name="forgot_password">Forgot password ?</string>
+
+
 
 
     <!-- Decoração -->

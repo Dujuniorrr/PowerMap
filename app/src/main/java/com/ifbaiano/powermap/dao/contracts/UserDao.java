@@ -15,4 +15,6 @@ public interface UserDao{
     ArrayList<User>  findAllAdmins();
     Boolean changePassword(User user, String password);
 
+    User findByEmailAndPassword(String email, String password);
+
 }

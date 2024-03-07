@@ -25,21 +25,23 @@ import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
+import com.ifbaiano.powermap.dao.contracts.UserDao;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
 import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.User;
+import com.ifbaiano.powermap.service.CryptographyPasswordService;
 import com.ifbaiano.powermap.service.UserService;
+import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
 
 
 public class LoginActivity extends AppCompatActivity {
 
+    RegisterUserVerifier verifier;
     Button backButonLogin, enterLoginBtn;
-
     TextInputEditText emailLogin, passwordLogin;
-
     TextView textNotAccount;
-
     private Button btnGoogleAuth;
     int RC_SIGN_IN=20;
     FirebaseAuth auth;
@@ -47,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     StorageDao storageDao;
     UserService userService;
+    UserDaoFirebase userDaoFirebase;
+    UserDaoSqlite userDaoSqlite;
 
 
     @SuppressLint("MissingInflatedId")
@@ -54,66 +58,83 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         StatusBarAppearance.changeStatusBarColor(this, R.color.black);
-
-        //quando for feito o login normal
-        //UserFactory.saveUserMemory(user, getApplicationContext());
-        // Log.d("USER SHARED - Google", UserFactory.getUserInMemory(getApplicationContext()).getName());
-
         this.findViewsById();
+        this.makeInstances();
+        UserDao userDao;
 
-        userService = new UserService(new UserDaoFirebase(getApplicationContext()));
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        userDao = new UserDaoSqlite(this);
 
         backButonLogin.setOnClickListener(v -> {
-            Intent intent;
-            intent = new Intent(LoginActivity.this, InitialUsersActivity.class);
+            Intent intent = new Intent(LoginActivity.this, InitialUsersActivity.class);
             startActivity(intent);
         });
 
         textNotAccount.setOnClickListener(v -> {
-            Intent intent;
-            intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
 
-        enterLoginBtn.setOnClickListener(v -> {
-
-        //aqui a logica de login
-            Intent intent;
-            intent = new Intent(LoginActivity.this, MenuActivity.class);
-            startActivity(intent);
-        });
-        
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail().build();
-
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         btnGoogleAuth.setOnClickListener(v -> {
             googleSignIn();
         });
 
-        //verifica se já está logado com o google
 
-        if(auth.getCurrentUser() != null){
-            Intent it = new Intent(LoginActivity.this, MenuActivity.class);
-            startActivity(it);
+        //verifica se já está logado com o google
+        if (auth.getCurrentUser() != null) {
+            Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+            startActivity(intent);
             finish();
         }
 
+
+
+        enterLoginBtn.setOnClickListener(v -> {
+
+            TextInputEditText emailInput = emailLogin;
+            TextInputEditText passwordInput = passwordLogin;
+
+            RegisterUserVerifier registerUserVerifier = new RegisterUserVerifier(this);
+
+            if (registerUserVerifier.verifyPasswordLogin(emailInput, passwordInput)) {
+                String email = emailInput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
+                String passwordCryp = CryptographyPasswordService.encryptPassword(password);
+
+                User user = userDao.findByEmailAndPassword(email, passwordCryp);
+
+                if (user != null) {
+                    UserFactory.saveUserInMemory(user, getApplicationContext());
+                    Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
+
+        //METODOS A PARTE
     private void findViewsById(){
         backButonLogin =findViewById(R.id.backButonLogin);
         btnGoogleAuth = findViewById(R.id.btnGoogleAuth);
         enterLoginBtn = findViewById(R.id.enterLoginBtn);
         emailLogin = findViewById(R.id.emailLogin);
         passwordLogin = findViewById(R.id.passwordLogin);
-
         textNotAccount = findViewById(R.id.textNotAccount);
+
+    }
+
+    private void makeInstances(){
         storageDao = new StorageDaoFirebase();
+        userService = new UserService(new UserDaoSqlite(getApplicationContext()));
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
     }
 
     private void googleSignIn(){
@@ -136,28 +157,31 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private void firebaseAuth(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken,  null);
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
 
         auth.signInWithCredential(credential).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 User user = UserFactory.createByFirebase(auth.getCurrentUser());
-                if(userService.add(user) != null){
-                    UserFactory.saveUserInMemory(user, getApplicationContext());
+                // Define um valor padrão ou deixa o campo de senha vazio para usuários autenticados pelo Google
+                user.setPassword("");
 
+                if(userService.add(user) != null){
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     startActivity(intent);
                     Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     Toast.makeText(LoginActivity.this, getString(R.string.error_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
+
+
 
 
 }

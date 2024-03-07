@@ -1,66 +1,227 @@
 package com.ifbaiano.powermap.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.MainActivity;
+import com.ifbaiano.powermap.activity.MenuActivity;
+import com.ifbaiano.powermap.activity.users.EditPasswordActivity;
+import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
+import com.ifbaiano.powermap.activity.users.RegisterAdminActivity;
+import com.ifbaiano.powermap.appearance.StatusBarAppearance;
+import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
+import com.ifbaiano.powermap.factory.UserFactory;
+import com.ifbaiano.powermap.model.User;
+import com.ifbaiano.powermap.service.UserService;
+import com.ifbaiano.powermap.verifier.LoginVerifier;
+import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Objects;
+
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    Button submitEditImageProfile, editProfileUserBtn, logouProfile, btnDeleteAccount, btnEditPassword, btnAddAdmin;
+    ImageView imageEditProfile;
+    TextInputEditText nameEditProfile, emailEditProfile;
+    UserDaoFirebase userDaoFirebase;
+    UserService userRegisterService;
+    UserDaoSqlite userDaoSqlite;
+    RegisterUserVerifier verifier;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    AppCompatActivity mainActivity;
+    View rootView;
+
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        return new ProfileFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        this.mainActivity =  (AppCompatActivity) getActivity();
+        rootView = inflater.inflate(R.layout.fragment_profile_user, container, false);
+        StatusBarAppearance.changeStatusBarColor(mainActivity, R.color.sub_background_form);
+
+        this.findViewsById();
+        this.setUserAttributes();
+        this.makeInstances();
+        UserDaoSqlite userDao = new UserDaoSqlite(getContext());
+
+        btnEditPassword.setOnClickListener(v -> {
+            // Redirect to MainActivity
+            Intent intent = new Intent(getActivity(), EditPasswordActivity.class);
+            startActivity(intent);
+        });
+
+        LoginVerifier logout = new LoginVerifier(getActivity());
+        logouProfile.setOnClickListener(v -> {
+            logout.userLogout();
+
+            Intent intent;
+            intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        });
+
+        User userAdmin = UserFactory.getUserInMemory(getActivity());
+
+        if (userAdmin.isAdmin()) {
+            btnAddAdmin.setVisibility(View.VISIBLE);
+        } else {
+            btnAddAdmin.setVisibility(View.GONE);
+        }
+
+        btnAddAdmin.setOnClickListener(v -> {
+
+            Intent intent;
+            intent = new Intent(getActivity(), RegisterAdminActivity.class);
+            startActivity(intent);
+        });
+
+
+        User user = UserFactory.getUserInMemory(getActivity());
+        btnDeleteAccount.setOnClickListener(v -> {
+            userDao.remove(user);
+            // userDao.findOne(user.getName()); to check if it was deleted
+            logout.userLogout();
+
+            // Redirect to MainActivity
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        });
+
+        editProfileUserBtn.setOnClickListener(v -> {
+            submitForm();
+        });
+
+        return rootView;
+    }
+
+
+    private void setUserAttributes(){
+
+        // Load user data
+        User user = UserFactory.getUserInMemory(getActivity());
+        if (user != null) {
+            String userName = user.getName().toString();
+            nameEditProfile.setText(userName);
+            String userEmail = user.getEmail().toString();
+            emailEditProfile.setText(userEmail);
+
+            String userImgpath = String.valueOf(user.getImgpath());
+
+            if (userImgpath != null) {
+                // Remember to adjust where the image comes from
+                Toast.makeText(getActivity(), "Imagem existe", Toast.LENGTH_SHORT).show();
+            }
+
+        } else {
+            startActivity(new Intent(getActivity(), InitialUsersActivity.class));
+        }
+
+    }
+
+
+    private void findViewsById() {
+        btnAddAdmin = rootView.findViewById(R.id.btnAddAdmin);
+        submitEditImageProfile = rootView.findViewById(R.id.submitEditImageProfile);
+        editProfileUserBtn = rootView.findViewById(R.id.editProfileUserBtn);
+        logouProfile = rootView.findViewById(R.id.logouProfile);
+        imageEditProfile = rootView.findViewById(R.id.imageEditProfil);
+        nameEditProfile = rootView.findViewById(R.id.nameEditProfile);
+        emailEditProfile = rootView.findViewById(R.id.emailEditProfile);
+        btnDeleteAccount = rootView.findViewById(R.id.btnDeleteAccount);
+        btnEditPassword = rootView.findViewById(R.id.btnEditPassword);
+    }
+
+
+    private void makeInstances() {
+        userDaoFirebase = new UserDaoFirebase(getActivity());
+        userDaoSqlite = new UserDaoSqlite(getActivity());
+        userRegisterService = new UserService(userDaoFirebase);
+        verifier = new RegisterUserVerifier(getActivity());
+    }
+
+    private boolean checkEmailExists() {
+        String emailText = Objects.requireNonNull(emailEditProfile.getText()).toString().trim();
+        return userRegisterService.findByEmail(emailText);
+    }
+
+    private void submitForm() {
+        new Thread(() -> {
+            boolean emailAlreadyExists = checkEmailExists();
+
+            if (verifyFormValidity(emailAlreadyExists)) {
+                User newUser = UserFactory.getUserInMemory(getActivity());
+                newUser.setName(Objects.requireNonNull(nameEditProfile.getText()).toString().trim());
+                newUser.setEmail(Objects.requireNonNull(emailEditProfile.getText()).toString().trim());
+
+                User userEditFirebase = userRegisterService.edit(newUser);
+
+                userRegisterService.setDao(new UserDaoSqlite(getActivity()));
+                User userEditSqlite = userRegisterService.edit(newUser);
+
+                executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite);
+            }
+
+        }).start();
+    }
+
+    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user) {
+        getActivity().runOnUiThread(() -> {
+            if (isUserRegisteredFirebase) {
+                // If successful, go to the car listing screen
+                Toast.makeText(getActivity(), getString(R.string.success_edit), Toast.LENGTH_SHORT).show();
+                UserFactory.saveUserInMemory(user, getActivity());
+                Intent intent = new Intent(getActivity(), MenuActivity.class);
+                startActivity(intent);
+            } else {
+                // If unsuccessful
+                Toast.makeText(getActivity(), getString(R.string.error_register), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private boolean verifyFormValidity(boolean emailAlreadyExists) {
+        boolean[] verifyValid = {false};
+        Object lock = new Object();
+
+        getActivity().runOnUiThread(() -> {
+            verifyValid[0] = verifier.verifyEditUser(nameEditProfile, emailEditProfile, emailAlreadyExists);
+            synchronized (lock) {
+                lock.notify();
+            }
+        });
+
+        synchronized (lock) {
+            try {
+                lock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return verifyValid[0];
     }
 }
