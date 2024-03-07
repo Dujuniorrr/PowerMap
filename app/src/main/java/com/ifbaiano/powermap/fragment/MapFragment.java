@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.service.PlaceService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,11 +113,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
-                                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
-                                        location.getLatitude() + "," + location.getLongitude() +
-                                        "&radius=10000&type=ev_charging_station&key=" + requireContext().getString(R.string.maps_key);
-                                Log.d("MAPS LOG DE DURVAl", url);
-                                new PlacesTask(mMap).execute(url);
+
+                                new PlaceService(latLng, requireContext(), mMap).execute("https://places.googleapis.com/v1/places:searchNearby");
                             }
                         } else {
                             Toast.makeText(requireContext(), "Não foi possível obter a localização atual", Toast.LENGTH_SHORT).show();
@@ -137,63 +134,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 onMapReady(mMap);
             } else {
                 Toast.makeText(requireContext(), "Permissão de localização negada", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    // AsyncTask para realizar a solicitação HTTP
-    private static class PlacesTask extends AsyncTask<String, Void, String> {
-
-        private GoogleMap mMap;
-
-        public PlacesTask(GoogleMap mMap) {
-            this.mMap = mMap;
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(urls[0])
-                    .build();
-            try {
-                Response response = client.newCall(request).execute();
-                if (response.isSuccessful()) {
-                    return response.body().string();
-                } else {
-                    Log.e("PlacesTask", "Failed to fetch nearby EV charging stations");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result != null) {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-
-                    JSONArray resultsArray = jsonObject.getJSONArray("results");
-
-                    for (int i = 0; i < resultsArray.length(); i++) {
-                        JSONObject placeObject = resultsArray.getJSONObject(i);
-                        String name = placeObject.getString("name");
-                        Log.d("NAME LOCATION", name);
-                        JSONObject geometry = placeObject.getJSONObject("geometry");
-                        JSONObject location = geometry.getJSONObject("location");
-                        double lat = location.getDouble("lat");
-                        double lng = location.getDouble("lng");
-
-                        mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(lat, lng))
-                                .title(name)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }
