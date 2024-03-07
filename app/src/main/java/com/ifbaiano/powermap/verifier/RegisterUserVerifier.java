@@ -69,14 +69,14 @@ public class RegisterUserVerifier extends Verifier {
     }
 
 
-        public boolean verifyPasswordLogin( TextInputEditText email, TextInputEditText password) {
-            boolean isValid = true;
+    public boolean verifyPasswordLogin( TextInputEditText email, TextInputEditText password) {
+        boolean isValid = true;
 
-            isValid &= validateField(email, R.string.email_error);
-            isValid &= validateField(password, R.string.password_error);
-            isValid &= isValidEmail(email, R.string.email_invalid_error);
-            return isValid;
-        }
+        isValid &= validateField(email, R.string.email_error);
+        isValid &= validateField(password, R.string.password_error);
+        isValid &= isValidEmail(email, R.string.email_invalid_error);
+        return isValid;
+    }
 
 
     private boolean isValidName(TextInputEditText name, int messageId) {
@@ -101,8 +101,6 @@ public class RegisterUserVerifier extends Verifier {
             return true;
         }
     }
-
-
 
     private boolean oldPasswordMatches(TextInputEditText passwordOld, int messageId){
 
@@ -180,10 +178,4 @@ public class RegisterUserVerifier extends Verifier {
 
         return !alreadyExists;
     }
-
-
-
-
-
-
 }

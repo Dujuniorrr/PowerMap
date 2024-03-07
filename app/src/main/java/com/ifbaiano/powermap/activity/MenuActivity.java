@@ -59,7 +59,7 @@ public class MenuActivity extends AppCompatActivity  {
     }
 
     private void verifyUser(){
-        if(UserFactory.getUserInMemory(getApplicationContext()).isAdmin()){
+        if( UserFactory.getUserInMemory(getApplicationContext()).isAdmin()){
             bottomNavigationView.getMenu().clear();
             bottomNavigationView.inflateMenu(R.menu.menu_admin);
             replaceFragment(new ModelsFragment());

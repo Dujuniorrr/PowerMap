@@ -63,9 +63,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         mainActivity = (AppCompatActivity) getActivity();
 
-        Places.initialize(requireContext(), getString(R.string.maps_key));
+        Places.initialize( mainActivity.getApplicationContext(), getString(R.string.maps_key));
 
-        placesClient = Places.createClient(requireContext());
+        placesClient = Places.createClient( mainActivity.getApplicationContext());
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -82,7 +82,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Verificar permissões
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission( mainActivity.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -94,7 +94,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission( mainActivity.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission( mainActivity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(requireActivity(), location -> {
                         if (location != null) {
@@ -109,16 +109,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                                 mMarker = mMap.addMarker(new MarkerOptions()
                                         .position(latLng)
-                                        .title(requireContext().getString(R.string.your_location))
+                                        .title(mainActivity.getApplicationContext().getString(R.string.your_location))
                                         .icon(icon));
 
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
 
-                                new PlaceService(latLng, requireContext(), mMap).execute("https://places.googleapis.com/v1/places:searchNearby");
+                                new PlaceService(latLng, mainActivity.getApplicationContext(), mMap).execute("https://places.googleapis.com/v1/places:searchNearby");
                             }
                         } else {
-                            Toast.makeText(requireContext(), "Não foi possível obter a localização atual", Toast.LENGTH_SHORT).show();
+                            Toast.makeText( mainActivity.getApplicationContext(), "Não foi possível obter a localização atual", Toast.LENGTH_SHORT).show();
                         }
                     });
         } else {
@@ -134,7 +134,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onMapReady(mMap);
             } else {
-                Toast.makeText(requireContext(), "Permissão de localização negada", Toast.LENGTH_SHORT).show();
+                Toast.makeText( mainActivity.getApplicationContext(), "Permissão de localização negada", Toast.LENGTH_SHORT).show();
             }
         }
     }

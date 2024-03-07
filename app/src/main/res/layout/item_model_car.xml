@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/model_car_item"
-    android:padding="5dp">
+    android:paddingVertical="5dp">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="50dp"
         android:indeterminateTint="@color/red"
         android:padding="5dp"
         android:layout_marginTop="35dp"
@@ -21,7 +21,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="159dp"
+        android:layout_width="140dp"
         android:layout_height="70dp"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
@@ -44,21 +44,22 @@
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/imageView"
         android:layout_toRightOf="@id/imageView"
-        android:maxWidth="60dp"
-        android:text="Name"
+        android:maxWidth="90dp"
+        android:text="name"
         android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/year"
-        android:layout_width="45dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="6dp"
         android:layout_marginBottom="5dp"
+        android:layout_toStartOf="@+id/editButton"
         android:layout_toRightOf="@id/name"
         android:text="Year" />
 
@@ -84,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/energyConsumption"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="15dp"

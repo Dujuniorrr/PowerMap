@@ -13,10 +13,9 @@ import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 
 
 public class ScheduleFragment extends Fragment {
-
+    
     AppCompatActivity mainActivity;
     View rootView;
-
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -34,12 +33,10 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         this.mainActivity =  (AppCompatActivity) getActivity();
         rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
         StatusBarAppearance.changeStatusBarColor(mainActivity, R.color.sub_background_form);
-
-
 
         return rootView;
     }
