@@ -26,6 +26,7 @@ public class CarFactory {
         }
         else{
             carModel = hybridModel;
+            Log.d("TESTE", hybridModel.getId());
 
         }
 

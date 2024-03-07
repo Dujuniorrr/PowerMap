@@ -51,9 +51,6 @@
             android:name=".activity.users.EditPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.users.ProfileUserActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.carModels.EditCarModelActivity"
             android:exported="false" />
         <activity

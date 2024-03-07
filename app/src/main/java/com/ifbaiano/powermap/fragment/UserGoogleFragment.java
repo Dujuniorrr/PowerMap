@@ -2,16 +2,16 @@ package com.ifbaiano.powermap.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -45,6 +45,8 @@ public class UserGoogleFragment extends Fragment {
     }
 
     @Override
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.mainActivity =  (AppCompatActivity) getActivity();
@@ -57,7 +59,7 @@ public class UserGoogleFragment extends Fragment {
         logouProfileGoogle.setOnClickListener( v -> {
             logoutUser();
         });
-        return inflater.inflate(R.layout.fragment_user_google, container, false);
+        return rootView; // Retorna a rootView previamente inflada
     }
 
     private void findViewsById(){
@@ -71,11 +73,12 @@ public class UserGoogleFragment extends Fragment {
 
         // aq nao precisa do shared, pois so entra nessa parte se houver o login com google
         FirebaseUser userF = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d("user do google", "user do google: " + userF.getDisplayName());
 
         if(userF != null){
-            String userName = userF.getDisplayName();
+            String userName = userF.getDisplayName().toString();
             textNameProfileGoogle.setText(userName);
-            String userEmail = userF.getEmail();
+            String userEmail = userF.getEmail().toString();
             textEmailProfileGoogle.setText(userEmail);
 
             new BitmapCustomFactory(mainActivity, imageProfilView).setImageByUri(userF.getPhotoUrl(), R.drawable.baseline_person);

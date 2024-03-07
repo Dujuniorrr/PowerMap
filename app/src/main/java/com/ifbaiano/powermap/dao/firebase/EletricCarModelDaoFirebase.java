@@ -1,7 +1,6 @@
 package com.ifbaiano.powermap.dao.firebase;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -26,6 +25,8 @@ public class EletricCarModelDaoFirebase implements EletricCarModelDao {
     public EletricCarModelDaoFirebase(Context ctx) {
         FirebaseApp.initializeApp(ctx);
         firebaseDatabase = FirebaseDatabase.getInstance();
+
+
     }
 
     @Override

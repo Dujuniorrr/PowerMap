@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.fragment.CarFragment;
-import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.fragment.MapFragment;
 import com.ifbaiano.powermap.fragment.ModelsFragment;
 import com.ifbaiano.powermap.fragment.ProfileFragment;
@@ -50,7 +50,7 @@ public class MenuActivity extends AppCompatActivity  {
                     replaceFragment(new UserGoogleFragment());
                 }
                 else{
-                    replaceFragment(new ProfileFragment());
+                        replaceFragment(new ProfileFragment());
                 }
             }
 

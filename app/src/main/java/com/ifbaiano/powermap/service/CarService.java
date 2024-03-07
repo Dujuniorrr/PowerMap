@@ -1,10 +1,7 @@
 package com.ifbaiano.powermap.service;
 
 import com.ifbaiano.powermap.dao.contracts.CarDao;
-import com.ifbaiano.powermap.dao.contracts.EletricCarModelDao;
-import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.model.Car;
-import com.ifbaiano.powermap.model.EletricCarModel;
 
 import java.util.ArrayList;
 

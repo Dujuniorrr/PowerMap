@@ -10,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
-import com.ifbaiano.powermap.databinding.ActivityRegisterAdminBinding;
-import com.ifbaiano.powermap.factory.DataBindingFactory;
 import com.ifbaiano.powermap.factory.UserFactory;
-import com.ifbaiano.powermap.fragment.ModelsFragment;
+import com.ifbaiano.powermap.fragment.ProfileFragment;
 import com.ifbaiano.powermap.model.User;
 import com.ifbaiano.powermap.service.CryptographyPasswordService;
 import com.ifbaiano.powermap.service.UserService;
@@ -52,21 +51,21 @@ public class RegisterAdminActivity extends AppCompatActivity {
             if(user.isAdmin()==true){
                 this.submitForm();
             } else{
-                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, getString(R.string.error_admin_register), Toast.LENGTH_SHORT).show();
             }
 
         });
 
-        backButonAdminRegiter.setOnClickListener(v -> {
-                    Intent intent = new Intent(RegisterAdminActivity.this, ProfileUserActivity.class);
-                    startActivity(intent);
-                }
-        );
+
 
     }
 
     private void findViewsById(){
+
+        findViewById(R.id.backButonAdminRegiter).setOnClickListener(v -> {
+            startActivity(new Intent(this, MenuActivity.class));
+        });
+
         backButonAdminRegiter = findViewById(R.id.backButonAdminRegiter);
         registerAdminBtn = findViewById(R.id.registerAdminBtn);
         nameAdminRegister  = findViewById(R.id.nameAdminRegister);
@@ -74,7 +73,6 @@ public class RegisterAdminActivity extends AppCompatActivity {
         passwordAdminRegister  = findViewById(R.id.passwordAdminRegister);
         passwordConfirmeAdminRegister  = findViewById(R.id.passwordConfirmeAdminRegister);
     }
-
 
     private void makeInstances(){
         userDaoFirebase = new UserDaoFirebase(this);
@@ -122,7 +120,7 @@ public class RegisterAdminActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             if (isUserRegisteredFirebase) {
                 // Se bem-sucedido, vai para a tela de listar carros
-                Intent intent= new Intent(RegisterAdminActivity.this, ProfileUserActivity.class);
+                Intent intent= new Intent(RegisterAdminActivity.this, ProfileFragment.class);
                 startActivity(intent);
             } else {
                 // Se não for bem-sucedido
