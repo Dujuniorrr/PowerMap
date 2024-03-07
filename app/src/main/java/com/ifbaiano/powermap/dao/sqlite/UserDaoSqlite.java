@@ -123,4 +123,13 @@ public class UserDaoSqlite implements UserDao {
         }
         return userList.size() > 0 ? userList : null;
     }
+
+    public User findByEmailAndPassword(String email, String password) {
+        this.db = this.conn.getWritableDatabase();
+        @SuppressLint("Recycle") Cursor cursor = db.rawQuery("SELECT * FROM " + this.TABLE_NAME + " WHERE email = ? AND password = ?", new String[]{email, password});
+        if (cursor.moveToFirst()) {
+            return UserFactory.createByCursor(cursor);
+        }
+        return null;
+    }
 }

@@ -33,6 +33,14 @@
     <string name="new_password">Nova senha</string>
     <string name="old_password">Senha antiga</string>
     <string name="error_admin_register">Somente Admins podem adicionar novos Admins!</string>
+    <string name="welcome">Bem Vindo(a) de volta</string>
+    <string name="success_edit">Perfil editado com sucesso!</string>
+    <string name="email_already_not_error">Email não registrado!</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+
+
+
+
 
 
     <!-- Decoração -->
@@ -66,6 +74,7 @@
     <string name="email_already_registered_error">E-mail já registrado. Faça login!</string>
     <string name="fields_required">Todos os campos são obrigatórios</string>
     <string name="error_register">Erro, tente novamente!</string>
+
 
 
     <!-- Menu -->
@@ -103,6 +112,8 @@
     <string name="select_car_model">Escolha um modelo</string>
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
     <!-- TODO: Remove or change this placeholder text -->
     <!-- Strings used for fragments for navigation -->
 

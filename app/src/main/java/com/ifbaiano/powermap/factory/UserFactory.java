@@ -37,7 +37,7 @@ public class UserFactory {
         );
     }
 
-    public static User getUserInMemory(Context ctx){
+    public static User getUserInMemory(Context ctx) {
         SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", Context.MODE_PRIVATE);
 
         return new User(
@@ -50,7 +50,6 @@ public class UserFactory {
                 null,
                 null
         );
-
     }
 
     public static boolean saveUserInMemory(User user, Context ctx){

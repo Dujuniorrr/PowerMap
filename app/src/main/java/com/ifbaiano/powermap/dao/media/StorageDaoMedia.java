@@ -3,8 +3,6 @@ package com.ifbaiano.powermap.dao.media;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,9 +15,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.storage.StorageReference;
 import com.ifbaiano.powermap.dao.contracts.StorageDao;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.OutputStream;
