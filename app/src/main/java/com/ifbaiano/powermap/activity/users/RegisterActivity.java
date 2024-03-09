@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerUserBtn.setOnClickListener(v -> { submitForm(); });
 
         backButonRegister.setOnClickListener(v -> {
-                Intent intent = new Intent(RegisterActivity.this, InitialUsersActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
         );
@@ -87,25 +87,33 @@ public class RegisterActivity extends AppCompatActivity {
                         passwordCryp,
                         false
                 );
+                User newUserSqlite = new User(
+                        Objects.requireNonNull(nameUserRegister.getText()).toString().trim(),
+                        Objects.requireNonNull(emailUserRegister.getText()).toString().trim(),
+                        passwordCryp,
+                        false
+                );
 
                 User userAddedFirebase = userRegisterService.add(newUser);
                 userRegisterService.setDao(new UserDaoSqlite(getApplicationContext()));
-                User userAddedSqlite = userRegisterService.add(newUser);
+                User userAddedSqlite = userRegisterService.add(newUserSqlite);
+                Log.d("ID FIREBASE", userAddedFirebase.getId());
 
-                executeAfterRegistration(userAddedFirebase != null&& userAddedSqlite != null, userAddedSqlite);
+                executeAfterRegistration(userAddedFirebase != null&& userAddedSqlite != null, userAddedSqlite, userAddedFirebase);
             }
         }).start();
     }
 
     private boolean checkEmailExists() {
         String emailText = Objects.requireNonNull(emailUserRegister.getText()).toString().trim();
-        return userRegisterService.findByEmail(emailText);
+        return userRegisterService.findByEmail(emailText) != null;
     }
 
-    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user) {
+    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user, User userF) {
         runOnUiThread(() -> {
             if (isUserRegisteredFirebase) {
                 // Se bem-sucedido, vai para a tela de listar carros
+                UserFactory.saveUserInMemoryFirebase(userF, getApplicationContext());
                 UserFactory.saveUserInMemory(user, getApplicationContext());
                 Log.d("USER SHARED", UserFactory.getUserInMemory(getApplicationContext()).getPassword());
 

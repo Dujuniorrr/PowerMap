@@ -113,7 +113,7 @@ public class RegisterAdminActivity extends AppCompatActivity {
 
     private boolean checkEmailExists() {
         String emailText = Objects.requireNonNull(emailAdminRegister.getText()).toString().trim();
-        return userRegisterService.findByEmail(emailText);
+        return userRegisterService.findByEmail(emailText) != null;
     }
 
     private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user) {

@@ -1,6 +1,7 @@
 package com.ifbaiano.powermap.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,10 @@ import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.factory.UserFactory;
+import com.ifbaiano.powermap.schedule.NotificationSchedule;
 import com.ifbaiano.powermap.verifier.LoginVerifier;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private static final int SPLASH_TIMEOUT = 2000;
@@ -24,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        // Supondo que você esteja chamando este método de uma Activity
+//        NotificationSchedule.scheduleRepeatingNotification(
+//                this,
+//                Calendar.SATURDAY,
+//                13,
+//                35,
+//                AlarmManager.INTERVAL_DAY * 7,
+//                "Título da Notificação",
+//                "Conteúdo da Notificação"
+//        );
+
         StatusBarAppearance.changeStatusBarColor(this, R.color.white);
         LoginVerifier loginVerifier = new LoginVerifier(this);
 

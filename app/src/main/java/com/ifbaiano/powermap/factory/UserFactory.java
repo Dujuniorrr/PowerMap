@@ -3,6 +3,7 @@ package com.ifbaiano.powermap.factory;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.ifbaiano.powermap.model.User;
@@ -52,12 +53,28 @@ public class UserFactory {
         );
     }
 
+    public static User getUserInMemoryFirebase(Context ctx) {
+        SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", Context.MODE_PRIVATE);
+
+        return new User(
+                preferences.getString("idF", ""),
+                preferences.getString("nameF", ""),
+                preferences.getString("emailF", ""),
+                preferences.getString("passwordF", ""),
+                preferences.getString("imgPathF", ""),
+                preferences.getBoolean("isAdminF", false),
+                null,
+                null
+        );
+    }
+
     public static boolean saveUserInMemory(User user, Context ctx){
         SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", ctx.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();
 
         edit.putString("id", user.getId());
         edit.putString("name", user.getName());
+        Log.d("EMAIL", user.getEmail());
         edit.putString("email", user.getEmail());
         edit.putString("imgPath", user.getImgpath());
         edit.putString("password", user.getPassword());
@@ -68,6 +85,22 @@ public class UserFactory {
         return true;
     }
 
+    public static boolean saveUserInMemoryFirebase(User user, Context ctx){
+        SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", ctx.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+
+        edit.putString("idF", user.getId());
+        edit.putString("nameF", user.getName());
+        Log.d("EMAIL", user.getEmail());
+        edit.putString("emailF", user.getEmail());
+        edit.putString("imgPathF", user.getImgpath());
+        edit.putString("passwordF", user.getPassword());
+        edit.putBoolean("isAdminF", user.isAdmin());
+
+        edit.commit();
+
+        return true;
+    }
     public static boolean clearUserInMemory(Context ctx) {
         SharedPreferences preferences = ctx.getSharedPreferences("power_map_memory", ctx.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferences.edit();

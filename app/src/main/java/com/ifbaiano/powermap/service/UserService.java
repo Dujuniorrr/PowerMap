@@ -12,16 +12,14 @@ public class UserService {
     }
 
     public User add(User user) {
-        User addedUser = this.dao.add(user);
-        return addedUser ;
+        return this.dao.add(user);
     }
 
     public User edit(User user) {
-        User editUser = this.dao.edit(user);
-        return editUser;
+        return this.dao.edit(user);
     }
 
-    public boolean findByEmail(String email){
+    public User findByEmail(String email){
         return this.dao.findByEmail(email);
     }
 

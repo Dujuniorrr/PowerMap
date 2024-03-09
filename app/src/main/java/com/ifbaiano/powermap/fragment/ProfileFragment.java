@@ -2,6 +2,7 @@ package com.ifbaiano.powermap.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,6 @@ public class ProfileFragment extends Fragment {
 
     AppCompatActivity mainActivity;
     View rootView;
-
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -101,11 +101,10 @@ public class ProfileFragment extends Fragment {
 
         User user = UserFactory.getUserInMemory(getActivity());
         btnDeleteAccount.setOnClickListener(v -> {
+            new UserDaoFirebase(mainActivity).remove(UserFactory.getUserInMemoryFirebase(mainActivity));
             userDao.remove(user);
-            // userDao.findOne(user.getName()); to check if it was deleted
             logout.userLogout();
 
-            // Redirect to MainActivity
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
         });
@@ -164,7 +163,7 @@ public class ProfileFragment extends Fragment {
 
     private boolean checkEmailExists() {
         String emailText = Objects.requireNonNull(emailEditProfile.getText()).toString().trim();
-        return userRegisterService.findByEmail(emailText);
+        return  userRegisterService.findByEmail(emailText) != null;
     }
 
     private void submitForm() {
@@ -172,26 +171,35 @@ public class ProfileFragment extends Fragment {
             boolean emailAlreadyExists = checkEmailExists();
 
             if (verifyFormValidity(emailAlreadyExists)) {
-                User newUser = UserFactory.getUserInMemory(getActivity());
-                newUser.setName(Objects.requireNonNull(nameEditProfile.getText()).toString().trim());
-                newUser.setEmail(Objects.requireNonNull(emailEditProfile.getText()).toString().trim());
+                userRegisterService.setDao(userDaoFirebase);
+                User newUser = UserFactory.getUserInMemoryFirebase(getActivity());
+                newUser.setName(Objects.requireNonNull(nameEditProfile.getText()).toString());
+                newUser.setEmail(Objects.requireNonNull(emailEditProfile.getText()).toString());
 
                 User userEditFirebase = userRegisterService.edit(newUser);
 
+                User newUserSqlite = UserFactory.getUserInMemory(getActivity());
+                newUserSqlite.setName(Objects.requireNonNull(nameEditProfile.getText()).toString());
+                newUserSqlite.setEmail(Objects.requireNonNull(emailEditProfile.getText()).toString());
                 userRegisterService.setDao(new UserDaoSqlite(getActivity()));
-                User userEditSqlite = userRegisterService.edit(newUser);
 
-                executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite);
+                User userEditSqlite = userRegisterService.edit(newUserSqlite);
+
+                Log.d("TESTE FIREBASE", newUser.getId());
+                Log.d("TESTE FIREBASE", newUserSqlite.getId());
+
+                executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite, userEditFirebase);
             }
 
         }).start();
     }
 
-    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user) {
+    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user, User userF) {
         getActivity().runOnUiThread(() -> {
             if (isUserRegisteredFirebase) {
                 // If successful, go to the car listing screen
                 Toast.makeText(getActivity(), getString(R.string.success_edit), Toast.LENGTH_SHORT).show();
+                UserFactory.saveUserInMemoryFirebase(userF, getActivity());
                 UserFactory.saveUserInMemory(user, getActivity());
 //                Intent intent = new Intent(getActivity(), MenuActivity.class);
 //                startActivity(intent);

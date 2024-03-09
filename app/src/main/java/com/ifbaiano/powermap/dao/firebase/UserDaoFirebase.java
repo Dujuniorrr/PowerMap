@@ -128,11 +128,18 @@ public class UserDaoFirebase implements UserDao {
     }
 
 
-    public Boolean findByEmail(String email){
-        return this.findAll()
-                .stream()
-                .anyMatch(user -> user.getEmail().equals(email));
-    };
+    public User findByEmail(String email) {
+        if(this.findAll() != null){
+            return this.findAll()
+                    .stream()
+                    .filter(user -> user.getEmail().equals(email))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        return null;
+
+    }
 
     @Override
     public Boolean changePassword(User user, String password) {
