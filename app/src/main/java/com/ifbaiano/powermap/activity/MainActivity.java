@@ -35,36 +35,26 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(R.drawable.splash_logo).into(img_logo);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        new Handler().postDelayed(() -> {
 
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                if (currentUser != null) {
-                    Toast.makeText(MainActivity.this, getString(R.string.welcome)+" "+ currentUser.getDisplayName()+ " !", Toast.LENGTH_SHORT).show();
-
+            if (currentUser != null) {
+                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                if (loginVerifier.isUserLogged()) {
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    // Se não estiver logado com o Google, verifica usando SharedPreferences
-                    if (loginVerifier.isUserLogged()) {
-                        String name = UserFactory.getUserInMemory(getApplicationContext()).getName();
-                        String nameUp = GenericAppearance.capitalizedText(name);
-
-                        Toast.makeText(MainActivity.this, getString(R.string.welcome)+" "+ nameUp + " !", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Intent intent = new Intent(MainActivity.this, InitialUsersActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    Intent intent = new Intent(MainActivity.this, InitialUsersActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
-
             }
+
         }, SPLASH_TIMEOUT);
 
 

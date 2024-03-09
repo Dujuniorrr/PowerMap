@@ -14,6 +14,7 @@ import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
 import com.ifbaiano.powermap.dao.sqlite.EletricCarModelDaoSqlite;
 import com.ifbaiano.powermap.dao.sqlite.HybridCarModelDaoSqlite;
 
+import com.ifbaiano.powermap.factory.CarFactory;
 import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.EletricCarModel;
@@ -54,6 +55,11 @@ public class AddCarActivity extends ActionCarBase{
                                 new EletricCarModelDaoSqlite(getApplicationContext()),
                                 storageDaoMedia).add((EletricCarModel) selectedCarModel, car.getId(), imageBytes );
                     }
+
+                    if(CarFactory.getCarInMemory(getApplicationContext()).getId() == null){
+                        CarFactory.saveCarInMemory(car, getApplicationContext());
+                    }
+
                     startActivity(new Intent(this, MenuActivity.class));
                 }
                 catch (Exception e){

@@ -31,7 +31,6 @@ public class MenuActivity extends AppCompatActivity  {
 
         this.verifyUser();
 
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
             int itemId = item.getItemId();

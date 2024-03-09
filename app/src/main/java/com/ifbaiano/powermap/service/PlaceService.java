@@ -2,32 +2,31 @@ package com.ifbaiano.powermap.service;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.Log;
 
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.DirectionsApi;
-import com.google.maps.GeoApiContext;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.model.CarModel;
+import com.ifbaiano.powermap.model.HybridCarModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -36,12 +35,19 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class PlaceService extends AsyncTask<String, Void, String> {
+    private DirectionService directionService;
+    private CarModel carModel;
+    private String ELETRIC_TYPE = "electric_vehicle_charging_station";
+    private String FUEL_TYPE = "gas_station";
+    private final LatLng userLocation;
+    private LatLng moreCloserStation;
 
-    private LatLng userLocation;
     private final GoogleMap mMap;
-    private Context ctx;
+    @SuppressLint("StaticFieldLeak")
+    private final Context ctx;
 
-    public PlaceService(LatLng userLocation, Context ctx, GoogleMap mMap) {
+    public PlaceService(CarModel carModel, LatLng userLocation, Context ctx, GoogleMap mMap) {
+        this.carModel = carModel;
         this.userLocation = userLocation;
         this.mMap = mMap;
         this.ctx = ctx;
@@ -57,20 +63,11 @@ public class PlaceService extends AsyncTask<String, Void, String> {
         String jsonResponse = null;
 
         try {
-            //electric_vehicle_charging_station
-            String jsonBody = "{\"includedTypes\": [\"electric_vehicle_charging_station\"], \"maxResultCount\": 10, \"locationRestriction\": {\"circle\": {\"center\": {\"latitude\": " + this.userLocation.latitude + ", \"longitude\": " + this.userLocation.longitude + "}, \"radius\": 50000}}}";
-
-            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonBody);
-            Request request = new Request.Builder()
-                    .url(params[0]) // A URL é passada como o primeiro parâmetro
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("X-Goog-Api-Key", ctx.getString(R.string.maps_key))
-                    .addHeader("X-Goog-FieldMask", "places.addressComponents,places.location")
-                    .post(body)
-                    .build();
+            String jsonBody = generateJsonBody(userLocation);
+            Request request = buildRequest(params[0], jsonBody);
 
             Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
+            if (response.isSuccessful() && response.body() != null ) {
                 jsonResponse = response.body().string();
             } else {
                 Log.e("PlacesTask", "Failed to fetch nearby EV charging stations");
@@ -82,95 +79,92 @@ public class PlaceService extends AsyncTask<String, Void, String> {
         return jsonResponse;
     }
 
+    private void markPlaces(JSONArray placesArray) {
+        try {
+            for (int i = 0; i < placesArray.length(); i++) {
+                JSONObject placeObject = placesArray.getJSONObject(i);
+                String name = placeObject.getJSONObject("displayName").getString("text");
+                LatLng latLng = extractLatLng(placeObject);
+
+                addMarkerToMap(name, latLng);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        Log.d("REQUEST PLACES API", result);
         try {
             JSONObject jsonObject = new JSONObject(result);
             JSONArray placesArray = jsonObject.getJSONArray("places");
 
-            for (int i = 0; i < placesArray.length(); i++) {
-                JSONObject placeObject = placesArray.getJSONObject(i);
-                String name = placeObject.getJSONArray("addressComponents").getJSONObject(0).getString("longText");
-
-                JSONObject location = placeObject.getJSONObject("location");
-                double lat = location.getDouble("latitude");
-                double lng = location.getDouble("longitude");
-
-                mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat, lng))
-                        .title(name)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-            }
+             markPlaces(placesArray);
 
             if (placesArray.length() > 0) {
-                JSONObject location = placesArray.getJSONObject(0).getJSONObject("location");
-                double lat = location.getDouble("latitude");
-                double lng = location.getDouble("longitude");
-                LatLng moreCloserStation = new LatLng(lat, lng);
-
-                new GetDirectionsTask(moreCloserStation).execute(userLocation, moreCloserStation);
+                moreCloserStation = extractLatLng(placesArray.getJSONObject(0));
+                this.directionService = new DirectionService(moreCloserStation, ctx, mMap);
+                this.directionService.execute(userLocation, moreCloserStation);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class GetDirectionsTask extends AsyncTask<LatLng, Void, List<LatLng>> {
-        LatLng moreCloserStation;
+    private String generateJsonBody(LatLng userLocation) {
+        String includedTypes = "\""+ ELETRIC_TYPE + "\"";
 
-        public GetDirectionsTask( LatLng moreCloserStation) {
-            this.moreCloserStation = moreCloserStation;
+        if(carModel != null && carModel instanceof HybridCarModel){
+            includedTypes += ",\""+ FUEL_TYPE +"\"";
         }
 
-        @Override
-        protected List<LatLng> doInBackground(LatLng... params) {
-            DirectionsResult directionsResult = null;
-            try {
-                GeoApiContext geoApiContext = new GeoApiContext();
-                geoApiContext.setApiKey(ctx.getString(R.string.maps_key));
+        return "{\"" +
+                "rankPreference\": \"DISTANCE\"," +
+                " \"includedTypes\": ["+ includedTypes +"]," +
+                "\"maxResultCount\": 10," +
+                " \"locationRestriction\": " +
+                "{\"circle\": " +
+                "{\"center\": " +
+                "{\"latitude\": " + userLocation.latitude + "," +
+                " \"longitude\": " + userLocation.longitude + "}, " +
+                "\"radius\": 50000}}}";
+    }
 
-                directionsResult = DirectionsApi.newRequest(geoApiContext)
-                        .origin(new com.google.maps.model.LatLng(params[0].latitude, params[0].longitude))
-                        .destination(new com.google.maps.model.LatLng(params[1].latitude, params[1].longitude))
-                        .await();
-            } catch (InterruptedException | IOException |
-                     com.google.maps.errors.ApiException e) {
-                e.printStackTrace();
-            }
+    private Request buildRequest(String url, String jsonBody) {
 
-            if (directionsResult != null) {
-                DirectionsRoute route = directionsResult.routes[0];
-                List<com.google.maps.model.LatLng> decodedPath = route.overviewPolyline.decodePath();
+        return new Request.Builder()
+                .url(url)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("X-Goog-Api-Key", ctx.getString(R.string.maps_key))
+                .addHeader("X-Goog-FieldMask", "places.displayName,places.location,places.types")
+                .post(RequestBody.create(MediaType.parse("application/json"), jsonBody))
+                .build();
+    }
 
-                List<LatLng> path = new ArrayList<>();
-                for (com.google.maps.model.LatLng point : decodedPath) {
-                    path.add(new LatLng(point.lat, point.lng));
-                }
-                return path;
-            }
-            return null;
-        }
+    private LatLng extractLatLng(JSONObject placeObject) throws JSONException {
+        JSONObject location = placeObject.getJSONObject("location");
+        double lat = location.getDouble("latitude");
+        double lng = location.getDouble("longitude");
+        return new LatLng(lat, lng);
+    }
 
-        @Override
-        protected void onPostExecute(List<LatLng> path) {
-            super.onPostExecute(path);
-            if (path != null) {
-                mMap.addPolyline(new PolylineOptions()
-                        .addAll(path)
-                        .width(6)
-                        .color(Color.RED));
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void addMarkerToMap(String name, LatLng latLng) {
+         mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(name)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+    }
 
 
-            }
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(moreCloserStation)// Define o novo centro do mapa
-                    .zoom(9) // Define o nível de zoom desejado
-                    .build();
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        }
+    public LatLng getUserLocation() {
+        return userLocation;
+    }
+
+    public DirectionService getDirectionService() {
+        return directionService;
     }
 
 

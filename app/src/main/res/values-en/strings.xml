@@ -110,6 +110,25 @@
     <string name="selected_car_model_error">Select a car model!</string>
     <string name="select_car_model">Select a model</string>
 
+    <!--    Calculate-->
+    <string name="calculate">Calculate</string>
+    <string name="speed">Enter current speed (Km/Hour)…</string>
+    <string name="current_energy">Enter current energy amount…</string>
+    <string name="current_fuel">Enter current fuel amount…</string>
+    <string name="possible">It is possible to reach the destination!</string>
+    <string name="not_possible">Impossible to reach the destination!</string>
+    <string name="image_error_not_found">Car image not found!</string>
+    <string name="selected_car">Select a car is required!</string>
+    <string name="until_station">%s Km until destine.</string>
+    <string name="energy_station">%s kWh will be spent.</string>
+    <string name="fuel_station">%s liters will be spent.</string>
+
+
+
+<!--    Location-->
+    <string name="error_location">Not possible get current location</string>
+    <string name="error_permission_location">Permission of location unset</string>
+
 
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/model_car_item"
-    android:paddingVertical="5dp">
+    android:padding="5dp">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="60dp"
         android:indeterminateTint="@color/red"
         android:padding="5dp"
         android:layout_marginTop="35dp"
@@ -21,7 +21,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="140dp"
+        android:layout_width="159dp"
         android:layout_height="70dp"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
@@ -44,22 +44,20 @@
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/imageView"
         android:layout_toRightOf="@id/imageView"
-        android:maxWidth="90dp"
-        android:text="name"
+        android:maxWidth="100dp"
+        android:text="Name"
         android:textSize="16dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/year"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="6dp"
+        android:layout_below="@+id/name"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"
         android:layout_marginBottom="5dp"
-        android:layout_toStartOf="@+id/editButton"
+        android:layout_toEndOf="@+id/imageView"
         android:layout_toRightOf="@id/name"
         android:text="Year" />
 
@@ -67,7 +65,7 @@
         android:id="@+id/energyConsumption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
+        android:layout_below="@+id/year"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
@@ -97,14 +95,14 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/editButton"
-        android:drawableBottom="@drawable/baseline_edit_24"
-        android:backgroundTint="@color/light_gray"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="17dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/light_gray"
+        android:drawableBottom="@drawable/baseline_edit_24"
         android:drawableTint="@color/black" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -114,8 +112,8 @@
         android:layout_height="44dp"
         android:layout_below="@+id/editButton"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="17dp"
-        android:drawableTint="@color/white"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/red_custom"
-      />
+        android:drawableTint="@color/white" />
 </RelativeLayout>

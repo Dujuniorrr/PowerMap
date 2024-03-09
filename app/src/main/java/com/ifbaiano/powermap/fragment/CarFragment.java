@@ -18,6 +18,7 @@ import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.cars.AddCarActivity;
 import com.ifbaiano.powermap.adapter.CarAdapter;
 import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
+import com.ifbaiano.powermap.factory.CarFactory;
 import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.service.CarService;
 import java.util.ArrayList;
@@ -98,6 +99,10 @@ public class CarFragment extends Fragment  implements  CarAdapter.DeleteClickLis
     @Override
     public void onDeleteClick(int position, View v, Car car) {
         new Thread(() -> {
+            Car carInMemory = CarFactory.getCarInMemory(mainActivity);
+            if(carInMemory.getId() != null && carInMemory.getId().equals(car.getId())){
+                CarFactory.clearUserInMemory(mainActivity);
+            }
             if ( carService.remove(car)){
                 mainActivity.runOnUiThread(() -> {
                     cars.remove(position);

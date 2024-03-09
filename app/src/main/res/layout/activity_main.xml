@@ -6,7 +6,6 @@ android:layout_height="match_parent"
     android:background="@color/white"
 tools:context=".activity.MainActivity">
 
-
     <ImageView
         android:id="@+id/gifImageLogo"
         android:layout_width="412dp"
