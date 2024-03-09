@@ -5,11 +5,13 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -29,19 +31,26 @@ import java.util.Calendar;
 public class AddScheduleActivity extends AppCompatActivity {
 
     ImageFilterButton dateButton, timeButton;
-    TextInputEditText textDate, textTime;
+    TextView textDate, textTime;
     RadioButton checkMonth,checkOnce, checkWeek,checkYearly;
     GridLayout typeSchedule;
     Button btnCancelSchedule, btnAddSchedule;
     TextInputEditText textDecriptionSchhedule;
 
     private String selectedScheduleType;
+
+    private  String selectedWeekday;
+    final String TITLE_NOTIFICATION = "Agenda PowerMAP";
+    private static final String CHANNEL_ID = "Your_channel_id";
+    private static final int NOTIFICATION_ID = 1;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_schedule);
         ScheduleVerifier verifier = new ScheduleVerifier(this);
+
+
 
 
         this.findViewById();
@@ -61,6 +70,14 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         btnAddSchedule.setOnClickListener(v -> {
             if (verifier.verifySchedule(textDate, textTime, textDecriptionSchhedule,  selectedScheduleType)) {
+                String date = textDate.getText().toString();
+                String time = textTime.getText().toString();
+                String description = textDecriptionSchhedule.getText().toString();
+                String weekday =  selectedWeekday.toString();
+                String repetition = selectedScheduleType.toString();
+
+                Log.d("info", "info: "+date+" "+time+", "+description+", "+weekday+", "+repetition);
+
                 Toast.makeText(this, "verificação feita", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Prencha todos os campos", Toast.LENGTH_SHORT).show();
@@ -143,7 +160,7 @@ public class AddScheduleActivity extends AppCompatActivity {
                         }
                         String selectedDateStr = String.format("%02d/%02d/%d", dayOfMonth, (month + 1), year);
                         textDate.setText(selectedDateStr);
-                        String selectedWeekday = weekday;
+                        selectedWeekday = weekday;
                         Toast.makeText(AddScheduleActivity.this, selectedWeekday, Toast.LENGTH_SHORT).show();
                     }
                 },

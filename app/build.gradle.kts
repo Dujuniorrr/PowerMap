@@ -62,6 +62,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:18.0.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")
     implementation("com.google.maps:google-maps-services:0.1.20")
+    implementation("com.google.firebase:firebase-messaging:20.1.7")
+
 }
 
 
