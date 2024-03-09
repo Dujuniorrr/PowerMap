@@ -5,25 +5,31 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.ScheduleFragment"
-    android:background="@color/sub_background_form">
+    android:background="@color/dark_grey">
 
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="top|center_horizontal"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="350dp"
-        android:text="@string/schedule"
-        android:textSize="40dp"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:text="@string/schedule"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imgBaseDecoration"
-        android:layout_width="414dp"
-        android:layout_height="617dp"
+        android:layout_width="match_parent"
+        android:layout_height="636dp"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom"
         android:layout_marginEnd="0dp"
@@ -31,10 +37,16 @@
         app:srcCompat="@drawable/base_white" />
 
 
-
-
-
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionbtn"
+        android:layout_width="56dp"
+        android:layout_height="59dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginVertical="550dp"
+        android:backgroundTint="@color/sub_background_form"
+        android:clickable="true"
+        app:tint="@color/white"
+        android:src="@drawable/baseline_add_24" />
 
 
 </FrameLayout>

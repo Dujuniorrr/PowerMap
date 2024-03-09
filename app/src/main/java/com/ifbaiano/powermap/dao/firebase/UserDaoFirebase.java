@@ -1,6 +1,7 @@
 package com.ifbaiano.powermap.dao.firebase;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Tasks;
@@ -12,8 +13,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ifbaiano.powermap.dao.contracts.UserDao;
 import com.ifbaiano.powermap.model.User;
+
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Semaphore;
 
 public class UserDaoFirebase implements UserDao {
 
@@ -138,8 +141,10 @@ public class UserDaoFirebase implements UserDao {
         return true;
     }
 
-    @Override
+
+
     public User findByEmailAndPassword(final String email, final String password) {
+        final Semaphore semaphore = new Semaphore(0);
         final User[] foundUser = new User[1];
         Query query = firebaseDatabase.getReference(TABLE_NAME);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -149,17 +154,28 @@ public class UserDaoFirebase implements UserDao {
                     User user = snapshot.getValue(User.class);
                     if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                         foundUser[0] = user;
-                        break;
+                        semaphore.release();
+                        return;
                     }
                 }
+                semaphore.release(); // Release semaphore even if user not found
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
+                semaphore.release();
             }
         });
+
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return foundUser[0];
     }
+
 
 }

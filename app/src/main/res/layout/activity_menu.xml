@@ -27,7 +27,6 @@
         app:itemTextColor="@drawable/icon_tint_selector"
         app:menu="@menu/menu_user" />
 
-
 </RelativeLayout>
 
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class UserDaoSqlite implements UserDao {
 
+    public static UserDao userDao;
     private final SqliteConnection conn;
     private SQLiteDatabase db;
     private final String TABLE_NAME = "users";

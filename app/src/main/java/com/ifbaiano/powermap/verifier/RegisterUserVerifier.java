@@ -57,13 +57,15 @@ public class RegisterUserVerifier extends Verifier {
         return isValid;
     }
 
-    public boolean verifyPasswordEdit(TextInputEditText passworOld, TextInputEditText passwordNew) {
+    public boolean verifyPasswordEdit(TextInputEditText passworOld, TextInputEditText passwordNew,TextInputEditText verifyPasswordEdit) {
         boolean isValid = true;
 
         isValid &= validateField(passworOld, R.string.password_error);
         isValid &= validateField(passwordNew, R.string.password_error);
         isValid &= isValidPassword(passwordNew);
         isValid &= oldPasswordMatches(passworOld, R.string.password_mismatch_error);
+        isValid &= passwordNewMatches(passwordNew, R.string.old_same_password);
+        isValid &= passwordsMismatch(passwordNew,verifyPasswordEdit,R.string.password_confirm_error);
 
         return isValid;
     }
@@ -121,7 +123,24 @@ public class RegisterUserVerifier extends Verifier {
     }
 
 
-    private boolean isValidPassword(TextInputEditText password){
+    private boolean passwordNewMatches(TextInputEditText passwordNew, int messageId) {
+
+        String passwordShared = UserFactory.getUserInMemory(getCtx()).getPassword();
+        String passwordText = Objects.requireNonNull(passwordNew.getText()).toString();
+
+        String passwordCryp = CryptographyPasswordService.encryptPassword(passwordText.toString());
+
+        if (passwordCryp.equals(passwordShared)) {
+            passwordNew.setError(getCtx().getString(messageId));
+            return false;
+        } else {
+
+            return true;
+
+        }
+    }
+
+        private boolean isValidPassword(TextInputEditText password){
         return this.validatePasswordLength(password, R.string.password_length_error) &&
                 this.validatePasswordLettersAndNumbers(password, R.string.password_alpha_numeric_error)&&
                 this.validatePasswordSymbols(password, R.string.password_symbol_error);

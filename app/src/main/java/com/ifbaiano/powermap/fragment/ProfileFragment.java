@@ -32,7 +32,7 @@ import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
-    Button submitEditImageProfile, editProfileUserBtn, logouProfile, btnDeleteAccount, btnEditPassword, btnAddAdmin;
+    Button submitEditImageProfile, editProfileUserBtn, logouProfile, btnDeleteAccount, btnEditPassword;
     ImageView imageEditProfile;
     TextInputEditText nameEditProfile, emailEditProfile;
     UserDaoFirebase userDaoFirebase;
@@ -79,25 +79,24 @@ public class ProfileFragment extends Fragment {
         logouProfile.setOnClickListener(v -> {
             logout.userLogout();
 
-            Intent intent;
-            intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
         });
 
-        User userAdmin = UserFactory.getUserInMemory(getActivity());
+//        User userAdmin = UserFactory.getUserInMemory(getActivity());
 
-        if (userAdmin.isAdmin()) {
-            btnAddAdmin.setVisibility(View.VISIBLE);
-        } else {
-            btnAddAdmin.setVisibility(View.GONE);
-        }
-
-        btnAddAdmin.setOnClickListener(v -> {
-
-            Intent intent;
-            intent = new Intent(getActivity(), RegisterAdminActivity.class);
-            startActivity(intent);
-        });
+//        if (userAdmin.isAdmin()) {
+//            btnAddAdmin.setVisibility(View.VISIBLE);
+//        } else {
+//            btnAddAdmin.setVisibility(View.GONE);
+//        }
+//
+//        btnAddAdmin.setOnClickListener(v -> {
+//
+//            Intent intent;
+//            intent = new Intent(getActivity(), RegisterAdminActivity.class);
+//            startActivity(intent);
+//        });
 
 
         User user = UserFactory.getUserInMemory(getActivity());
@@ -132,6 +131,7 @@ public class ProfileFragment extends Fragment {
             String userImgpath = String.valueOf(user.getImgpath());
 
             if (userImgpath != null) {
+
                 // Remember to adjust where the image comes from
                 Toast.makeText(getActivity(), "Imagem existe", Toast.LENGTH_SHORT).show();
             }
@@ -144,7 +144,6 @@ public class ProfileFragment extends Fragment {
 
 
     private void findViewsById() {
-        btnAddAdmin = rootView.findViewById(R.id.btnAddAdmin);
         submitEditImageProfile = rootView.findViewById(R.id.submitEditImageProfile);
         editProfileUserBtn = rootView.findViewById(R.id.editProfileUserBtn);
         logouProfile = rootView.findViewById(R.id.logouProfile);
@@ -194,8 +193,8 @@ public class ProfileFragment extends Fragment {
                 // If successful, go to the car listing screen
                 Toast.makeText(getActivity(), getString(R.string.success_edit), Toast.LENGTH_SHORT).show();
                 UserFactory.saveUserInMemory(user, getActivity());
-                Intent intent = new Intent(getActivity(), MenuActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), MenuActivity.class);
+//                startActivity(intent);
             } else {
                 // If unsuccessful
                 Toast.makeText(getActivity(), getString(R.string.error_register), Toast.LENGTH_SHORT).show();
