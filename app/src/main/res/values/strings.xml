@@ -110,6 +110,23 @@
     <string name="name_car_input">Digite o nome do seu carro…</string>
     <string name="selected_car_model_error">É necessário selecionar um modelo de carro!</string>
     <string name="select_car_model">Escolha um modelo</string>
+
+    <!--    Calculate-->
+    <string name="calculate">Calcular</string>
+    <string name="speed">Digite a velocidade atual (Km/Hora)…</string>
+    <string name="current_energy">Digite a quantidade de energia atual…</string>
+    <string name="current_fuel">Digite a quantidade de combustível atual…</string>
+    <string name="possible"> É possível chegar ao destino!</string>
+    <string name="not_possible"> Impossível chegar ao destino!</string>
+    <string name="image_error_not_found">Imagem do carro não  encontrada!</string>
+    <string name="selected_car">É necessário escolher um carro!</string>
+    <string name="until_station">%s Km até o posto.</string>
+    <string name="energy_station">Serão gastos %s kWh.</string>
+    <string name="fuel_station"> Serão gastos %s litros.</string>
+
+<!--    Location-->
+    <string name="error_location">Não foi possível obter a localização atual</string>
+    <string name="error_permission_location">Permissão de localização negada</string>
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/red_lighter" /> <!-- Cor de fundo escura -->
+
+    <corners
+        android:topLeftRadius="700dp" android:topRightRadius="700dp" android:bottomLeftRadius="700dp" android:bottomRightRadius="700dp"  />
+</shape>

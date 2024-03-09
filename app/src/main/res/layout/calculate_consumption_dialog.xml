@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.AppCompat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/button_rounded_dark">
+
+
+            <RelativeLayout
+                android:id="@+id/white_surface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/base_white_rounded"
+                android:paddingBottom="30dp">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/base_white_rounded"
+                        android:paddingBottom="30dp">
+
+
+                <EditText
+                    android:id="@+id/kmByHour"
+                    style="@style/EditTextWithBorderBlack"
+                    android:layout_alignParentTop="true"
+                    android:drawableEnd="@drawable/baseline_speed_24"
+                    android:hint="@string/speed"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/sub_background_form"
+                    android:maxLength="25"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/eletricConsumption"
+                    style="@style/EditTextWithBorderBlack"
+                    android:layout_below="@+id/kmByHour"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/sub_background_form"
+                    android:drawableEnd="@drawable/baseline_electric_bolt_24"
+                    android:hint="@string/current_energy"
+                    android:inputType="numberDecimal"
+                    android:maxLength="25"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/fuelConsumption"
+                    android:textColor="@color/sub_background_form"
+                    style="@style/EditTextWithBorderBlack"
+                    android:layout_below="@+id/eletricConsumption"
+                    android:layout_marginTop="20dp"
+                    android:drawableRight="@drawable/baseline_local_gas_station_24"
+                    android:hint="@string/current_fuel"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/submitForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fuelConsumption"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_red"
+                    android:hint="@string/calculate"
+                    android:padding="15dp"
+                    android:textColorHint="@color/white"
+                    android:textSize="20dp" />
+
+                <View
+                    android:id="@+id/lineView"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/submitForm"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/lighter_gray_medium" />
+
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:layout_centerHorizontal="true"
+                            android:id="@+id/resultsContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lineView">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/message"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="15dp"
+                                android:text="Mensagem"
+                                android:textColor="@color/dark_grey"
+                                android:textSize="20dp"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/locationIcon"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_below="@id/message"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/circle_red"
+                                android:drawableEnd="@drawable/baseline_location"
+                                android:drawableTint="@color/black"
+                                android:padding="10dp" />
+
+                            <TextView
+                                android:id="@+id/locationValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@id/locationIcon"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="7dp"
+                                android:layout_toEndOf="@+id/locationIcon"
+                                android:layout_toRightOf="@id/locationIcon"
+                                android:text="20.234 km até o destino"
+                                android:textColor="@color/dark_grey"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                tools:ignore="NotSibling" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/eletricIcon"
+
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_below="@+id/locationIcon"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/circle_red"
+                                android:drawableEnd="@drawable/baseline_electric_bolt_24"
+                                android:drawableTint="@color/black"
+                                android:padding="10dp" />
+
+                            <TextView
+                                android:id="@+id/energyValue"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@id/eletricIcon"
+                                android:layout_marginStart="13dp"
+                                android:layout_marginLeft="13dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_toEndOf="@+id/eletricIcon"
+                                android:layout_toRightOf="@id/eletricIcon"
+                                android:text="20.234 km até o destino"
+                                android:textColor="@color/dark_grey"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                tools:ignore="NotSibling" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/fuelIcon"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:layout_below="@+id/eletricIcon"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/circle_red"
+                                android:drawableEnd="@drawable/baseline_local_gas_station_24"
+                                android:drawableTint="@color/black"
+                                android:padding="10dp" />
+
+                            <TextView
+                                android:id="@+id/fuelValue"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@id/fuelIcon"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="9dp"
+                                android:layout_toEndOf="@+id/fuelIcon"
+                                android:layout_toRightOf="@id/fuelIcon"
+                                android:text="20.234 km até o destino"
+                                android:textColor="@color/dark_grey"
+                                android:textSize="20dp"
+                                android:textStyle="bold"
+                                tools:ignore="NotSibling" />
+
+                        </RelativeLayout>
+
+
+
+
+                    </RelativeLayout>
+
+                </ScrollView>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="240dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="33dp"
+        android:src="@drawable/img_byddolphin01"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+            android:id="@+id/name"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Car Model name"
+            android:textColor="@color/white" />
+
+
+</RelativeLayout>
