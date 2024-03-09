@@ -6,23 +6,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MainActivity;
-import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.activity.users.EditPasswordActivity;
 import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
-import com.ifbaiano.powermap.activity.users.RegisterAdminActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.dao.media.StorageDaoMedia;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
+import com.ifbaiano.powermap.factory.BitmapCustomFactory;
 import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.User;
 import com.ifbaiano.powermap.service.UserService;
@@ -33,7 +33,7 @@ import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
-    Button submitEditImageProfile, editProfileUserBtn, logouProfile, btnDeleteAccount, btnEditPassword;
+    AppCompatButton submitEditImageProfile, editProfileUserBtn, logouProfile, btnDeleteAccount, btnEditPassword;
     ImageView imageEditProfile;
     TextInputEditText nameEditProfile, emailEditProfile;
     UserDaoFirebase userDaoFirebase;
@@ -42,6 +42,9 @@ public class ProfileFragment extends Fragment {
     RegisterUserVerifier verifier;
 
     AppCompatActivity mainActivity;
+
+    BitmapCustomFactory bitmapCustomFactory;
+    byte[] byteArray = null;
     View rootView;
 
     public ProfileFragment() {
@@ -68,6 +71,7 @@ public class ProfileFragment extends Fragment {
         this.setUserAttributes();
         this.makeInstances();
         UserDaoSqlite userDao = new UserDaoSqlite(getContext());
+        StorageDaoMedia storageDaoMedia = new StorageDaoMedia(getContext());
 
         btnEditPassword.setOnClickListener(v -> {
             // Redirect to MainActivity
@@ -98,7 +102,6 @@ public class ProfileFragment extends Fragment {
 //            startActivity(intent);
 //        });
 
-
         User user = UserFactory.getUserInMemory(getActivity());
         btnDeleteAccount.setOnClickListener(v -> {
             new UserDaoFirebase(mainActivity).remove(UserFactory.getUserInMemoryFirebase(mainActivity));
@@ -112,6 +115,12 @@ public class ProfileFragment extends Fragment {
         editProfileUserBtn.setOnClickListener(v -> {
             submitForm();
         });
+
+        submitEditImageProfile.setOnClickListener(v -> {
+
+            //ajustar depois
+        });
+
 
         return rootView;
     }
@@ -159,6 +168,9 @@ public class ProfileFragment extends Fragment {
         userDaoSqlite = new UserDaoSqlite(getActivity());
         userRegisterService = new UserService(userDaoFirebase);
         verifier = new RegisterUserVerifier(getActivity());
+        bitmapCustomFactory = new BitmapCustomFactory(
+                mainActivity, byteArray, imageEditProfile, submitEditImageProfile
+        );
     }
 
     private boolean checkEmailExists() {
@@ -171,6 +183,9 @@ public class ProfileFragment extends Fragment {
             boolean emailAlreadyExists = checkEmailExists();
 
             if (verifyFormValidity(emailAlreadyExists)) {
+
+
+
                 userRegisterService.setDao(userDaoFirebase);
                 User newUser = UserFactory.getUserInMemoryFirebase(getActivity());
                 newUser.setName(Objects.requireNonNull(nameEditProfile.getText()).toString());
@@ -201,8 +216,7 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getActivity(), getString(R.string.success_edit), Toast.LENGTH_SHORT).show();
                 UserFactory.saveUserInMemoryFirebase(userF, getActivity());
                 UserFactory.saveUserInMemory(user, getActivity());
-//                Intent intent = new Intent(getActivity(), MenuActivity.class);
-//                startActivity(intent);
+//
             } else {
                 // If unsuccessful
                 Toast.makeText(getActivity(), getString(R.string.error_register), Toast.LENGTH_SHORT).show();
