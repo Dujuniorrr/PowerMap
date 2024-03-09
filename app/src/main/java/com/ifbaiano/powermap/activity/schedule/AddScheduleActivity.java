@@ -1,4 +1,4 @@
-package com.ifbaiano.powermap.activity.users;
+package com.ifbaiano.powermap.activity.schedule;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -41,18 +41,16 @@ public class AddScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_schedule);
+        StatusBarAppearance.changeStatusBarColor(this, R.color.black);
         ScheduleVerifier verifier = new ScheduleVerifier(this);
-
 
         this.findViewById();
 
         final String TITLE_NOTIFICATION = getString(R.string.title_notification);
-        StatusBarAppearance.changeStatusBarColor(this, R.color.black);
 
         dateButton.setOnClickListener(v -> {
             showDatePickerDialog();
         });
-
 
         timeButton.setOnClickListener(v -> {
             showTimePickerDialog();
@@ -68,7 +66,6 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         });
     }
-//Espaço de metodos
 
     private void findViewById(){
         findViewById(R.id.backButonSchedule).setOnClickListener(v -> {
@@ -200,7 +197,6 @@ public class AddScheduleActivity extends AppCompatActivity {
                 selectedScheduleType = "Yearly";
             }
         }
-
 }
 
 

@@ -28,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        // Supondo que você esteja chamando este método de uma Activity
+
 //        NotificationSchedule.scheduleRepeatingNotification(
 //                this,
 //                Calendar.SATURDAY,
-//                13,
-//                35,
+//                14,
+//                14,
 //                AlarmManager.INTERVAL_DAY * 7,
 //                "Título da Notificação",
 //                "Conteúdo da Notificação"

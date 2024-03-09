@@ -10,6 +10,6 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String title = intent.getStringExtra("title");
         String content = intent.getStringExtra("content");
-        NotificationSchedule.showNotification(context, title, content);
+        new NotificationSchedule(intent.getIntExtra("id", -1)).showNotification(context, title, content);
     }
 }

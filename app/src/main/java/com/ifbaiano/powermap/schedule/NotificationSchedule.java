@@ -18,10 +18,13 @@ import java.util.Calendar;
 
 public class NotificationSchedule {
 
-    private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "my_channel";
+    private int NOTIFICATION_ID = -1;
+    private static final String CHANNEL_ID = "POWERMAP";
+    public NotificationSchedule(int NOTIFICATION_ID) {
+        this.NOTIFICATION_ID = NOTIFICATION_ID;
+    }
 
-    public static void scheduleRepeatingNotification(Context context, int dayOfWeek, int hourOfDay, int minute, long repeatInterval, String title, String content) {
+    public void scheduleRepeatingNotification(Context context, int dayOfWeek, int hourOfDay, int minute, long repeatInterval, String title, String content) {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager == null) {
@@ -31,6 +34,8 @@ public class NotificationSchedule {
         Intent notificationIntent = new Intent(context, NotificationReceiver.class);
         notificationIntent.putExtra("title", title);
         notificationIntent.putExtra("content", content);
+        notificationIntent.putExtra("id", this.NOTIFICATION_ID);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
@@ -59,7 +64,7 @@ public class NotificationSchedule {
     }
 
 
-    public static void showNotification(Context context, String title, String content) {
+    public void showNotification(Context context, String title, String content) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager == null)
             return;
@@ -73,7 +78,7 @@ public class NotificationSchedule {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(content)
-                .setSmallIcon(R.drawable.img_byddolphin01)
+                .setSmallIcon(R.drawable.splash_logo)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 

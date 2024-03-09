@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.users.AddScheduleActivity;
+import com.ifbaiano.powermap.activity.schedule.AddScheduleActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 
 
