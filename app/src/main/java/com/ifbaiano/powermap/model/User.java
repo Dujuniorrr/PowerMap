@@ -45,6 +45,10 @@ public class User implements Serializable {
         this.cars = cars;
     }
 
+    public User(User newUser) {
+
+    }
+
 
     public String getId() {
         return id;

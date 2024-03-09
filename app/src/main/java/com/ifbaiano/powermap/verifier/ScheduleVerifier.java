@@ -24,9 +24,7 @@ public class ScheduleVerifier extends Verifier {
         boolean isValid = true;
 
         isValid &= validateField(date, R.string.date_required);
-        isValid &= validateDate(date, R.string.date_future);
         isValid &= validateField(time, R.string.time_required);
-        isValid &= validateTime(time, R.string.time_future);
         isValid &= validateField(desciption, R.string.description_required);
         isValid &= validateRadio(radioGroup, R.string.radio_required);
 
@@ -63,10 +61,13 @@ public class ScheduleVerifier extends Verifier {
                 dateText.setError(getCtx().getString(errorMessageResId));
                 isValid = false;
             }
+            else{
+                dateText.setError(null);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return true;
+        return isValid;
     }
 
     public boolean validateTime(TextView timeText, int errorMessageResId) {
@@ -92,6 +93,7 @@ public class ScheduleVerifier extends Verifier {
                 timeText.setError(getCtx().getString(errorMessageResId));
                 isValid = false;
             }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

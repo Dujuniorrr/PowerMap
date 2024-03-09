@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 public interface UserDao{
     User add(User user);
+
     User edit(User user);
+
     Boolean remove(User user);
     User findOne(String id);
-    Boolean findByEmail(String email);
+    User findByEmail(String email);
     ArrayList<User>  findAll();
     ArrayList<User> findAllClients();
     ArrayList<User>  findAllAdmins();

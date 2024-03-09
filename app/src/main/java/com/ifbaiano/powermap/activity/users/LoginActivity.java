@@ -83,15 +83,11 @@ public class LoginActivity extends AppCompatActivity {
             googleSignIn();
         });
 
-
-        //verifica se já está logado com o google
         if (auth.getCurrentUser() != null) {
             Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
             startActivity(intent);
             finish();
         }
-
-
 
         enterLoginBtn.setOnClickListener(v -> {
             TextInputEditText emailInput = emailLogin;
@@ -104,13 +100,12 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
                 String passwordCryp = CryptographyPasswordService.encryptPassword(password);
 
-                // Criar uma Thread para executar a operação em segundo plano
                 new Thread(() -> {
                     User user = userDao.findByEmailAndPassword(email, passwordCryp);
-                    // Enviar o resultado de volta para a thread principal usando um Handler
 
                     runOnUiThread(() -> {
                         if (user != null) {
+                            UserFactory.saveUserInMemoryFirebase(user, getApplicationContext());
                             UserFactory.saveUserInMemory(user, getApplicationContext());
                             Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MenuActivity.class);

@@ -81,10 +81,12 @@ public class UserDaoSqlite implements UserDao {
     }
 
     @Override
-    public Boolean findByEmail(String email) {
+    public User findByEmail(String email) {
         this.db = this.conn.getWritableDatabase();
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_EMAIL, new String[]{email} );
-        return this.makeUserList(cursor).size() > 0;
+        ArrayList<User> list = this.makeUserList(cursor);
+        if(list.size() > 0) return list.get(0);
+        return null;
     }
 
     @Override
@@ -122,7 +124,7 @@ public class UserDaoSqlite implements UserDao {
         while(cursor.moveToNext()) {
             userList.add(UserFactory.createByCursor(cursor));
         }
-        return userList.size() > 0 ? userList : null;
+        return userList;
     }
 
     public User findByEmailAndPassword(String email, String password) {

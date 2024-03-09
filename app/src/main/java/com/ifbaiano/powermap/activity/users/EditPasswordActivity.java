@@ -53,18 +53,24 @@ public class EditPasswordActivity extends AppCompatActivity {
             boolean passwordsValid = passwordVerifier.verifyPasswordEdit(editPasswordText, editPasswordNewText, editPassworConfirmedNewText);
 
             if (passwordsValid) {
-                User newUser = UserFactory.getUserInMemory(this);
-                String password = Objects.requireNonNull(editPasswordNewText.getText()).toString().trim();
+                userRegisterService.setDao(userDaoFirebase);
 
-                // Criptografar a senha antes de salvar
+                String password = Objects.requireNonNull(editPasswordNewText.getText()).toString().trim();
                 String encryptedPassword = CryptographyPasswordService.encryptPassword(password);
+
+                User newUser = UserFactory.getUserInMemoryFirebase(getApplicationContext());
                 newUser.setPassword(encryptedPassword);
 
                 User userEditFirebase = userRegisterService.edit(newUser);
-                userRegisterService.setDao(new UserDaoSqlite(this));
-                User userEditSqlite = userRegisterService.edit(newUser);
 
-                this.executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite);
+                User newUserSqlite = UserFactory.getUserInMemory(getApplicationContext());
+                newUserSqlite.setPassword(encryptedPassword);
+
+                userRegisterService.setDao(new UserDaoSqlite(getApplicationContext()));
+
+                User userEditSqlite = userRegisterService.edit(newUserSqlite);
+
+                this.executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite, userEditFirebase);
             }
 
 
@@ -103,12 +109,12 @@ public class EditPasswordActivity extends AppCompatActivity {
 
             // new BitmapCustomFactory(this, imageProfilEditPassword).setImageByUri(user.getImgpath(), R.drawable.baseline_person);
         } else {
-            startActivity(new Intent(this, InitialUsersActivity.class));
+            startActivity(new Intent(this, MenuActivity.class));
         }
 
     }
 
-    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user) {
+    private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user, User userF) {
 
 
 
@@ -116,6 +122,7 @@ public class EditPasswordActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.success_edit), Toast.LENGTH_SHORT).show();
 
                 UserFactory.saveUserInMemory(user, EditPasswordActivity.this);
+                UserFactory.saveUserInMemoryFirebase(userF, EditPasswordActivity.this);
 
                 Intent intent = new Intent(this, MenuActivity.class);
                 startActivity(intent);
