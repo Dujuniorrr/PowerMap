@@ -68,7 +68,6 @@ public class AddScheduleActivity extends AppCompatActivity {
             showTimePickerDialog();
         });
 
-
         btnAddSchedule.setOnClickListener(v -> {
 
             if (verifier.verifySchedule(textDate, textTime, textDecriptionSchhedule,  Long.toString(selectedScheduleType))) {
@@ -171,8 +170,8 @@ public class AddScheduleActivity extends AppCompatActivity {
                 },
                 year, month, dayOfMonth);
         Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DAY_OF_YEAR, 1);
-        datePickerDialog.getDatePicker().setMinDate(tomorrow.getTimeInMillis());
+//        tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+//        datePickerDialog.getDatePicker().setMinDate(tomorrow.getTimeInMillis());
 
         datePickerDialog.show();
     }

@@ -142,7 +142,7 @@
     <string name="fuel_error">Informe o combustível atual!</string>
     <string name="select_car">Selecione o carro atual!</string>
 <!--    Location-->
-    <string name="error_location">Não foi possível obter a localização atual</string>
+    <string name="error_location">Não foi possível obter a localização atual! Ligue o GPS</string>
     <string name="error_permission_location">Permissão de localização negada</string>
     <!--Login com Google-->
     <string name="default_web_client_id">936668570280-m465psejead5oppnb8a36r52spb7761p.apps.googleusercontent.com</string>

@@ -78,12 +78,13 @@ public class NotificationSchedule {
         notificationManager.createNotificationChannel(channel);
 
         Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("fragment", "schedule");
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(content)
-                .setSmallIcon(R.drawable.splash_logo)
+                .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 

@@ -144,7 +144,7 @@
     <string name="select_car">Select the current car!</string>
 
 <!--    Location-->
-    <string name="error_location">Not possible get current location</string>
+    <string name="error_location">Not possible get current location! Enable GPS.</string>
     <string name="error_permission_location">Permission of location unset</string>
 
 

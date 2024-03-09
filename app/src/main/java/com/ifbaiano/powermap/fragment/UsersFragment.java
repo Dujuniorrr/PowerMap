@@ -69,6 +69,6 @@ public class UsersFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity.getApplicationContext()));
         progressBar = rootView.findViewById(R.id.progressBar);
-        btnReturn = rootView.findViewById(R.id.addBtn);
+//        btnReturn = rootView.findViewById(R.id.addBtn);
     }
 }
