@@ -79,8 +79,7 @@ public class ProfileFragment extends Fragment {
         logouProfile.setOnClickListener(v -> {
             logout.userLogout();
 
-            Intent intent;
-            intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
         });
 
@@ -132,6 +131,7 @@ public class ProfileFragment extends Fragment {
             String userImgpath = String.valueOf(user.getImgpath());
 
             if (userImgpath != null) {
+
                 // Remember to adjust where the image comes from
                 Toast.makeText(getActivity(), "Imagem existe", Toast.LENGTH_SHORT).show();
             }

@@ -39,10 +39,6 @@
     <string name="forgot_password">Esqueceu a senha?</string>
 
 
-
-
-
-
     <!-- Decoração -->
     <string name="text_decoreition_initial">Encontre o melhor lugar para recarregar as energias do seu carro!</string>
     <string name="title_decoreition_initial">Seja Bem Vindo  ao PowerMap</string>
@@ -67,13 +63,32 @@
     <string name="password_length_error">A senha precisa ter no minimo 8 caracteres!</string>
     <string name="password_alpha_numeric_error">A senha precisa conter letras e números!</string>
     <string name="password_symbol_error">A senha precisa conter símbolos!</string>
-    <string name="password_mismatch_error">As senhas não coincidem!</string>
+    <string name="password_mismatch_error">Senha não existe!</string>
     <string name="name_invalid_error">É necessário informar pelo menos o seu nome e sobrenome!</string>
     <string name="email_invalid_error">E-mail inválido!</string>
     <string name="success_register">Registro feito com sucesso!</string>
     <string name="email_already_registered_error">E-mail já registrado. Faça login!</string>
     <string name="fields_required">Todos os campos são obrigatórios</string>
     <string name="error_register">Erro, tente novamente!</string>
+    <string name="old_same_password">A senha informada é igual a antiga!</string>
+    <string name="title_notification">Power MAP agenda</string>
+    <string name="description_schedule">Descrição da agenda</string>
+    <string name="repetition">Repetição</string>
+    <string name="yearly">Anual</string>
+    <string name="weekly">Semanal</string>
+    <string name="monthly">Mensal</string>
+    <string name="once">Uma vez</string>
+
+    <!--Schedule-->
+
+    <string name="date_required">É necessário informar a data!</string>
+    <string name="time_required">É necessário informar o hotário!</string>
+    <string name="description_required">É necessário informar a descrição!</string>
+    <string name="radio_required">É necessário selecionar uma repetição!</string>
+
+
+
+
 
 
 

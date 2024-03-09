@@ -3,7 +3,6 @@
     <string name="app_name">PowerMap</string>
     <string name="maps_key">AIzaSyCN2c343t_dg98fYSpNnjy9KbASfQit2rc</string>
     <string name="your_location">Your location!</string>
-
     <string name="back">Back</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
@@ -37,9 +36,14 @@
     <string name="welcome">Welcome back</string>
     <string name="success_edit">Profile edited successfully!</string>
     <string name="email_already_not_error">Email not registered!</string>
-    <string name="forgot_password">Forgot password ?</string>
-
-
+    <string name="forgot_password">Forgot password?</string>
+    <string name="title_notification">Power MAP schedule </string>
+    <string name="description_schedule">Schedule description</string>
+    <string name="repetition">Repetition</string>
+    <string name="yearly">Yearly</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="once">Once</string>
 
 
     <!-- Decoração -->
@@ -68,13 +72,22 @@
     <string name="password_length_error">Password must be at least 8 characters long!</string>
     <string name="password_alpha_numeric_error">Password must contain letters and numbers!</string>
     <string name="password_symbol_error">Password must contain symbols!</string>
-    <string name="password_mismatch_error">Passwords do not match!</string>
+    <string name="password_mismatch_error">Password does not exist!</string>
     <string name="name_invalid_error">You must provide at least your first and last name!</string>
     <string name="email_invalid_error">Invalid email!</string>
     <string name="success_register">Registration successfully!</string>
     <string name="email_already_registered_error">Email already registered. Log in!</string>
     <string name="fields_required">All fields are required!</string>
     <string name="error_register">Erro, tente novamente</string>
+    <string name="old_same_password">The password you entered is the same as the old one!</string>
+
+   <!-- Schedule-->
+
+    <string name="date_required">Date must be entered!</string>
+    <string name="time_required">Timetable must be provided!</string>
+    <string name="description_required">Description must be provided!</string>
+    <string name="radio_required">Repeat must be selected!</string>
+
 
     <!-- Menu -->
     <string name="profile">Profile</string>

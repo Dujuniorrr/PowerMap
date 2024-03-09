@@ -27,7 +27,7 @@ public class EditPasswordActivity extends AppCompatActivity {
 
     Button backButonProfilePassword, editProfileUserBtn ;
     ImageView imageProfilEditPassword;
-    TextInputEditText editPasswordText, editPasswordNewText;
+    TextInputEditText editPasswordText, editPasswordNewText, editPassworConfirmedNewText;
     TextView textNameEditP;
     UserDaoFirebase userDaoFirebase;
     UserService userRegisterService;
@@ -50,7 +50,7 @@ public class EditPasswordActivity extends AppCompatActivity {
         editProfileUserBtn.setOnClickListener(v -> {
             RegisterUserVerifier passwordVerifier = new RegisterUserVerifier(this);
 
-            boolean passwordsValid = passwordVerifier.verifyPasswordEdit(editPasswordText, editPasswordNewText);
+            boolean passwordsValid = passwordVerifier.verifyPasswordEdit(editPasswordText, editPasswordNewText, editPassworConfirmedNewText);
 
             if (passwordsValid) {
                 User newUser = UserFactory.getUserInMemory(this);
@@ -84,6 +84,7 @@ public class EditPasswordActivity extends AppCompatActivity {
         imageProfilEditPassword = findViewById(R.id.imageProfilEditPassword);
         editPasswordText = findViewById(R.id.editPasswordText);
         editPasswordNewText = findViewById(R.id.editPasswordNewText);
+        editPassworConfirmedNewText = findViewById(R.id.editPassworConfirmedNewText);
     }
 
     private void makeInstances() {

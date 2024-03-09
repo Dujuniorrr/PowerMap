@@ -2,14 +2,9 @@ package com.ifbaiano.powermap.verifier;
 
 import android.content.Context;
 import android.text.TextUtils;
-
-import androidx.appcompat.widget.AppCompatButton;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.ifbaiano.powermap.R;
-
-import java.time.Year;
-import java.util.Objects;
 
 abstract public class Verifier {
     private Context ctx;
@@ -33,6 +28,16 @@ abstract public class Verifier {
         }
         return true;
     }
+
+
+    protected boolean validateFieldText(TextView field, int errorMessageResId) {
+        if (TextUtils.isEmpty(field.getText())) {
+            field.setError(this.getCtx().getString(errorMessageResId));
+            return false;
+        }
+        return true;
+    }
+
 
 
 }

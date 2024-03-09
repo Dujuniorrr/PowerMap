@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     UserDaoFirebase userDaoFirebase;
     UserDaoSqlite userDaoSqlite;
 
+    UserDao userDao;
+
 
     @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +62,9 @@ public class LoginActivity extends AppCompatActivity {
         StatusBarAppearance.changeStatusBarColor(this, R.color.black);
         this.findViewsById();
         this.makeInstances();
-        UserDao userDao;
 
-        userDao = new UserDaoSqlite(this);
+
+        userDao = new UserDaoFirebase(this);
 
         backButonLogin.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, InitialUsersActivity.class);
@@ -92,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         enterLoginBtn.setOnClickListener(v -> {
-
             TextInputEditText emailInput = emailLogin;
             TextInputEditText passwordInput = passwordLogin;
 
@@ -103,18 +104,37 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
                 String passwordCryp = CryptographyPasswordService.encryptPassword(password);
 
-                User user = userDao.findByEmailAndPassword(email, passwordCryp);
+                // Criar uma Thread para executar a operação em segundo plano
+                new Thread(() -> {
+                    User user = userDao.findByEmailAndPassword(email, passwordCryp);
+                    // Enviar o resultado de volta para a thread principal usando um Handler
 
-                if (user != null) {
-                    UserFactory.saveUserInMemory(user, getApplicationContext());
-                    Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
-                }
+                    runOnUiThread(() -> {
+                        if (user != null) {
+                            UserFactory.saveUserInMemory(user, getApplicationContext());
+                            Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                            startActivity(intent);
+                        } else {
+
+                            userDao = new UserDaoSqlite(this);
+                            User userS = userDao.findByEmailAndPassword(email, passwordCryp);
+
+                            if(userS != null){
+                                UserFactory.saveUserInMemory(userS, getApplicationContext());
+                                Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                startActivity(intent);
+
+                            }else{
+                                Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
+                            }
+                            }
+                    });
+                }).start();
             }
         });
+
 
     }
 
