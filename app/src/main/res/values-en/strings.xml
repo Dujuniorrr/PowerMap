@@ -4,6 +4,7 @@
     <string name="maps_key">AIzaSyCN2c343t_dg98fYSpNnjy9KbASfQit2rc</string>
     <string name="your_location">Your location!</string>
     <string name="back">Back</string>
+    <string name="select">Select</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
@@ -137,8 +138,10 @@
     <string name="until_station">%s Km until destine.</string>
     <string name="energy_station">%s kWh will be spent.</string>
     <string name="fuel_station">%s liters will be spent.</string>
-
-
+    <string name="distance_error">Enter distance !</string>
+    <string name="energy_error">Enter current energy!</string>
+    <string name="fuel_error">Enter current fuel!</string>
+    <string name="select_car">Select the current car!</string>
 
 <!--    Location-->
     <string name="error_location">Not possible get current location</string>

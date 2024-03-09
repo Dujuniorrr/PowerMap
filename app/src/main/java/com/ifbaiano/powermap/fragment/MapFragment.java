@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,12 +17,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.appearance.CalculateDialogAppearance;
+import com.ifbaiano.powermap.appearance.SelectCurrentCarDialogAppearance;
+import com.ifbaiano.powermap.service.DirectionService;
 import com.ifbaiano.powermap.service.LocationService;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    public GoogleMap mMap;
+    AppCompatButton calculate, changeCar;
     private CalculateDialogAppearance calculateDialogAppearance;
+    private SelectCurrentCarDialogAppearance selectCurrentCarDialogAppearance;
+
     LocationService locationService;
     private AppCompatActivity mainActivity;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -34,11 +40,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
+        this.findViewsById(view);
+
         calculateDialogAppearance = new CalculateDialogAppearance(requireContext(), locationService);
 
-        view.findViewById(R.id.calculate).setOnClickListener(v -> {
-            calculateDialogAppearance.createCalculateDialog();
-        });
+        selectCurrentCarDialogAppearance = new SelectCurrentCarDialogAppearance( requireContext(), mainActivity, this, calculateDialogAppearance);
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -46,6 +53,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+    public void findViewsById(View view){
+        calculate = view.findViewById(R.id.calculate);
+        changeCar =  view.findViewById(R.id.changeCar);
+
+        calculate.setOnClickListener(v -> {
+            calculateDialogAppearance.createCalculateDialog();
+        });
+
+       changeCar.setOnClickListener(v -> {
+            selectCurrentCarDialogAppearance.createSelectDialog();
+        });
+
+    }
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -61,10 +81,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void getCurrentLocation() {
+    public void getCurrentLocation() {
          locationService = new LocationService(mainActivity, mMap);
          locationService.getCurrentLocation();
          calculateDialogAppearance.setLocationService(locationService);
+         calculate.setVisibility(View.VISIBLE);
+         changeCar.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.ifbaiano.powermap.appearance;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -16,7 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
 import com.ifbaiano.powermap.factory.CarFactory;
@@ -24,13 +27,14 @@ import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.EletricCarModel;
 import com.ifbaiano.powermap.model.HybridCarModel;
 import com.ifbaiano.powermap.service.LocationService;
-
-import org.checkerframework.common.value.qual.DoubleVal;
+import com.ifbaiano.powermap.verifier.CalculateConsumptionVerifier;
 
 import java.io.IOException;
 
 public class CalculateDialogAppearance {
 
+    AppCompatButton btnSubmit;
+    CalculateConsumptionVerifier verifier;
     EditText kmByHour, currentEnergy, currentFuel;
     TextView message, distanceMessage, energyMessage, fuelMessage;
     RelativeLayout resultsContainer;
@@ -45,11 +49,15 @@ public class CalculateDialogAppearance {
     public CalculateDialogAppearance(Context ctx, LocationService locationService) {
         this.ctx = ctx;
         this.locationService = locationService;
+        this.putCar();
+        this.verifier = new CalculateConsumptionVerifier(this.ctx);
+    }
+
+    public void putCar(){
         if(CarFactory.getCarInMemory(this.ctx).getId() != null){
             this.car = new CarDaoSqlite(this.ctx).findOne(CarFactory.getCarInMemory(this.ctx).getId());
         }
     }
-
     public void createCalculateDialog() {
        if(car != null){
            dialog = new Dialog(this.ctx);
@@ -90,10 +98,25 @@ public class CalculateDialogAppearance {
         energyMessage = dialog.findViewById(R.id.energyValue);
         fuelMessage = dialog.findViewById(R.id.fuelValue);
         resultsContainer = dialog.findViewById(R.id.resultsContainer);
+        btnSubmit = dialog.findViewById(R.id.submitForm);
 
-        dialog.findViewById(R.id.submitForm).setOnClickListener(v -> {
-            showCalculate();
+        btnSubmit.setOnClickListener(v -> {
+            if((car.getCarModel() instanceof HybridCarModel && verifier.verifyFields(  kmByHour,   currentEnergy,   currentFuel) )
+                    || (car.getCarModel() instanceof EletricCarModel &&  verifier.verifyFields(  kmByHour,   currentEnergy) )){
+                showCalculate();
+            }
         });
+
+        if (!(car.getCarModel() instanceof HybridCarModel)) {
+            currentFuel.setVisibility(View.GONE);
+            fuelMessage.setVisibility(View.GONE);
+            dialog.findViewById(R.id.fuelIcon).setVisibility(View.GONE);
+
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) btnSubmit.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.BELOW, R.id.eletricConsumption);
+            btnSubmit.setLayoutParams(layoutParams);
+        }
+
     }
 
     @SuppressLint("DefaultLocale")
@@ -160,9 +183,9 @@ public class CalculateDialogAppearance {
         double neededValue = calculateEnergyNeeded(distanceToNearestStation, energyConsumption, fuelConsumption, kmPerHour);
 
         float currentEnergy = Float.parseFloat(this.currentEnergy.getText().toString());
-        float currentFuel = Float.parseFloat(this.currentFuel.getText().toString());
 
         if(car.getCarModel() instanceof HybridCarModel) {
+            float currentFuel = Float.parseFloat(this.currentFuel.getText().toString());
             return currentEnergy + currentFuel >= neededValue;
         }
         else if (car.getCarModel() instanceof EletricCarModel) {

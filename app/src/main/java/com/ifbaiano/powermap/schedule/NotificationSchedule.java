@@ -13,12 +13,17 @@ import androidx.core.app.NotificationCompat;
 
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MainActivity;
+import com.ifbaiano.powermap.activity.schedule.AddScheduleActivity;
 
 import java.util.Calendar;
 
 public class NotificationSchedule {
 
     private int NOTIFICATION_ID = -1;
+    public static final long ONE_DAY = AlarmManager.INTERVAL_DAY;
+    public static final long WEEK = AlarmManager.INTERVAL_DAY * 7;
+    public static final long MONTH = AlarmManager.INTERVAL_DAY * 30;
+    public static  final long YEAR = AlarmManager.INTERVAL_DAY * 365;
     private static final String CHANNEL_ID = "POWERMAP";
     public NotificationSchedule(int NOTIFICATION_ID) {
         this.NOTIFICATION_ID = NOTIFICATION_ID;
@@ -47,15 +52,15 @@ public class NotificationSchedule {
         calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 
         if (calendar.before(Calendar.getInstance())) {
-            if (repeatInterval == AlarmManager.INTERVAL_DAY) {
+            if (repeatInterval == ONE_DAY) {
                 while (calendar.before(Calendar.getInstance())) {
                     calendar.add(Calendar.DAY_OF_YEAR, 1);
                 }
-            } else if (repeatInterval == AlarmManager.INTERVAL_DAY * 7) {
+            } else if (repeatInterval == WEEK) {
                 calendar.add(Calendar.WEEK_OF_YEAR, 1);
-            } else if (repeatInterval == AlarmManager.INTERVAL_DAY * 30) {
+            } else if (repeatInterval == MONTH) {
                 calendar.add(Calendar.MONTH, 1);
-            } else if (repeatInterval == AlarmManager.INTERVAL_DAY * 365) {
+            } else if (repeatInterval == YEAR) {
                 calendar.add(Calendar.YEAR, 1);
             }
         }

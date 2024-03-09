@@ -5,14 +5,11 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.GridLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,24 +19,32 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
+import com.ifbaiano.powermap.dao.sqlite.ScheduleDaoSqlite;
+import com.ifbaiano.powermap.factory.UserFactory;
+import com.ifbaiano.powermap.model.Schedule;
+import com.ifbaiano.powermap.schedule.NotificationSchedule;
 import com.ifbaiano.powermap.verifier.ScheduleVerifier;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddScheduleActivity extends AppCompatActivity {
 
+     String TITLE_NOTIFICATION;
     ImageFilterButton dateButton, timeButton;
-    TextView textDate, textTime;
+
     RadioButton checkMonth,checkOnce, checkWeek,checkYearly;
     GridLayout typeSchedule;
     Button btnCancelSchedule, btnAddSchedule;
     TextInputEditText textDecriptionSchhedule;
+    TextView  textDate, textTime;
 
-    private String selectedScheduleType;
-
-    private  String selectedWeekday;
+    private long selectedScheduleType = NotificationSchedule.ONE_DAY, selectedWeekday;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -51,7 +56,7 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         this.findViewById();
 
-        final String TITLE_NOTIFICATION = getString(R.string.title_notification);
+        TITLE_NOTIFICATION = getString(R.string.title_notification);
         StatusBarAppearance.changeStatusBarColor(this, R.color.black);
 
         dateButton.setOnClickListener(v -> {
@@ -65,24 +70,63 @@ public class AddScheduleActivity extends AppCompatActivity {
 
 
         btnAddSchedule.setOnClickListener(v -> {
-            if (verifier.verifySchedule(textDate, textTime, textDecriptionSchhedule,  selectedScheduleType)) {
-                String date = textDate.getText().toString();
-                String time = textTime.getText().toString();
-                String description = textDecriptionSchhedule.getText().toString();
-                String weekday =  selectedWeekday.toString();
-                String repetition = selectedScheduleType.toString();
+
+            if (verifier.verifySchedule(textDate, textTime, textDecriptionSchhedule,  Long.toString(selectedScheduleType))) {
+                String dateString = textDate.getText().toString();
+                String timeString = textTime.getText().toString();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                try {
+                    Date parsedDate = sdf.parse(dateString + " " + timeString);
+                    Schedule schedule = new ScheduleDaoSqlite(this.getApplicationContext()).add(new Schedule(
+                             null,
+                            parsedDate,
+                            textDecriptionSchhedule.getText().toString(),
+                            (int) selectedWeekday,
+                            (int) selectedScheduleType
+                    ), UserFactory.getUserInMemory(this.getApplicationContext()).getId());
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(parsedDate);
+                    calendar.add(Calendar.HOUR_OF_DAY, -3);
+
+                   NotificationSchedule notificationSchedule =  new NotificationSchedule(Integer.parseInt(schedule.getId()));
+                   notificationSchedule.scheduleRepeatingNotification(
+                           this.getApplicationContext(),
+                           calendar.get(Calendar.DAY_OF_WEEK),
+                           calendar.get(Calendar.HOUR_OF_DAY),
+                           calendar.get(Calendar.MINUTE),
+                           selectedScheduleType,
+                           TITLE_NOTIFICATION,
+                           schedule.getDescription()
+                   );
+
+                    backIntent();
+
+
+                } catch (ParseException e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "erro", Toast.LENGTH_SHORT).show();
+
             }
 
         });
     }
 
+    private void backIntent(){
+        Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("fragment", "schedule");
+        startActivity(intent);
+    }
     private void findViewById(){
         findViewById(R.id.backButonSchedule).setOnClickListener(v -> {
-            startActivity(new Intent(this, MenuActivity.class));
+            backIntent();
         });
 
         findViewById(R.id.btnCancelSchedule).setOnClickListener(v -> {
-            startActivity(new Intent(this, MenuActivity.class));
+            backIntent();
         });
 
         textDate = findViewById(R.id.textDate);
@@ -118,38 +162,16 @@ public class AddScheduleActivity extends AppCompatActivity {
 
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(year1, month1, dayOfMonth1);
-                    int dayOfWeek = selectedDate.get(Calendar.DAY_OF_WEEK);
+                    selectedWeekday = selectedDate.get(Calendar.DAY_OF_WEEK);
 
-                    String weekday = "";
-                    switch (dayOfWeek) {
-                        case Calendar.SUNDAY:
-                            weekday = "Domingo";
-                            break;
-                        case Calendar.MONDAY:
-                            weekday = "Segunda-feira";
-                            break;
-                        case Calendar.TUESDAY:
-                            weekday = "Terça-feira";
-                            break;
-                        case Calendar.WEDNESDAY:
-                            weekday = "Quarta-feira";
-                            break;
-                        case Calendar.THURSDAY:
-                            weekday = "Quinta-feira";
-                            break;
-                        case Calendar.FRIDAY:
-                            weekday = "Sexta-feira";
-                            break;
-                        case Calendar.SATURDAY:
-                            weekday = "Sábado";
-                            break;
-                    }
                     String selectedDateStr = String.format("%02d/%02d/%d", dayOfMonth1, (month1 + 1), year1);
                     textDate.setText(selectedDateStr);
-                    selectedWeekday = weekday;
-                    Toast.makeText(AddScheduleActivity.this, selectedWeekday, Toast.LENGTH_SHORT).show();
+
                 },
                 year, month, dayOfMonth);
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+        datePickerDialog.getDatePicker().setMinDate(tomorrow.getTimeInMillis());
 
         datePickerDialog.show();
     }
@@ -184,13 +206,13 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         if (checked) {
             if (view.getId() == R.id.checkOnce) {
-                selectedScheduleType = "Once";
+                selectedScheduleType = NotificationSchedule.ONE_DAY;
             } else if (view.getId() == R.id.checkWeek) {
-                selectedScheduleType = "Weekly";
+                selectedScheduleType = NotificationSchedule.WEEK;
             } else if (view.getId() == R.id.checkMonth) {
-                selectedScheduleType = "Monthly";
+                selectedScheduleType = NotificationSchedule.MONTH;
             } else if (view.getId() == R.id.checkYearly) {
-                selectedScheduleType = "Yearly";
+                selectedScheduleType = NotificationSchedule.YEAR;
             }
         }
 
