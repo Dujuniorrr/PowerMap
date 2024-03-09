@@ -8,7 +8,6 @@
     tools:context="fragment.ProfileFragment">
 
 
-
     <ImageView
         android:id="@+id/imgBase"
         android:layout_width="match_parent"

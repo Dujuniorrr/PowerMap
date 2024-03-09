@@ -1,13 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <!-- RecyclerView para exibir a lista de usuários -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewUsers"
+    <ImageView
+        android:id="@+id/imgBaseDecoration"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="636dp"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-2dp"
+        app:srcCompat="@drawable/base_white" />
 
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/textUsersList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="50dp"
+        android:text="Usuarios"
+
+        />
+
+    <Button
+        android:id="@+id/btnUsersList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/btnAdminList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+
+    <ScrollView
+        android:layout_width="391dp"
+        android:layout_height="592dp"
+        android:layout_below="@id/textUsersList"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp">
+
+
+        <RelativeLayout
+            android:id="@+id/deltaRelative"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleView"
+                tools:ignore="NotSibling"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

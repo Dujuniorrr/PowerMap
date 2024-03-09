@@ -1,65 +1,74 @@
 package com.ifbaiano.powermap.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.activity.cars.AddCarActivity;
+import com.ifbaiano.powermap.adapter.CarAdapter;
+import com.ifbaiano.powermap.adapter.UsersAdapter;
+import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
+import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
+import com.ifbaiano.powermap.model.Car;
+import com.ifbaiano.powermap.model.User;
+import com.ifbaiano.powermap.service.CarService;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UsersFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+
 public class UsersFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ProgressBar progressBar;
+    RecyclerView recyclerView;
+    ArrayList<User> user;
+    UsersAdapter adapter;
+    CarService carService;
+    AppCompatActivity mainActivity;
+    View rootView;
+
 
     public UsersFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UsersFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UsersFragment newInstance(String param1, String param2) {
-        UsersFragment fragment = new UsersFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public static UsersFragment newInstance() {
+        return new UsersFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false);
+
+
+        this.user = new UserDaoSqlite(getContext()).findAllClients();
+        this.mainActivity = (AppCompatActivity) getActivity();
+        this.rootView = inflater.inflate(R.layout.fragment_users, container, false);
+        /*
+        this.findViewById();
+        this.makeInstances();
+        this.formatRecycleView();
+        this.listCars();
+        btnReturn.setOnClickListener(v -> {
+            startActivity(new Intent(mainActivity.getApplicationContext(), AddCarActivity.class));
+        }); */
+        return rootView;
+
+    }
+
+    private void findViewById(){
+        recyclerView = rootView.findViewById(R.id.recycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity.getApplicationContext()));
+        progressBar = rootView.findViewById(R.id.progressBar);
+        btnReturn = rootView.findViewById(R.id.addBtn);
     }
 }
