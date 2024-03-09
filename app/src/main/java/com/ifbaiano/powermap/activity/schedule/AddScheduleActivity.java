@@ -5,11 +5,13 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -29,13 +31,16 @@ import java.util.Calendar;
 public class AddScheduleActivity extends AppCompatActivity {
 
     ImageFilterButton dateButton, timeButton;
-    TextInputEditText textDate, textTime;
+    TextView textDate, textTime;
     RadioButton checkMonth,checkOnce, checkWeek,checkYearly;
     GridLayout typeSchedule;
     Button btnCancelSchedule, btnAddSchedule;
     TextInputEditText textDecriptionSchhedule;
 
     private String selectedScheduleType;
+
+    private  String selectedWeekday;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +52,12 @@ public class AddScheduleActivity extends AppCompatActivity {
         this.findViewById();
 
         final String TITLE_NOTIFICATION = getString(R.string.title_notification);
+        StatusBarAppearance.changeStatusBarColor(this, R.color.black);
 
         dateButton.setOnClickListener(v -> {
             showDatePickerDialog();
         });
+
 
         timeButton.setOnClickListener(v -> {
             showTimePickerDialog();
@@ -59,9 +66,11 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         btnAddSchedule.setOnClickListener(v -> {
             if (verifier.verifySchedule(textDate, textTime, textDecriptionSchhedule,  selectedScheduleType)) {
-                Toast.makeText(this, "verificação feita", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Prencha todos os campos", Toast.LENGTH_SHORT).show();
+                String date = textDate.getText().toString();
+                String time = textTime.getText().toString();
+                String description = textDecriptionSchhedule.getText().toString();
+                String weekday =  selectedWeekday.toString();
+                String repetition = selectedScheduleType.toString();
             }
 
         });
@@ -105,50 +114,45 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
-                // Aplicando o estilo personalizado (opcional)
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        // Pegando o dia da semana
-                        Calendar selectedDate = Calendar.getInstance();
-                        selectedDate.set(year, month, dayOfMonth);
-                        int dayOfWeek = selectedDate.get(Calendar.DAY_OF_WEEK);
-                        // Formatando a data e o dia da semana
-                        String weekday = "";
-                        switch (dayOfWeek) {
-                            case Calendar.SUNDAY:
-                                weekday = "Domingo";
-                                break;
-                            case Calendar.MONDAY:
-                                weekday = "Segunda-feira";
-                                break;
-                            case Calendar.TUESDAY:
-                                weekday = "Terça-feira";
-                                break;
-                            case Calendar.WEDNESDAY:
-                                weekday = "Quarta-feira";
-                                break;
-                            case Calendar.THURSDAY:
-                                weekday = "Quinta-feira";
-                                break;
-                            case Calendar.FRIDAY:
-                                weekday = "Sexta-feira";
-                                break;
-                            case Calendar.SATURDAY:
-                                weekday = "Sábado";
-                                break;
-                        }
-                        String selectedDateStr = String.format("%02d/%02d/%d", dayOfMonth, (month + 1), year);
-                        textDate.setText(selectedDateStr);
-                        String selectedWeekday = weekday;
-                        Toast.makeText(AddScheduleActivity.this, selectedWeekday, Toast.LENGTH_SHORT).show();
+                (view, year1, month1, dayOfMonth1) -> {
+
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year1, month1, dayOfMonth1);
+                    int dayOfWeek = selectedDate.get(Calendar.DAY_OF_WEEK);
+
+                    String weekday = "";
+                    switch (dayOfWeek) {
+                        case Calendar.SUNDAY:
+                            weekday = "Domingo";
+                            break;
+                        case Calendar.MONDAY:
+                            weekday = "Segunda-feira";
+                            break;
+                        case Calendar.TUESDAY:
+                            weekday = "Terça-feira";
+                            break;
+                        case Calendar.WEDNESDAY:
+                            weekday = "Quarta-feira";
+                            break;
+                        case Calendar.THURSDAY:
+                            weekday = "Quinta-feira";
+                            break;
+                        case Calendar.FRIDAY:
+                            weekday = "Sexta-feira";
+                            break;
+                        case Calendar.SATURDAY:
+                            weekday = "Sábado";
+                            break;
                     }
+                    String selectedDateStr = String.format("%02d/%02d/%d", dayOfMonth1, (month1 + 1), year1);
+                    textDate.setText(selectedDateStr);
+                    selectedWeekday = weekday;
+                    Toast.makeText(AddScheduleActivity.this, selectedWeekday, Toast.LENGTH_SHORT).show();
                 },
                 year, month, dayOfMonth);
 
         datePickerDialog.show();
     }
-
 
     private void showTimePickerDialog() {
         final Calendar calendar = Calendar.getInstance();
@@ -157,14 +161,10 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
-                 // Aplicando o estilo personalizado
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                        String selectedTime = formatter.format(LocalTime.of(hourOfDay, minute));
-                        textTime.setText(selectedTime);
-                    }
+                (view, hourOfDay1, minute1) -> {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                    String selectedTime = formatter.format(LocalTime.of(hourOfDay1, minute1));
+                    textTime.setText(selectedTime);
                 },
                 hourOfDay, minute, true);
 
@@ -173,20 +173,16 @@ public class AddScheduleActivity extends AppCompatActivity {
 
 
     public void onRadioButtonClicked(View view) {
-        // Checar qual RadioButton foi clicado
         boolean checked = ((RadioButton) view).isChecked();
 
-        // Desmarcar todos os outros RadioButtons
         checkOnce.setChecked(false);
         checkWeek.setChecked(false);
         checkMonth.setChecked(false);
         checkYearly.setChecked(false);
 
-        // Mudar o estado do RadioButton clicado para "true"
         ((RadioButton) view).setChecked(checked);
 
         if (checked) {
-            // Defina a variável selectedScheduleType com base no RadioButton clicado
             if (view.getId() == R.id.checkOnce) {
                 selectedScheduleType = "Once";
             } else if (view.getId() == R.id.checkWeek) {
@@ -197,6 +193,7 @@ public class AddScheduleActivity extends AppCompatActivity {
                 selectedScheduleType = "Yearly";
             }
         }
+
 }
 
 
