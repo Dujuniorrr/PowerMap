@@ -21,7 +21,7 @@ import com.ifbaiano.powermap.model.HybridCarModel;
 
 import java.util.ArrayList;
 
-public class ModelCarAdapter extends RecyclerView.Adapter {
+public class ModelCarAdapter extends RecyclerView.Adapter implements AdapterCustom {
     ArrayList<CarModel>  carModels;
     Context context;
     private EditClickListener editClickListener;

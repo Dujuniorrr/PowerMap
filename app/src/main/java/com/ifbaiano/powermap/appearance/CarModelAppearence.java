@@ -8,14 +8,15 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.adapter.AdapterCustom;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
 
 public class CarModelAppearence {
-    private final ModelCarAdapter adapter;
+    private final AdapterCustom adapter;
     private final RecyclerView recyclerView;
     private final Context ctx;
 
-    public CarModelAppearence(ModelCarAdapter adapter, RecyclerView recyclerView, Context ctx) {
+    public CarModelAppearence(AdapterCustom adapter, RecyclerView recyclerView, Context ctx) {
         this.adapter = adapter;
         this.recyclerView = recyclerView;
         this.ctx = ctx;

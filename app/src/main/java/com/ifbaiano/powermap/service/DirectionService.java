@@ -9,6 +9,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
@@ -22,14 +23,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DirectionService extends AsyncTask<LatLng, Void, List<LatLng>> {
-    private final LatLng moreCloserStation;
+    private static DirectionService instance = null;
+    private LatLng moreCloserStation = null;
     private GeoApiContext geoApiContext;
     @SuppressLint("StaticFieldLeak")
-    private final Context ctx;
-
-    private final GoogleMap mMap;
+    private Context ctx = null;
+    private GoogleMap mMap = null;
     public double totalDistance;
 
+    public DirectionService() {}
+
+    //Sigleton
+    public static DirectionService getInstance(LatLng moreCloserStation, Context ctx, GoogleMap mMap) {
+        if (instance == null) {
+            instance = new DirectionService(moreCloserStation, ctx, mMap);
+        }
+        return instance;
+    }
 
     public DirectionService(LatLng moreCloserStation, Context ctx, GoogleMap mMap) {
         this.moreCloserStation = moreCloserStation;

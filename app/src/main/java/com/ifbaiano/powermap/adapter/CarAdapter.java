@@ -21,7 +21,7 @@ import com.ifbaiano.powermap.model.HybridCarModel;
 
 import java.util.ArrayList;
 
-public class CarAdapter extends RecyclerView.Adapter {
+public class CarAdapter extends RecyclerView.Adapter implements  AdapterCustom{
     ArrayList<Car> cars;
     Context context;
     private DeleteClickListener deleteClickListener;
@@ -69,7 +69,12 @@ public class CarAdapter extends RecyclerView.Adapter {
         }
 
         if(selectMode){
-            //
+            vhClass.deleteButton.setVisibility(View.GONE);
+            vhClass.card.setOnClickListener( v -> {
+                if (onClickListener != null) {
+                    onClickListener.onClick( vhClass.getLayoutPosition(), vhClass.card, car);
+                }
+            });
         }
         else{
             vhClass.deleteButton.setOnClickListener( v -> {

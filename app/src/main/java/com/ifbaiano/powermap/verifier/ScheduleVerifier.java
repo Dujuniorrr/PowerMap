@@ -23,8 +23,8 @@ public class ScheduleVerifier extends Verifier {
     public boolean verifySchedule(TextView date, TextView time, TextInputEditText desciption, String radioGroup) {
         boolean isValid = true;
 
-        isValid &= validateField(date, R.string.date_required);
-        isValid &= validateField(time, R.string.time_required);
+        isValid &= validateFieldText(date, R.string.date_required);
+        isValid &= validateFieldText(time, R.string.time_required);
         isValid &= validateField(desciption, R.string.description_required);
         isValid &= validateRadio(radioGroup, R.string.radio_required);
 
@@ -101,13 +101,7 @@ public class ScheduleVerifier extends Verifier {
         return isValid;
     }
 
-    protected boolean validateField(TextView field, int errorMessageResId) {
-        if (TextUtils.isEmpty(field.getText())) {
-            field.setError(this.getCtx().getString(errorMessageResId));
-            return false;
-        }
-        return true;
-    }
+
 }
 
 

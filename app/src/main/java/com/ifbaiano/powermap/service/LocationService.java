@@ -125,20 +125,20 @@ public class LocationService {
 
 
     private void putMarker(LatLng userLocation) {
-        BitmapDescriptor icon;
+        BitmapDescriptor icon = null;
         Car carInMemory = CarFactory.getCarInMemory(mainActivity.getApplicationContext());
-        if(carInMemory.getId() == null){
+
+        if (carInMemory.getId() == null) {
             @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = mainActivity.getResources().getDrawable(R.drawable.img_byddolphin01);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 150, 100, false);
             icon = BitmapDescriptorFactory.fromBitmap(smallMarker);
-        }
-        else{
+        } else {
             Car car = new CarDaoSqlite(mainActivity).findOne(carInMemory.getId());
             try {
-                Bitmap bitmap =   MediaStore.Images.Media.getBitmap(
-                        mainActivity.getContentResolver() , Uri.parse(car.getCarModel().getPathImg()));
-                Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 150, 100, false);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                        mainActivity.getContentResolver(), Uri.parse(car.getCarModel().getPathImg()));
+                Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 180, 100, false);
 
                 icon = BitmapDescriptorFactory.fromBitmap(
                         smallMarker
@@ -146,13 +146,14 @@ public class LocationService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-    }
+        }
 
         mMarker = mMap.addMarker(new MarkerOptions()
                 .position(userLocation)
                 .title(mainActivity.getString(R.string.your_location))
                 .icon(icon));
+
+
     }
 
 

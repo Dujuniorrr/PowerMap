@@ -72,17 +72,18 @@ public class EditPasswordActivity extends AppCompatActivity {
 
                 this.executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite, userEditFirebase);
             }
-
-
         });
-
-
     }
 
+    private void backIntent(){
+        Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("fragment", "profile");
+        startActivity(intent);
+    }
 
     private void findViewsById() {
         findViewById(R.id.backButonProfilePassword).setOnClickListener(v -> {
-            startActivity(new Intent(this, MenuActivity.class));
+            backIntent();
         });
         textNameEditP = findViewById(R.id.textNameEditP);
         backButonProfilePassword = findViewById(R.id.backButonProfilePassword);
@@ -109,7 +110,7 @@ public class EditPasswordActivity extends AppCompatActivity {
 
             // new BitmapCustomFactory(this, imageProfilEditPassword).setImageByUri(user.getImgpath(), R.drawable.baseline_person);
         } else {
-            startActivity(new Intent(this, MenuActivity.class));
+            backIntent();
         }
 
     }
@@ -124,8 +125,7 @@ public class EditPasswordActivity extends AppCompatActivity {
                 UserFactory.saveUserInMemory(user, EditPasswordActivity.this);
                 UserFactory.saveUserInMemoryFirebase(userF, EditPasswordActivity.this);
 
-                Intent intent = new Intent(this, MenuActivity.class);
-                startActivity(intent);
+                backIntent();
             } else {
                 // If unsuccessful
                 Toast.makeText(this, getString(R.string.error_register), Toast.LENGTH_SHORT).show();

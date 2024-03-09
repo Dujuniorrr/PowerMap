@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:padding="4dp"
+        android:background="@drawable/base_white_rounded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/select_car"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:id="@+id/scrollContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/select"
+            android:layout_marginVertical="15dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/recycleViewBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <ScrollView
+                    android:id="@+id/scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="10dp">
+
+                    <RelativeLayout
+                        android:id="@+id/deltaRelative"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/deltaRelative"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="40dp"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginTop="90dp"
+                            android:indeterminateTint="@color/red"
+                            android:padding="5dp"
+                            android:textSize="20dp"
+                            tools:ignore="NotSibling" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycleView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:visibility="gone"
+                            tools:ignore="NotSibling" />
+
+                    </RelativeLayout>
+                </ScrollView>
+            </RelativeLayout>
+
+        </ScrollView>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_below="@+id/scrollContainer"
+            android:id="@+id/submitForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/button_rounded_dark"
+            android:hint="@string/select"
+            android:padding="15dp"
+            android:layout_marginBottom="15dp"
+            android:textColorHint="@color/white"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

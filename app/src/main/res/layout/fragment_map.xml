@@ -15,6 +15,7 @@
         android:layout_height="match_parent" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
         android:id="@+id/calculate"
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -28,6 +29,7 @@
         android:contentDescription="@string/calculate" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:visibility="gone"
         android:id="@+id/changeCar"
         android:layout_width="45dp"
         android:layout_height="45dp"

@@ -1,5 +1,6 @@
 package com.ifbaiano.powermap.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,7 @@ public class MenuActivity extends AppCompatActivity  {
         bottomNavigationView = findViewById(R.id.bottomNavigationMenuUser);
 
         this.verifyUser();
+        this.setInitialFragment();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
@@ -58,16 +60,34 @@ public class MenuActivity extends AppCompatActivity  {
     }
 
     private void verifyUser(){
-        if( UserFactory.getUserInMemory(getApplicationContext()).isAdmin()){
+        if( UserFactory.getUserInMemory(getApplicationContext()).isAdmin()) {
             bottomNavigationView.getMenu().clear();
             bottomNavigationView.inflateMenu(R.menu.menu_admin);
-            replaceFragment(new ModelsFragment());
         }
-        else{
-            replaceFragment(new CarFragment());
+    }
+
+    private void setInitialFragment(){
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String fragmentName = extras.getString("fragment");
+            if ("profile".equals(fragmentName)) {
+                replaceFragment(new ProfileFragment());
+                bottomNavigationView.getMenu().findItem(R.id.icon_profile_user).setChecked(true);
+            } else if ("schedule".equals(fragmentName)) {
+                replaceFragment(new ScheduleFragment());
+                bottomNavigationView.getMenu().findItem(R.id.icon_schedule_user).setChecked(true);
+            }
+        } else {
+            if (UserFactory.getUserInMemory(getApplicationContext()).isAdmin()) {
+                replaceFragment(new ModelsFragment());
+            } else {
+                replaceFragment(new CarFragment());
+            }
         }
 
     }
+
+
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
