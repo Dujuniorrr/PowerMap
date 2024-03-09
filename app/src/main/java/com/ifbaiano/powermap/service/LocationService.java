@@ -160,7 +160,4 @@ public class LocationService {
         return placeService;
     }
 
-    public void setPlaceService(PlaceService placeService) {
-        this.placeService = placeService;
-    }
 }
