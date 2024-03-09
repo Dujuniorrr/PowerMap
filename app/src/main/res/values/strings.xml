@@ -85,11 +85,8 @@
     <string name="time_required">É necessário informar o hotário!</string>
     <string name="description_required">É necessário informar a descrição!</string>
     <string name="radio_required">É necessário selecionar uma repetição!</string>
-
-
-
-
-
+    <string name="date_future">Informe uma data futura!</string>
+    <string name="time_future">Informe um horário acima do hórario atual!</string>
 
 
     <!-- Menu -->

@@ -87,6 +87,8 @@
     <string name="time_required">Timetable must be provided!</string>
     <string name="description_required">Description must be provided!</string>
     <string name="radio_required">Repeat must be selected!</string>
+    <string name="date_future">Please enter a future date!</string>
+    <string name="time_future">Enter a time above the current time!</string>
 
 
     <!-- Menu -->
