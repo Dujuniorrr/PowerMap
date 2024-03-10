@@ -1,6 +1,5 @@
 package com.ifbaiano.powermap.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.activity.cars.AddCarActivity;
-import com.ifbaiano.powermap.adapter.CarAdapter;
 import com.ifbaiano.powermap.adapter.UsersAdapter;
-import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
-import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.User;
 import com.ifbaiano.powermap.service.CarService;
 

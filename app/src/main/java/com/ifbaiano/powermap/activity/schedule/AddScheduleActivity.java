@@ -157,7 +157,7 @@ public class AddScheduleActivity extends AppCompatActivity {
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
+                this,R.style.TimePickerDialogStyle,
                 (view, year1, month1, dayOfMonth1) -> {
 
                     Calendar selectedDate = Calendar.getInstance();
@@ -183,7 +183,7 @@ public class AddScheduleActivity extends AppCompatActivity {
         int minute = calendar.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog = new TimePickerDialog(
-                this,
+                this,R.style.DatePickerDialogStyle,
                 (view, hourOfDay1, minute1) -> {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                     String selectedTime = formatter.format(LocalTime.of(hourOfDay1, minute1));
