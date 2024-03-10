@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -40,9 +42,9 @@ public class AddScheduleActivity extends AppCompatActivity {
 
     RadioButton checkMonth,checkOnce, checkWeek,checkYearly;
     GridLayout typeSchedule;
-    Button btnCancelSchedule, btnAddSchedule;
+    Button btnAddSchedule;
     TextInputEditText textDecriptionSchhedule;
-    TextView  textDate, textTime;
+    TextInputEditText  textDate, textTime;
 
     private long selectedScheduleType = NotificationSchedule.ONE_DAY, selectedWeekday;
 
@@ -103,17 +105,12 @@ public class AddScheduleActivity extends AppCompatActivity {
 
 
                 } catch (ParseException e) {
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.error_data), Toast.LENGTH_SHORT).show();
                 }
-            }
-            else{
-                Toast.makeText(getApplicationContext(), "erro", Toast.LENGTH_SHORT).show();
-
             }
 
         });
     }
-//Espaço de metodos
 
     private void backIntent(){
         Intent intent = new Intent(this, MenuActivity.class);
@@ -125,11 +122,9 @@ public class AddScheduleActivity extends AppCompatActivity {
             backIntent();
         });
 
-        findViewById(R.id.btnCancelSchedule).setOnClickListener(v -> {
-            backIntent();
-        });
 
         textDate = findViewById(R.id.textDate);
+
         textTime = findViewById(R.id.textTime);
         dateButton = findViewById(R.id.dateButton);
         timeButton = findViewById(R.id.timeButton);
@@ -146,7 +141,6 @@ public class AddScheduleActivity extends AppCompatActivity {
         checkYearly.setOnClickListener(this::onRadioButtonClicked);
         typeSchedule = findViewById(R.id.typeSchedule);
 
-        btnCancelSchedule = findViewById(R.id.btnCancelSchedule);
         btnAddSchedule = findViewById(R.id.btnAddSchedule);
     }
 
@@ -170,8 +164,8 @@ public class AddScheduleActivity extends AppCompatActivity {
                 },
                 year, month, dayOfMonth);
         Calendar tomorrow = Calendar.getInstance();
-//        tomorrow.add(Calendar.DAY_OF_YEAR, 1);
-//        datePickerDialog.getDatePicker().setMinDate(tomorrow.getTimeInMillis());
+        tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+        datePickerDialog.getDatePicker().setMinDate(tomorrow.getTimeInMillis());
 
         datePickerDialog.show();
     }

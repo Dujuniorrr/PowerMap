@@ -48,10 +48,11 @@ public class RegisterActivity extends AppCompatActivity {
         registerUserBtn.setOnClickListener(v -> { submitForm(); });
 
         backButonRegister.setOnClickListener(v -> {
-                Intent intent = new Intent(RegisterActivity.this, MenuActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, InitialUsersActivity.class);
                 startActivity(intent);
             }
         );
+
 
         textAccountLogin.setOnClickListener(v -> {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);

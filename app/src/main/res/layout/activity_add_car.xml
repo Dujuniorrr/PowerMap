@@ -39,9 +39,12 @@
       android:drawableEnd="@drawable/baseline_directions_car_24"
       android:hint="@string/name_car_input"
       android:inputType="text"
-      android:singleLine="true" />
+      android:singleLine="true"
+      android:maxLength="25"
+      />
 
   <TextView
+
       android:id="@+id/select"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
