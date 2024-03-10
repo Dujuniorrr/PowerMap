@@ -11,7 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScheduleVerifier extends Verifier {
 
@@ -80,38 +81,74 @@ public class ScheduleVerifier extends Verifier {
 
         String timeString = timeText.getText().toString();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        sdf.setLenient(false); // Impede que a SimpleDateFormat aceite horas e minutos inválidos.
 
         try {
-            sdf.parse(timeString);
+            Date parsedTime = sdf.parse(timeString);
+            if (parsedTime != null) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(parsedTime);
+
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                if (hour > 23 || minute > 59) {
+                    isValid = false;
+                    timeText.setError(getCtx().getString(errorMessageResId));
+                }
+            }
         } catch (ParseException e) {
-            timeText.setError(getCtx().getString(errorMessageResId));
             isValid = false;
+            timeText.setError(getCtx().getString(errorMessageResId));
         }
 
         return isValid;
     }
+
 
 
     public boolean validateDateStandard(TextInputEditText dateText, int errorMessageResId) {
-        Context context = dateText.getContext();
-        String dateFormat = "dd/MM/yyyy";
-        boolean isValid = true;
+        boolean isValid = false;
+        String dateString = dateText.getText().toString().trim();
 
-        String inputDate = dateText.getText().toString().trim();
+        // Verifica se a data está no formato dd/MM/yyyy
+        Pattern pattern = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+        Matcher matcher = pattern.matcher(dateString);
+        if (matcher.matches()) {
+            // Extrai o dia, mês e ano da data
+            String[] dateParts = dateString.split("/");
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int year = Integer.parseInt(dateParts[2]);
 
-        if (!inputDate.isEmpty()) {
-            SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
-            sdf.setLenient(false);
-
-            try {
-                sdf.parse(inputDate);
-            } catch (ParseException e) {
-                isValid = false;
+            // Verifica se o dia está dentro do intervalo válido (01-31)
+            if (day >= 1 && day <= 31) {
+                // Verifica se o mês está dentro do intervalo válido (01-12)
+                if (month >= 1 && month <= 12) {
+                    // Verifica se o ano é um valor razoável (ajuste conforme necessário)
+                    if (year >= 1900 && year <= Calendar.getInstance().get(Calendar.YEAR)) {
+                        // Verifica o mês de fevereiro
+                        if (month == 2) {
+                            // Se for fevereiro, o dia máximo é 28 (considerando anos não bissextos)
+                            if (day >= 1 && day <= 28) {
+                                isValid = true;
+                            } else {
+                                dateText.setError(getCtx().getString(errorMessageResId));
+                            }
+                        } else {
+                            isValid = true;
+                        }
+                    } else {
+                        dateText.setError(getCtx().getString(errorMessageResId));
+                    }
+                } else {
+                    dateText.setError(getCtx().getString(errorMessageResId));
+                }
+            } else {
+                dateText.setError(getCtx().getString(errorMessageResId));
             }
-
-            if (!isValid) {
-                dateText.setError(context.getString(errorMessageResId));
-            }
+        } else {
+            dateText.setError(getCtx().getString(errorMessageResId));
         }
 
         return isValid;
@@ -119,7 +156,7 @@ public class ScheduleVerifier extends Verifier {
 
 
 
-}
+    }
 
 
 
