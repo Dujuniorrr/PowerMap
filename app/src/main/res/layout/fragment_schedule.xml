@@ -48,5 +48,50 @@
         app:tint="@color/white"
         android:src="@drawable/baseline_add_24" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="160dp">
+
+            <RelativeLayout
+                android:id="@+id/deltaRelative"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/deltaRelative"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="90dp"
+                    android:indeterminateTint="@color/red"
+                    android:padding="5dp"
+                    android:textSize="20dp"
+                    tools:ignore="NotSibling" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone"
+                    tools:ignore="NotSibling" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
 </FrameLayout>

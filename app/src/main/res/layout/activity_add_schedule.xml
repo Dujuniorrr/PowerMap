@@ -114,7 +114,7 @@
         android:handwritingBoundsOffsetRight="@dimen/cardview_compat_inset_shadow"
         android:hint="@string/description_schedule"
         android:inputType="text"
-        android:maxLength="30"
+        android:maxLength="80"
         android:singleLine="true"
         android:textColorHint="@color/sub_background_form" />
 

@@ -2,6 +2,7 @@ package com.ifbaiano.powermap.factory;
 
 import android.database.Cursor;
 import android.icu.text.SimpleDateFormat;
+import android.util.Log;
 
 import com.ifbaiano.powermap.model.Schedule;
 
@@ -25,14 +26,8 @@ public class ScheduleFactory {
 
     private static Date castStringToDate(String dateString){
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        Date date = null;
-        try {
-            date = dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            return null;
-        }
-
+        long timestamp = Long.parseLong(dateString);
+        Date date = new Date(timestamp);
         return date;
     }
 }
