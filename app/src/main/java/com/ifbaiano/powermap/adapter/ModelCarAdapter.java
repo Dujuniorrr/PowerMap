@@ -99,7 +99,7 @@ public class ModelCarAdapter extends RecyclerView.Adapter implements AdapterCust
         return carModels.size();
     }
 
-    public static class ViewHolderClass extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolderClass extends RecyclerView.ViewHolder  {
 
         View card;
         TextView name, year, energyConsumption, fuelConsumption;
@@ -121,8 +121,6 @@ public class ModelCarAdapter extends RecyclerView.Adapter implements AdapterCust
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }
 
-        @Override
-        public void onClick(View v) {}
     }
 
     public interface EditClickListener {

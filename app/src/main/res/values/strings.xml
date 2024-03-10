@@ -145,6 +145,9 @@
 <!--  Schedule -->
     <string name="add_time">Adicione um horário…</string>
     <string name="add_date">Adicione uma data…</string>
+    <string name="all_users">Todos</string>
+    <string name="clients">Clientes </string>
+    <string name="admins">Admins</string>
 
 <!--    Location-->
     <string name="error_location">Não foi possível obter a localização atual! Ligue o GPS</string>

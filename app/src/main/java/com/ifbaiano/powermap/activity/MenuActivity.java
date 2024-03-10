@@ -77,6 +77,11 @@ public class MenuActivity extends AppCompatActivity  {
                 replaceFragment(new ScheduleFragment());
                 bottomNavigationView.getMenu().findItem(R.id.icon_schedule_user).setChecked(true);
             }
+            else if ("users".equals(fragmentName)) {
+                replaceFragment(new UsersFragment());
+                bottomNavigationView.getMenu().findItem(R.id.icon_users_admin).setChecked(true);
+            }
+
         } else {
             if (UserFactory.getUserInMemory(getApplicationContext()).isAdmin()) {
                 replaceFragment(new ModelsFragment());

@@ -1,6 +1,7 @@
 package com.ifbaiano.powermap.dao.firebase;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -69,61 +70,68 @@ public class UserDaoFirebase implements UserDao {
 
     @Override
     public ArrayList<User>  findAll() {
+        ArrayList<User> allUsers = new ArrayList<>();
         Query query = firebaseDatabase.getReference(TABLE_NAME);
         try {
             DataSnapshot dataSnapshot = Tasks.await(query.get());
 
             if (dataSnapshot.exists()) {
-                ArrayList<User> allUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     allUsers.add(user);
                 }
                 return allUsers;
             }
-            return null;
+            return allUsers;
         } catch (ExecutionException | InterruptedException e) {
-            return null;
+            Log.d("teste", e.getMessage());
+            return allUsers;
         }
     }
 
     @Override
     public ArrayList<User> findAllClients() {
-        Query query = firebaseDatabase.getReference(TABLE_NAME).orderByChild("isAdmin").equalTo(false);
+        ArrayList<User> allUsers = new ArrayList<>();
+
+        Query query = firebaseDatabase.getReference(TABLE_NAME).orderByChild("admin").equalTo(false);
         try {
             DataSnapshot dataSnapshot = Tasks.await(query.get());
+            Log.d("teste", Boolean.toString(dataSnapshot.exists()));
 
             if (dataSnapshot.exists()) {
-                ArrayList<User> allUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     allUsers.add(user);
                 }
                 return allUsers;
             }
-            return null;
+            return allUsers;
         } catch (ExecutionException | InterruptedException e) {
-            return null;
+            Log.d("teste", e.getMessage());
+
+            return allUsers;
         }
     }
 
     @Override
     public ArrayList<User> findAllAdmins() {
-        Query query = firebaseDatabase.getReference(TABLE_NAME).orderByChild("isAdmin").equalTo(true);
+        ArrayList<User> allUsers = new ArrayList<>();
+        Query query = firebaseDatabase.getReference(TABLE_NAME).orderByChild("admin").equalTo(true);
         try {
             DataSnapshot dataSnapshot = Tasks.await(query.get());
-
+            Log.d("teste", Boolean.toString(dataSnapshot.exists()));
             if (dataSnapshot.exists()) {
-                ArrayList<User> allUsers = new ArrayList<>();
+                 allUsers = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
+
                     allUsers.add(user);
                 }
                 return allUsers;
             }
-            return null;
+            return allUsers;
         } catch (ExecutionException | InterruptedException e) {
-            return null;
+            return allUsers;
         }
     }
 

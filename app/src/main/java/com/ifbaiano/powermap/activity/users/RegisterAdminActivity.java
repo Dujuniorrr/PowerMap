@@ -48,7 +48,7 @@ public class RegisterAdminActivity extends AppCompatActivity {
         registerAdminBtn.setOnClickListener(v -> {
             User user = UserFactory.getUserInMemory(getApplicationContext());
 
-            if(user.isAdmin()==true){
+            if(user.isAdmin()){
                 this.submitForm();
             } else{
                 Toast.makeText(this, getString(R.string.error_admin_register), Toast.LENGTH_SHORT).show();
@@ -60,10 +60,15 @@ public class RegisterAdminActivity extends AppCompatActivity {
 
     }
 
+    private void backButton(){
+        Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("fragment", "users");
+        startActivity(intent);
+    }
     private void findViewsById(){
 
         findViewById(R.id.backButonAdminRegiter).setOnClickListener(v -> {
-            startActivity(new Intent(this, MenuActivity.class));
+            backButton();
         });
 
         backButonAdminRegiter = findViewById(R.id.backButonAdminRegiter);
@@ -85,7 +90,6 @@ public class RegisterAdminActivity extends AppCompatActivity {
         new Thread(() -> {
             boolean emailAlreadyExists = checkEmailExists();
             //não está chamando o submit
-            Log.d("Submit", "submit foi chamdo ");
 
             if (verifyFormValidity(emailAlreadyExists)) {
                 String passwordCryp = CryptographyPasswordService.encryptPassword(passwordAdminRegister.getText().toString().trim());
@@ -95,11 +99,6 @@ public class RegisterAdminActivity extends AppCompatActivity {
                         passwordCryp,
                         true
                 );
-
-                Log.d("Register admin", "usario salvo: "+newUser.getPassword());
-                Log.d("Register admin nome", "usario salvo: "+newUser.getName());
-
-
 
                 User userAddedFirebase = userRegisterService.add(newUser);
                 userRegisterService.setDao(new UserDaoSqlite(getApplicationContext()));
@@ -119,11 +118,8 @@ public class RegisterAdminActivity extends AppCompatActivity {
     private void executeAfterRegistration(boolean isUserRegisteredFirebase, User user) {
         runOnUiThread(() -> {
             if (isUserRegisteredFirebase) {
-                // Se bem-sucedido, vai para a tela de listar carros
-                Intent intent= new Intent(RegisterAdminActivity.this, ProfileFragment.class);
-                startActivity(intent);
+                 backButton();
             } else {
-                // Se não for bem-sucedido
                 Toast.makeText(RegisterAdminActivity.this, getString(R.string.error_register), Toast.LENGTH_SHORT).show();
             }
         });

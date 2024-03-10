@@ -2,76 +2,121 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/sub_background_form"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imgBaseDecoration"
-        android:layout_width="match_parent"
-        android:layout_height="636dp"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="bottom"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="-2dp"
-        />
-
-
     <TextView
-        android:id="@+id/textUsersList"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="50dp"
-        android:text="Usuarios"
-
-        />
-
-    <Button
-        android:id="@+id/btnUsersList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/btnAdminList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-
-    <ScrollView
-        android:layout_width="391dp"
-        android:layout_height="592dp"
-        android:layout_below="@id/textUsersList"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginTop="20dp"
+        android:text="@string/users"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="-4dp"
+        android:background="@drawable/button_red"
+        android:end="@id/title"
+        android:hint="@string/add"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
 
 
-        <RelativeLayout
-            android:id="@+id/deltaRelative"
+    <RelativeLayout
+        android:layout_marginTop="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/base_white">
+
+        <RadioGroup
+            android:id="@+id/type"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/all"
+                android:layout_width="99dp"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:text="@string/all_users"
+                android:theme="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/clients"
+                android:layout_width="102dp"
+                android:layout_height="50dp"
+                android:text="@string/clients"
+                android:theme="@style/RadioButton" />
+
+            <RadioButton
+                android:id="@+id/admins"
+                android:layout_width="102dp"
+                android:layout_height="50dp"
+                android:text="@string/admins"
+                android:theme="@style/RadioButton" />
+
+
+        </RadioGroup>
+
+        <ScrollView
+            android:layout_below="@+id/type"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp">
+            android:layout_marginTop="1dp">
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView"
-                tools:ignore="NotSibling"
+            <RelativeLayout
+                android:id="@+id/deltaRelative"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:visibility="gone" />
+                android:layout_marginHorizontal="10dp">
 
-        </RelativeLayout>
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/deltaRelative"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="90dp"
+                    android:indeterminateTint="@color/red"
+                    android:padding="5dp"
+                    android:textSize="20dp"
+                    tools:ignore="NotSibling" />
 
-    </ScrollView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone"
+                    tools:ignore="NotSibling" />
 
+            </RelativeLayout>
 
-
+        </ScrollView>
+    </RelativeLayout>
 
 </RelativeLayout>

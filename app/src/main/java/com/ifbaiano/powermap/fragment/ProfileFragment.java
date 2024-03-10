@@ -87,21 +87,6 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
-//        User userAdmin = UserFactory.getUserInMemory(getActivity());
-
-//        if (userAdmin.isAdmin()) {
-//            btnAddAdmin.setVisibility(View.VISIBLE);
-//        } else {
-//            btnAddAdmin.setVisibility(View.GONE);
-//        }
-//
-//        btnAddAdmin.setOnClickListener(v -> {
-//
-//            Intent intent;
-//            intent = new Intent(getActivity(), RegisterAdminActivity.class);
-//            startActivity(intent);
-//        });
-
         User user = UserFactory.getUserInMemory(getActivity());
         btnDeleteAccount.setOnClickListener(v -> {
             new UserDaoFirebase(mainActivity).remove(UserFactory.getUserInMemoryFirebase(mainActivity));

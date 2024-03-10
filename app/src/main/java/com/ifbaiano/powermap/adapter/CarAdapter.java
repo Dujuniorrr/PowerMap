@@ -92,7 +92,7 @@ public class CarAdapter extends RecyclerView.Adapter implements  AdapterCustom{
         return cars.size();
     }
 
-    public static class ViewHolderClass extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolderClass extends RecyclerView.ViewHolder {
 
         View card;
         TextView name, year, energyConsumption, fuelConsumption;
@@ -113,8 +113,7 @@ public class CarAdapter extends RecyclerView.Adapter implements  AdapterCustom{
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }
 
-        @Override
-        public void onClick(View v) {}
+
     }
 
 
