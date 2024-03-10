@@ -122,6 +122,9 @@ public class ScheduleFragment extends Fragment implements  ScheduleAdapter.Check
                 mainActivity.runOnUiThread(() -> {
                     schedules.remove(position);
                     adapter.notifyItemRemoved(position);
+                    if(schedules.size() < 1){
+                        errorTagManager.showErrorTag(mainActivity.getString(R.string.data_schedule_error));
+                    }
                 });
             }
             else{

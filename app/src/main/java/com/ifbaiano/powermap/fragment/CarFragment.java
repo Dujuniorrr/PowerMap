@@ -79,15 +79,18 @@ public class CarFragment extends Fragment  implements  CarAdapter.DeleteClickLis
         progressBar.setVisibility(View.VISIBLE);
 
         new Thread(() -> {
-            cars = carService.findAll();
-            if(cars.size() > 0){
-                errorTagManager.clearErrorTag();
-                mainActivity.runOnUiThread( this::formatRecycleView);
-            }
-            else{
-                progressBar.setVisibility(View.GONE);
-                errorTagManager.showErrorTag(getString(R.string.data_car_error));
-            }
+            mainActivity.runOnUiThread(() -> {
+                cars = carService.findAll();
+                if(cars.size() > 0){
+                    errorTagManager.clearErrorTag();
+                     formatRecycleView();
+                }
+                else{
+                    progressBar.setVisibility(View.GONE);
+                    errorTagManager.showErrorTag(getString(R.string.data_car_error));
+                }
+            });
+
         }).start();
     }
 
