@@ -5,13 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +40,7 @@ public class AddScheduleActivity extends AppCompatActivity {
     RadioButton checkMonth,checkOnce, checkWeek,checkYearly;
     GridLayout typeSchedule;
     Button btnAddSchedule;
-    TextInputEditText textDecriptionSchhedule;
+    TextInputEditText textDecriptionSchedule;
     TextInputEditText  textDate, textTime;
 
     private long selectedScheduleType = NotificationSchedule.ONE_DAY, selectedWeekday;
@@ -72,7 +69,7 @@ public class AddScheduleActivity extends AppCompatActivity {
 
         btnAddSchedule.setOnClickListener(v -> {
 
-            if (verifier.verifySchedule(textDate, textTime, textDecriptionSchhedule,  Long.toString(selectedScheduleType))) {
+            if (verifier.verifySchedule(textDate, textTime, textDecriptionSchedule,  Long.toString(selectedScheduleType))) {
                 String dateString = textDate.getText().toString();
                 String timeString = textTime.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -81,7 +78,7 @@ public class AddScheduleActivity extends AppCompatActivity {
                     Schedule schedule = new ScheduleDaoSqlite(this.getApplicationContext()).add(new Schedule(
                              null,
                             parsedDate,
-                            textDecriptionSchhedule.getText().toString(),
+                            textDecriptionSchedule.getText().toString(),
                             (int) selectedWeekday,
                             (int) selectedScheduleType
                     ), UserFactory.getUserInMemory(this.getApplicationContext()).getId());
@@ -128,7 +125,7 @@ public class AddScheduleActivity extends AppCompatActivity {
         textTime = findViewById(R.id.textTime);
         dateButton = findViewById(R.id.dateButton);
         timeButton = findViewById(R.id.timeButton);
-        textDecriptionSchhedule= findViewById(R.id.textDecriptionSchhedule);
+        textDecriptionSchedule = findViewById(R.id.textDecriptionSchhedule);
 
         checkOnce = findViewById(R.id.checkOnce);
         checkWeek = findViewById(R.id.checkWeek);
