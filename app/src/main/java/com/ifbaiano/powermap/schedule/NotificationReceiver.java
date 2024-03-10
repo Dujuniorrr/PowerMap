@@ -1,5 +1,6 @@
 package com.ifbaiano.powermap.schedule;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,4 +13,5 @@ public class NotificationReceiver extends BroadcastReceiver {
         String content = intent.getStringExtra("content");
         new NotificationSchedule(intent.getIntExtra("id", -1)).showNotification(context, title, content);
     }
+
 }

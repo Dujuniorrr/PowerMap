@@ -91,4 +91,9 @@ public class NotificationSchedule {
         Notification notification = builder.build();
         notificationManager.notify(NOTIFICATION_ID, notification);
     }
+
+    public static void cancelScheduledNotification(Context context, int notificationId) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(notificationId);
+    }
 }

@@ -9,9 +9,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.Schedule;
 import com.ifbaiano.powermap.model.User;
 import com.ifbaiano.powermap.schedule.NotificationSchedule;
@@ -24,6 +26,8 @@ import java.util.List;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
 
     private final List<Schedule> schedules;
+
+    private ScheduleAdapter.CheckClickListener checkClickListner;
 
     public ScheduleAdapter(ArrayList<Schedule> schedules) {
         this.schedules = schedules;
@@ -40,6 +44,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
         Schedule schedule = schedules.get(position);
         holder.bind(schedule);
+
+        holder.checkButton.setOnClickListener( v -> {
+            if (checkClickListner != null) {
+                checkClickListner.onCheckClick( holder.getLayoutPosition(), holder.card, schedule);
+            }
+        });
+
     }
 
     @Override
@@ -49,11 +60,15 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
     public static class ScheduleViewHolder extends RecyclerView.ViewHolder {
         TextView description, date, repetition;
+        AppCompatButton checkButton;
+        View card;
 
         public ScheduleViewHolder(@NonNull View itemView) {
             super(itemView);
+            card = itemView;
             description = itemView.findViewById(R.id.description);
             date = itemView.findViewById(R.id.date);
+            checkButton = itemView.findViewById(R.id.checkButton);
             repetition = itemView.findViewById(R.id.repetition);
         }
 
@@ -74,4 +89,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             }
         }
     }
+    public interface CheckClickListener {
+        void onCheckClick(int position, View v, Schedule schedule);
+    }
+
+    public void setCheckClickListener(ScheduleAdapter.CheckClickListener listener) {
+        this.checkClickListner = listener;
+    }
+
 }
