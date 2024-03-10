@@ -22,8 +22,8 @@ public class ScheduleDaoSqlite implements ScheduleDao {
     private SQLiteDatabase db;
     private final String TABLE_NAME = "schedules";
     private final String FIND_ONE_QUERY = "SELECT * FROM "+ this.TABLE_NAME +" WHERE id = ?";
-    private final String FIND_ALL_QUERY =  "SELECT * FROM "+ this.TABLE_NAME;
-    private final String FIND_BY_CLIENT_QUERY =  "SELECT * FROM "+ this.TABLE_NAME + " WHERE users_id = ?";
+    private final String FIND_ALL_QUERY =  "SELECT * FROM "+ this.TABLE_NAME + " ORDER BY date DESC";
+    private final String FIND_BY_CLIENT_QUERY =  "SELECT * FROM "+ this.TABLE_NAME + " WHERE users_id = ? AND date > ? ORDER BY date";
 
 
     public ScheduleDaoSqlite(Context ctx) {
@@ -51,6 +51,7 @@ public class ScheduleDaoSqlite implements ScheduleDao {
     @Override
     public Boolean remove(Schedule schedule) {
         this.db = this.conn.getWritableDatabase();
+
         return db.delete(this.TABLE_NAME, "id = ?", new String[]{schedule.getId()}) > 0;
     }
 
@@ -63,6 +64,7 @@ public class ScheduleDaoSqlite implements ScheduleDao {
         if(cursor.moveToFirst()){
            return ScheduleFactory.createByCursor(cursor);
         }
+        cursor.close();
 
         return null;
     }
@@ -70,15 +72,22 @@ public class ScheduleDaoSqlite implements ScheduleDao {
     @Override
     public ArrayList<Schedule> findAll() {
         this.db = this.conn.getWritableDatabase();
+
         @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_ALL_QUERY, null);
+        cursor.close();
+
         return this.makeScheduleList(cursor);
     }
 
     @Override
     public ArrayList<Schedule> findByUserId(String id) {
         this.db = this.conn.getWritableDatabase();
-        @SuppressLint("Recycle") Cursor cursor = db.rawQuery(this.FIND_BY_CLIENT_QUERY, new String[]{ id });
-        return this.makeScheduleList(cursor);
+
+        Cursor cursor = db.rawQuery(this.FIND_BY_CLIENT_QUERY, new String[]{id, String.valueOf(System.currentTimeMillis())});
+        ArrayList<Schedule> scheduleList = makeScheduleList(cursor);
+        cursor.close();
+
+        return scheduleList;
     }
 
     public ArrayList<Schedule> makeScheduleList(Cursor cursor){
@@ -86,7 +95,8 @@ public class ScheduleDaoSqlite implements ScheduleDao {
         while(cursor.moveToNext()) {
             scheduleList.add(ScheduleFactory.createByCursor(cursor));
         }
-        return scheduleList.size() > 0 ? scheduleList : null;
+        cursor.close();
+        return scheduleList;
     }
 
     public ContentValues makeContentValues(Schedule schedule){

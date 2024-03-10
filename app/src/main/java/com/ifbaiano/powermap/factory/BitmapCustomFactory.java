@@ -38,7 +38,7 @@ public class BitmapCustomFactory {
     }
 
 
-    public void onResult(ActivityResult result){
+    public void onResult(ActivityResult result, boolean changeBg){
         {
             if (result.getResultCode() == Activity.RESULT_OK
                     && result.getData() != null) {
@@ -53,7 +53,7 @@ public class BitmapCustomFactory {
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteOutput);
                     byteArray = byteOutput.toByteArray();
                     imageView.setImageBitmap(bitmap);
-                    submitImgBtn.setBackgroundResource(R.drawable.button_submit_image);
+                    if(changeBg) submitImgBtn.setBackgroundResource(R.drawable.button_submit_image);
 
                 } catch (FileNotFoundException e) {
                     Toast.makeText(activity.getApplicationContext(), R.string.image_not_found, Toast.LENGTH_SHORT ).show();

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/schedule_card"
+    android:padding="10dp"
+    android:layout_marginVertical="10dp">
+
+    <TextView
+        android:drawableTint="@color/sub_background_form"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/baseline_schedule"
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toStartOf="@+id/checkButton"
+        android:maxWidth="328dp"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Date"
+        android:textColor="@color/red_custom"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/repetition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/date"
+        android:text="Repetition"
+        android:textColor="@color/gray_medium"
+        android:textSize="15dp" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/checkButton"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="17dp"
+        android:backgroundTint="@color/sub_background_form"
+        android:drawableBottom="@drawable/baseline_check_24"
+        android:drawableTint="@color/white" />
+</RelativeLayout>

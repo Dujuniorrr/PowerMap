@@ -116,6 +116,22 @@
     </RelativeLayout>
 
   </ScrollView>
+
+  <ProgressBar
+      android:visibility="gone"
+      android:id="@+id/progressBarSubmit"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:padding="5dp"
+      android:layout_marginBottom="15dp"
+      android:background="@drawable/button_rounded_dark"
+      android:textSize="20sp"
+      android:layout_marginHorizontal="30dp"
+      android:layout_alignParentBottom="true"
+      android:indeterminateTint="@color/white"
+      android:hint="@string/add" />
+
   <androidx.appcompat.widget.AppCompatButton
       android:id="@+id/submitForm"
       android:layout_width="match_parent"

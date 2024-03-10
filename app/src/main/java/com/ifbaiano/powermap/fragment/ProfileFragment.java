@@ -2,13 +2,20 @@ package com.ifbaiano.powermap.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -19,6 +26,7 @@ import com.ifbaiano.powermap.activity.MainActivity;
 import com.ifbaiano.powermap.activity.users.EditPasswordActivity;
 import com.ifbaiano.powermap.activity.users.InitialUsersActivity;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
+import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.media.StorageDaoMedia;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
@@ -29,10 +37,16 @@ import com.ifbaiano.powermap.service.UserService;
 import com.ifbaiano.powermap.verifier.LoginVerifier;
 import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
+    BitmapCustomFactory bitmapCustomFactory;
+    ProgressBar progressBar;
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result ->  bitmapCustomFactory.onResult(result, false)
+    );
     AppCompatButton submitEditImageProfile, editProfileUserBtn, logouProfile, btnDeleteAccount, btnEditPassword;
     ImageView imageEditProfile;
     TextInputEditText nameEditProfile, emailEditProfile;
@@ -43,8 +57,6 @@ public class ProfileFragment extends Fragment {
 
     AppCompatActivity mainActivity;
 
-    BitmapCustomFactory bitmapCustomFactory;
-    byte[] byteArray = null;
     View rootView;
 
     public ProfileFragment() {
@@ -71,13 +83,14 @@ public class ProfileFragment extends Fragment {
         this.setUserAttributes();
         this.makeInstances();
         UserDaoSqlite userDao = new UserDaoSqlite(getContext());
-        StorageDaoMedia storageDaoMedia = new StorageDaoMedia(getContext());
 
         btnEditPassword.setOnClickListener(v -> {
             // Redirect to MainActivity
             Intent intent = new Intent(getActivity(), EditPasswordActivity.class);
             startActivity(intent);
         });
+
+
 
         LoginVerifier logout = new LoginVerifier(getActivity());
         logouProfile.setOnClickListener(v -> {
@@ -88,6 +101,7 @@ public class ProfileFragment extends Fragment {
         });
 
         User user = UserFactory.getUserInMemory(getActivity());
+
         btnDeleteAccount.setOnClickListener(v -> {
             new UserDaoFirebase(mainActivity).remove(UserFactory.getUserInMemoryFirebase(mainActivity));
             userDao.remove(user);
@@ -102,10 +116,9 @@ public class ProfileFragment extends Fragment {
         });
 
         submitEditImageProfile.setOnClickListener(v -> {
-
-            //ajustar depois
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            launcher.launch(intent);
         });
-
 
         return rootView;
     }
@@ -121,13 +134,10 @@ public class ProfileFragment extends Fragment {
             String userEmail = user.getEmail().toString();
             emailEditProfile.setText(userEmail);
 
-            String userImgpath = String.valueOf(user.getImgpath());
-
-            if (userImgpath != null) {
-
-                // Remember to adjust where the image comes from
-                Toast.makeText(getActivity(), "Imagem existe", Toast.LENGTH_SHORT).show();
+            if(user.getImgpath() != null){
+                new StorageDaoMedia(mainActivity).transformInBitmap(user.getImgpath(), imageEditProfile, null);
             }
+
 
         } else {
             startActivity(new Intent(getActivity(), InitialUsersActivity.class));
@@ -145,6 +155,7 @@ public class ProfileFragment extends Fragment {
         emailEditProfile = rootView.findViewById(R.id.emailEditProfile);
         btnDeleteAccount = rootView.findViewById(R.id.btnDeleteAccount);
         btnEditPassword = rootView.findViewById(R.id.btnEditPassword);
+        progressBar = rootView.findViewById(R.id.progressBar);
     }
 
 
@@ -154,8 +165,9 @@ public class ProfileFragment extends Fragment {
         userRegisterService = new UserService(userDaoFirebase);
         verifier = new RegisterUserVerifier(getActivity());
         bitmapCustomFactory = new BitmapCustomFactory(
-                mainActivity, byteArray, imageEditProfile, submitEditImageProfile
+                mainActivity, null, imageEditProfile, submitEditImageProfile
         );
+
     }
 
     private boolean checkEmailExists() {
@@ -164,32 +176,39 @@ public class ProfileFragment extends Fragment {
     }
 
     private void submitForm() {
+        toggleEditProfileButton(false);
         new Thread(() -> {
             boolean emailAlreadyExists = checkEmailExists();
 
             if (verifyFormValidity(emailAlreadyExists)) {
 
+                User newUserSqlite = UserFactory.getUserInMemory(getActivity());
+                User newUser = userDaoFirebase.findByEmail(newUserSqlite.getEmail());
 
+                newUserSqlite.setEmail(Objects.requireNonNull(emailEditProfile.getText()).toString());
+                newUserSqlite.setName(Objects.requireNonNull(nameEditProfile.getText()).toString());
 
-                userRegisterService.setDao(userDaoFirebase);
-                User newUser = UserFactory.getUserInMemoryFirebase(getActivity());
                 newUser.setName(Objects.requireNonNull(nameEditProfile.getText()).toString());
                 newUser.setEmail(Objects.requireNonNull(emailEditProfile.getText()).toString());
 
+                if(bitmapCustomFactory.getByteArray() != null){
+                    newUserSqlite.setImgpath(new StorageDaoMedia(mainActivity).putImage(bitmapCustomFactory.getByteArray(),newUserSqlite.getId()));
+                    newUser.setImgpath(new StorageDaoFirebase().putImage(bitmapCustomFactory.getByteArray(),"users/" + newUser.getId() + ".jpg"));
+                }
+
+                userRegisterService.setDao(userDaoFirebase);
                 User userEditFirebase = userRegisterService.edit(newUser);
-
-                User newUserSqlite = UserFactory.getUserInMemory(getActivity());
-                newUserSqlite.setName(Objects.requireNonNull(nameEditProfile.getText()).toString());
-                newUserSqlite.setEmail(Objects.requireNonNull(emailEditProfile.getText()).toString());
                 userRegisterService.setDao(new UserDaoSqlite(getActivity()));
-
                 User userEditSqlite = userRegisterService.edit(newUserSqlite);
 
-                Log.d("TESTE FIREBASE", newUser.getId());
-                Log.d("TESTE FIREBASE", newUserSqlite.getId());
-
                 executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite, userEditFirebase);
+
             }
+
+            mainActivity.runOnUiThread(() -> {
+                toggleEditProfileButton(true);
+
+            });
 
         }).start();
     }
@@ -209,6 +228,16 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void toggleEditProfileButton(boolean showButton) {
+        if (showButton) {
+            editProfileUserBtn.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+
+        } else {
+            editProfileUserBtn.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
     private boolean verifyFormValidity(boolean emailAlreadyExists) {
         boolean[] verifyValid = {false};
         Object lock = new Object();

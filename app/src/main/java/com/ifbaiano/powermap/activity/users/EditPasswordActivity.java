@@ -2,8 +2,10 @@ package com.ifbaiano.powermap.activity.users;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.dao.media.StorageDaoMedia;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
 import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.User;
@@ -26,6 +29,7 @@ import java.util.Objects;
 public class EditPasswordActivity extends AppCompatActivity {
 
     Button backButonProfilePassword, editProfileUserBtn ;
+    ProgressBar progressBar;
     ImageView imageProfilEditPassword;
     TextInputEditText editPasswordText, editPasswordNewText, editPassworConfirmedNewText;
     TextView textNameEditP;
@@ -48,6 +52,9 @@ public class EditPasswordActivity extends AppCompatActivity {
 
 
         editProfileUserBtn.setOnClickListener(v -> {
+
+            progressBar.setVisibility(View.VISIBLE);
+            editProfileUserBtn.setVisibility(View.GONE);
             RegisterUserVerifier passwordVerifier = new RegisterUserVerifier(this);
 
             boolean passwordsValid = passwordVerifier.verifyPasswordEdit(editPasswordText, editPasswordNewText, editPassworConfirmedNewText);
@@ -72,6 +79,9 @@ public class EditPasswordActivity extends AppCompatActivity {
 
                 this.executeAfterRegistration(userEditFirebase != null && userEditSqlite != null, userEditSqlite, userEditFirebase);
             }
+
+            progressBar.setVisibility(View.GONE);
+            editProfileUserBtn.setVisibility(View.VISIBLE);
         });
     }
 
@@ -92,6 +102,7 @@ public class EditPasswordActivity extends AppCompatActivity {
         editPasswordText = findViewById(R.id.editPasswordText);
         editPasswordNewText = findViewById(R.id.editPasswordNewText);
         editPassworConfirmedNewText = findViewById(R.id.editPassworConfirmedNewText);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     private void makeInstances() {
@@ -108,7 +119,9 @@ public class EditPasswordActivity extends AppCompatActivity {
             String userName = user.getName().toString();
             textNameEditP.setText(userName);
 
-            // new BitmapCustomFactory(this, imageProfilEditPassword).setImageByUri(user.getImgpath(), R.drawable.baseline_person);
+            if(user.getImgpath() != null){
+                new StorageDaoMedia(this).transformInBitmap(user.getImgpath(), imageProfilEditPassword, null);
+            }
         } else {
             backIntent();
         }

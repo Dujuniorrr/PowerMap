@@ -52,9 +52,8 @@ public class StorageDaoMedia implements StorageDao {
       try{
           Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.ctx.getContentResolver() , Uri.parse(path));
           if(bitmap != null){
-              progressBar.setVisibility(View.GONE);
+              if( progressBar != null) progressBar.setVisibility(View.GONE);
               imageView.setImageBitmap(bitmap);
-
           }
       }
       catch (IOException e){
