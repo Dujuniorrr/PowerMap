@@ -108,55 +108,39 @@ public class ScheduleVerifier extends Verifier {
 
 
     public boolean validateDateStandard(TextInputEditText dateText, int errorMessageResId) {
-        boolean isValid = false;
         String dateString = dateText.getText().toString().trim();
 
-        // Verifica se a data está no formato dd/MM/yyyy
-        Pattern pattern = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
-        Matcher matcher = pattern.matcher(dateString);
-        if (matcher.matches()) {
-            // Extrai o dia, mês e ano da data
-            String[] dateParts = dateString.split("/");
-            int day = Integer.parseInt(dateParts[0]);
-            int month = Integer.parseInt(dateParts[1]);
-            int year = Integer.parseInt(dateParts[2]);
-
-            // Verifica se o dia está dentro do intervalo válido (01-31)
-            if (day >= 1 && day <= 31) {
-                // Verifica se o mês está dentro do intervalo válido (01-12)
-                if (month >= 1 && month <= 12) {
-                    // Verifica se o ano é um valor razoável (ajuste conforme necessário)
-                    if (year >= 1900 && year <= Calendar.getInstance().get(Calendar.YEAR)) {
-                        // Verifica o mês de fevereiro
-                        if (month == 2) {
-                            // Se for fevereiro, o dia máximo é 28 (considerando anos não bissextos)
-                            if (day >= 1 && day <= 28) {
-                                isValid = true;
-                            } else {
-                                dateText.setError(getCtx().getString(errorMessageResId));
-                            }
-                        } else {
-                            isValid = true;
-                        }
-                    } else {
-                        dateText.setError(getCtx().getString(errorMessageResId));
-                    }
-                } else {
-                    dateText.setError(getCtx().getString(errorMessageResId));
-                }
-            } else {
-                dateText.setError(getCtx().getString(errorMessageResId));
-            }
-        } else {
+        if (!dateString.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
             dateText.setError(getCtx().getString(errorMessageResId));
+            return false;
         }
 
-        return isValid;
+        String[] dateParts = dateString.split("/");
+        int day = Integer.parseInt(dateParts[0]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[2]);
+
+        if ((day < 1 || day > 31) || (month < 1 || month > 12)) {
+            dateText.setError(getCtx().getString(errorMessageResId));
+            return false;
+        }
+
+        if (year < 1900 || year > Calendar.getInstance().get(Calendar.YEAR)) {
+            dateText.setError(getCtx().getString(errorMessageResId));
+            return false;
+        }
+
+        if (month == 2 && (day < 1 || day > 28)) {
+            dateText.setError(getCtx().getString(errorMessageResId));
+            return false;
+        }
+
+        return true;
     }
 
 
 
-    }
+}
 
 
 
