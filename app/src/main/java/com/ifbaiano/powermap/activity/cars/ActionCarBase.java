@@ -29,8 +29,8 @@ import java.util.ArrayList;
 abstract public class ActionCarBase extends AppCompatActivity implements ModelCarAdapter.OnClickListener {
 
     TextInputEditText name;
-    AppCompatButton addBtn;
-    ProgressBar progressBar;
+    AppCompatButton  submitForm;
+    ProgressBar progressBar, progressBarSubmit;
     RecyclerView recyclerView;
     ArrayList<CarModel> carModels;
     ModelCarAdapter adapter;
@@ -49,7 +49,7 @@ abstract public class ActionCarBase extends AppCompatActivity implements ModelCa
 
         this.listModels();
 
-        findViewById(R.id.submitForm).setOnClickListener(v -> {
+        submitForm.setOnClickListener(v -> {
             submitForm();
         });
     }
@@ -75,7 +75,8 @@ abstract public class ActionCarBase extends AppCompatActivity implements ModelCa
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         progressBar = findViewById(R.id.progressBar);
-        addBtn = findViewById(R.id.addBtn);
+        submitForm = findViewById(R.id.submitForm);
+        progressBarSubmit = findViewById(R.id.progressBarSubmit);
     }
 
     public void listModels(){

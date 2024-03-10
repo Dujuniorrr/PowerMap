@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 public class SelectCurrentCarDialogAppearance implements  CarAdapter.OnClickListener {
     MapFragment mapFragment;
     CalculateDialogAppearance calculateDialogAppearance;
-    Car car;
+    Car car = null;
     CarModelAppearence carModelAppearence;
     private final Context ctx;
     ArrayList<Car> cars;
@@ -61,11 +62,16 @@ public class SelectCurrentCarDialogAppearance implements  CarAdapter.OnClickList
 
     private void findViewById(){
         dialog.findViewById(R.id.submitForm).setOnClickListener(v -> {
-            CarFactory.saveCarInMemory(car, mainActivity);
-            mapFragment.mMap.clear();
-            calculateDialogAppearance.putCar();
-            mapFragment.getCurrentLocation();
-            dialog.dismiss();
+            if(car != null){
+                CarFactory.saveCarInMemory(car, mainActivity);
+                mapFragment.mMap.clear();
+                calculateDialogAppearance.putCar();
+                mapFragment.getCurrentLocation();
+                dialog.dismiss();
+            }
+            else{
+                Toast.makeText(ctx, mainActivity.getString(R.string.select_car), Toast.LENGTH_SHORT).show();
+            }
         });
         recyclerView = dialog.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity.getApplicationContext()));

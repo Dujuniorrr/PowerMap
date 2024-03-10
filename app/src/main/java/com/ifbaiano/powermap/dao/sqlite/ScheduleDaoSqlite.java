@@ -23,7 +23,7 @@ public class ScheduleDaoSqlite implements ScheduleDao {
     private final String TABLE_NAME = "schedules";
     private final String FIND_ONE_QUERY = "SELECT * FROM "+ this.TABLE_NAME +" WHERE id = ?";
     private final String FIND_ALL_QUERY =  "SELECT * FROM "+ this.TABLE_NAME + " ORDER BY date DESC";
-    private final String FIND_BY_CLIENT_QUERY =  "SELECT * FROM "+ this.TABLE_NAME + " WHERE users_id = ? AND date > ? ORDER BY date DESC";
+    private final String FIND_BY_CLIENT_QUERY =  "SELECT * FROM "+ this.TABLE_NAME + " WHERE users_id = ? AND date > ? ORDER BY date";
 
 
     public ScheduleDaoSqlite(Context ctx) {
@@ -96,7 +96,7 @@ public class ScheduleDaoSqlite implements ScheduleDao {
             scheduleList.add(ScheduleFactory.createByCursor(cursor));
         }
         cursor.close();
-        return scheduleList.size() > 0 ? scheduleList : null;
+        return scheduleList;
     }
 
     public ContentValues makeContentValues(Schedule schedule){

@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.appearance.GenericAppearance;
 import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.Schedule;
 import com.ifbaiano.powermap.model.User;
@@ -20,8 +21,10 @@ import com.ifbaiano.powermap.schedule.NotificationSchedule;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
 
@@ -75,18 +78,36 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         public void bind(Schedule schedule) {
             description.setText(schedule.getDescription());
             Date dateSchedule = schedule.getDate();
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            date.setText(sdf.format(dateSchedule));
 
-            if (schedule.getRepetition() == (int)  NotificationSchedule.ONE_DAY) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateSchedule);
+
+            SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+            String time = sdfTime.format(dateSchedule);
+
+            if (schedule.getRepetition() == (int) NotificationSchedule.ONE_DAY) {
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                date.setText(sdf.format(dateSchedule) + " - " + time);
                 repetition.setText(itemView.getContext().getString(R.string.once));
-            } else if (schedule.getRepetition() == (int)  NotificationSchedule.WEEK) {
+
+            } else if (schedule.getRepetition() == (int) NotificationSchedule.WEEK) {
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE - HH:mm", Locale.getDefault());
+                date.setText(GenericAppearance.capitalizedText(sdf.format(dateSchedule)));
                 repetition.setText(itemView.getContext().getString(R.string.weekly));
-            } else if (schedule.getRepetition() == (int)  NotificationSchedule.MONTH) {
+
+            } else if (schedule.getRepetition() == (int) NotificationSchedule.MONTH) {
+                SimpleDateFormat sdf = new SimpleDateFormat("d - HH:mm");
+                date.setText("Dia " + sdf.format(dateSchedule));
                 repetition.setText(itemView.getContext().getString(R.string.monthly));
-            } else if (schedule.getRepetition() == (int)  NotificationSchedule.YEAR) {
+
+            } else if (schedule.getRepetition() == (int) NotificationSchedule.YEAR) {
+                SimpleDateFormat sdf = new SimpleDateFormat("d/MM - HH:mm");
+                date.setText(sdf.format(dateSchedule));
                 repetition.setText(itemView.getContext().getString(R.string.yearly));
+
             }
+
         }
     }
     public interface CheckClickListener {

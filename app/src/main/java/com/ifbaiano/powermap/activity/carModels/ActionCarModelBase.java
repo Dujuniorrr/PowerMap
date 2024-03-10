@@ -43,7 +43,7 @@ abstract public class ActionCarModelBase extends AppCompatActivity {
     BitmapCustomFactory bitmapCustomFactory;
     RadioButton radioButton;
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(), result ->  bitmapCustomFactory.onResult(result)
+            new ActivityResultContracts.StartActivityForResult(), result ->  bitmapCustomFactory.onResult(result, true)
     );
 
     @Override

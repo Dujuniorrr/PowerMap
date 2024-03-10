@@ -3,6 +3,7 @@ package com.ifbaiano.powermap.activity.cars;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.View;
 import android.widget.Toast;
 
 import com.ifbaiano.powermap.R;
@@ -33,6 +34,8 @@ public class AddCarActivity extends ActionCarBase{
     }
 
     public void submitForm(){
+        submitForm.setVisibility(View.GONE);
+        progressBarSubmit.setVisibility(View.VISIBLE);
         boolean isValid = new CarVerifier(getApplicationContext()).verifyCar(name, selectedCarModel.getId() != null);
         new Thread(() -> {
             if(isValid){
@@ -64,9 +67,17 @@ public class AddCarActivity extends ActionCarBase{
                 }
                 catch (Exception e){
                     runOnUiThread(() -> {
+                        submitForm.setVisibility(View.VISIBLE);
+                        progressBarSubmit.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.error_data), Toast.LENGTH_SHORT).show();
                     });
                 }
+            }
+            else{
+                runOnUiThread(() -> {
+                    submitForm.setVisibility(View.VISIBLE);
+                    progressBarSubmit.setVisibility(View.GONE);
+                });
             }
         }).start();
     }

@@ -4,6 +4,7 @@
     <string name="your_location">Sua localização!</string>
 
 
+    <string name="invalid_auth"> Credenciais inválidas </string>
     <string name="back">Voltar</string>
     <string name="select">Selecionar</string>
     <string name="add">Adicionar </string>

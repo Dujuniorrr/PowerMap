@@ -3,7 +3,10 @@ package com.ifbaiano.powermap.activity.users;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import com.ifbaiano.powermap.dao.contracts.StorageDao;
 import com.ifbaiano.powermap.dao.contracts.UserDao;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
+import com.ifbaiano.powermap.dao.media.StorageDaoMedia;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
 import com.ifbaiano.powermap.factory.UserFactory;
 import com.ifbaiano.powermap.model.User;
@@ -38,8 +42,8 @@ import com.ifbaiano.powermap.verifier.RegisterUserVerifier;
 
 public class LoginActivity extends AppCompatActivity {
 
-    RegisterUserVerifier verifier;
     Button backButonLogin, enterLoginBtn;
+    ProgressBar progressBar;
     TextInputEditText emailLogin, passwordLogin;
     TextView textNotAccount;
     private Button btnGoogleAuth;
@@ -49,8 +53,6 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     StorageDao storageDao;
     UserService userService;
-    UserDaoFirebase userDaoFirebase;
-    UserDaoSqlite userDaoSqlite;
 
     UserDao userDao;
 
@@ -90,6 +92,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         enterLoginBtn.setOnClickListener(v -> {
+            enterLoginBtn.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+
             TextInputEditText emailInput = emailLogin;
             TextInputEditText passwordInput = passwordLogin;
 
@@ -100,41 +105,78 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString().trim();
                 String passwordCryp = CryptographyPasswordService.encryptPassword(password);
 
+
                 new Thread(() -> {
-                    User user = userDao.findByEmailAndPassword(email, passwordCryp);
+                    userDao = new UserDaoSqlite(this);
+                    User userS = userDao.findByEmailAndPassword(email, passwordCryp);
 
                     runOnUiThread(() -> {
-                        if (user != null) {
-                            UserFactory.saveUserInMemoryFirebase(user, getApplicationContext());
-                            UserFactory.saveUserInMemory(user, getApplicationContext());
-                            Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                            startActivity(intent);
+                        if (userS != null) {
+                            loginUser(userS);
                         } else {
-
-                            userDao = new UserDaoSqlite(this);
-                            User userS = userDao.findByEmailAndPassword(email, passwordCryp);
-
-                            if(userS != null){
-                                UserFactory.saveUserInMemory(userS, getApplicationContext());
-                                Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                                startActivity(intent);
-
-                            }else{
-                                Toast.makeText(LoginActivity.this, getString(R.string.notfound), Toast.LENGTH_SHORT).show();
-                            }
-                            }
+                            loginUserFromFirebase(email, passwordCryp);
+                        }
                     });
                 }).start();
             }
+            else{
+                progressBar.setVisibility(View.GONE);
+                enterLoginBtn.setVisibility(View.VISIBLE);
+            }
+
         });
 
 
     }
 
 
-        //METODOS A PARTE
+    private void loginUser(User user) {
+        UserFactory.saveUserInMemory(user, getApplicationContext());
+        Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+    }
+
+    private void loginUserFromFirebase(String email, String passwordCryp) {
+        new Thread(() -> {
+            userDao = new UserDaoFirebase(getApplicationContext());
+            User user = userDao.findByEmailAndPassword(email, passwordCryp);
+            runOnUiThread(() -> {
+                if (user != null) {
+                    saveUserAndLogin(user);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    enterLoginBtn.setVisibility(View.VISIBLE);
+                    emailLogin.setError(getApplicationContext().getString(R.string.invalid_auth));
+                }
+
+
+            });
+        }).start();
+    }
+
+    private void saveUserAndLogin(User user) {
+        UserFactory.saveUserInMemoryFirebase(user, getApplicationContext());
+        new Thread(() -> {
+            user.setId(null);
+            User userSqlite = new UserDaoSqlite(getApplicationContext()).add(user);
+            if (user.getImgpath() != null) {
+                userSqlite.setImgpath(new StorageDaoMedia(getApplicationContext()).putImage(new StorageDaoFirebase().getImageAsByteArray(user.getImgpath()), userSqlite.getId()));
+                Log.d("URL IMG", userSqlite.getImgpath());
+                userSqlite = new UserDaoSqlite(getApplicationContext()).edit(userSqlite);
+            }
+            UserFactory.saveUserInMemory(userSqlite, getApplicationContext());
+            runOnUiThread(() -> {
+                progressBar.setVisibility(View.GONE);
+                enterLoginBtn.setVisibility(View.VISIBLE);
+
+                Toast.makeText(LoginActivity.this, getString(R.string.successLogin), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+            });
+        }).start();
+    }
+
+
+    //METODOS A PARTE
     private void findViewsById(){
         backButonLogin =findViewById(R.id.backButonLogin);
         btnGoogleAuth = findViewById(R.id.btnGoogleAuth);
@@ -142,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
         emailLogin = findViewById(R.id.emailLogin);
         passwordLogin = findViewById(R.id.passwordLogin);
         textNotAccount = findViewById(R.id.textNotAccount);
-
+        progressBar= findViewById(R.id.progressBar);
     }
 
     private void makeInstances(){

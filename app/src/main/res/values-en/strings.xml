@@ -3,6 +3,9 @@
     <string name="app_name">PowerMap</string>
     <string name="maps_key">AIzaSyCN2c343t_dg98fYSpNnjy9KbASfQit2rc</string>
     <string name="your_location">Your location!</string>
+
+    <string name="invalid_auth"> Invalid credentials! </string>
+
     <string name="back">Back</string>
     <string name="select">Select</string>
     <string name="add">Add</string>
