@@ -33,6 +33,8 @@ import java.util.ArrayList;
 
 
 public class UsersFragment extends Fragment {
+
+
     ProgressBar progressBar;
     RecyclerView recyclerView;
     ArrayList<User> users;
@@ -99,6 +101,4 @@ public class UsersFragment extends Fragment {
 
 
     }
-
-
 }

@@ -89,7 +89,8 @@
     <string name="description_required">Description must be provided!</string>
     <string name="radio_required">Repeat must be selected!</string>
     <string name="date_future">Please enter a future date!</string>
-    <string name="time_future">Enter a time above the current time!</string>
+    <string name="date_standard">Please enter valid data!</string>
+    <string name="time_standard">Please enter a valid time!</string>
 
 
     <!-- Menu -->
