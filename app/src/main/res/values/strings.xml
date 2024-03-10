@@ -88,7 +88,8 @@
     <string name="description_required">É necessário informar a descrição!</string>
     <string name="radio_required">É necessário selecionar uma repetição!</string>
     <string name="date_future">Informe uma data futura!</string>
-    <string name="time_future">Informe um horário acima do hórario atual!</string>
+    <string name="date_standard">Informe uma data válida!</string>
+    <string name="time_standard">Informe um horário válido!</string>
 
 
     <!-- Menu -->

@@ -2,8 +2,6 @@ package com.ifbaiano.powermap.verifier;
 
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -13,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class ScheduleVerifier extends Verifier {
 
@@ -20,10 +19,13 @@ public class ScheduleVerifier extends Verifier {
         super(ctx);
     }
 
-    public boolean verifySchedule(TextView date, TextView time, TextInputEditText desciption, String radioGroup) {
+    public boolean verifySchedule(TextInputEditText date, TextInputEditText time, TextInputEditText desciption, String radioGroup) {
         boolean isValid = true;
 
         isValid &= validateFieldText(date, R.string.date_required);
+        isValid &= validateDate(date, R.string.date_future);//data acima da atual
+        isValid &= validateDateStandard(date, R.string.date_standard);// data no fotmato correto
+        isValid &= validateTimeStandard(time, R.string.time_standard);// time no fotmato correto
         isValid &= validateFieldText(time, R.string.time_required);
         isValid &= validateField(desciption, R.string.description_required);
         isValid &= validateRadio(radioGroup, R.string.radio_required);
@@ -43,7 +45,7 @@ public class ScheduleVerifier extends Verifier {
     }
 
 
-    public boolean validateDate(TextView dateText, int errorMessageResId) {
+    public boolean validateDate(TextInputEditText dateText, int errorMessageResId) {
         boolean isValid = true;
 
         String dateString = dateText.getText().toString();
@@ -57,11 +59,12 @@ public class ScheduleVerifier extends Verifier {
             currentDate.set(Calendar.SECOND, 0);
             currentDate.set(Calendar.MILLISECOND, 0);
 
+            currentDate.add(Calendar.DAY_OF_MONTH, 1);
+
             if (selectedDate.before(currentDate.getTime())) {
                 dateText.setError(getCtx().getString(errorMessageResId));
                 isValid = false;
-            }
-            else{
+            } else {
                 dateText.setError(null);
             }
         } catch (ParseException e) {
@@ -70,36 +73,50 @@ public class ScheduleVerifier extends Verifier {
         return isValid;
     }
 
-    public boolean validateTime(TextView timeText, int errorMessageResId) {
+
+
+    public boolean validateTimeStandard(TextInputEditText timeText, int errorMessageResId) {
         boolean isValid = true;
 
         String timeString = timeText.getText().toString();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         try {
-            Date selectedTime = sdf.parse(timeString);
-            Calendar currentTime = Calendar.getInstance();
-
-            int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
-            int currentMinute = currentTime.get(Calendar.MINUTE);
-
-            Calendar selectedTimeCal = Calendar.getInstance();
-            selectedTimeCal.setTime(selectedTime);
-
-            int selectedHour = selectedTimeCal.get(Calendar.HOUR_OF_DAY);
-            int selectedMinute = selectedTimeCal.get(Calendar.MINUTE);
-
-            if (selectedHour < currentHour || (selectedHour == currentHour && selectedMinute < currentMinute)) {
-                timeText.setError(getCtx().getString(errorMessageResId));
-                isValid = false;
-            }
-
+            sdf.parse(timeString);
         } catch (ParseException e) {
-            e.printStackTrace();
+            timeText.setError(getCtx().getString(errorMessageResId));
+            isValid = false;
         }
 
         return isValid;
     }
+
+
+    public boolean validateDateStandard(TextInputEditText dateText, int errorMessageResId) {
+        Context context = dateText.getContext();
+        String dateFormat = "dd/MM/yyyy";
+        boolean isValid = true;
+
+        String inputDate = dateText.getText().toString().trim();
+
+        if (!inputDate.isEmpty()) {
+            SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
+            sdf.setLenient(false);
+
+            try {
+                sdf.parse(inputDate);
+            } catch (ParseException e) {
+                isValid = false;
+            }
+
+            if (!isValid) {
+                dateText.setError(context.getString(errorMessageResId));
+            }
+        }
+
+        return isValid;
+    }
+
 
 
 }
