@@ -73,7 +73,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logouProfile"
-        android:layout_width="45dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         app:rippleColor="@color/light_gray"
         android:layout_marginStart="15dp"

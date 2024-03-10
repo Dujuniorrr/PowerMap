@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.adapter.contract.AdapterCustom;
 import com.ifbaiano.powermap.dao.media.StorageDaoMedia;
 import com.ifbaiano.powermap.model.Car;
 import com.ifbaiano.powermap.model.EletricCarModel;
@@ -21,7 +22,7 @@ import com.ifbaiano.powermap.model.HybridCarModel;
 
 import java.util.ArrayList;
 
-public class CarAdapter extends RecyclerView.Adapter implements  AdapterCustom{
+public class CarAdapter extends RecyclerView.Adapter implements AdapterCustom {
     ArrayList<Car> cars;
     Context context;
     private DeleteClickListener deleteClickListener;

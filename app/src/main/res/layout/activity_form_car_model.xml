@@ -68,6 +68,7 @@
 
           <com.google.android.material.textfield.TextInputEditText
               android:id="@+id/year"
+              android:maxLength="4"
               style="@style/EditTextWithBorderBlack"
               android:layout_alignTop="@+id/name"
               android:layout_marginTop="83dp"

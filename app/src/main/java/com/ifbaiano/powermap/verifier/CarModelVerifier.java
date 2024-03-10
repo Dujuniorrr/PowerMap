@@ -23,6 +23,8 @@ public class CarModelVerifier extends Verifier {
         isValid = validateField(name, R.string.name_error);
         isValid &= validateField(year, R.string.year_error);
         isValid &= validateYear(year, R.string.wrong_year_error);
+        isValid &= validateMinYear(year, R.string.wrong_year_error);
+        isValid &= validateMinConsumption(energyConsumption, R.string.energy_consumption_error );
         isValid &= validateField(energyConsumption, R.string.energy_consumption_error);
         isValid &= validateImage(hasImg, imgBtn, R.string.image_error);
 
@@ -34,10 +36,10 @@ public class CarModelVerifier extends Verifier {
         isValid = this.verifyCarModel(
                 name, year, energyConsumption, imgBtn, hasImg
         );
+        isValid &= validateMinConsumption(fuelEnergyConsumption, R.string.energy_consumption_error );
         isValid &= validateField(fuelEnergyConsumption, R.string.fuel_consumption_error);
         return isValid;
     }
-
 
     public boolean validateYear(TextInputEditText year, int errorMessageResId) {
         if (!year.getText().toString().isEmpty()) {
@@ -50,6 +52,28 @@ public class CarModelVerifier extends Verifier {
         }
         return true;
     }
+    public boolean validateMinYear(TextInputEditText year, int errorMessageResId) {
+        if (!year.getText().toString().isEmpty()) {
+            int inputYear = Integer.valueOf(year.getText().toString());
+            if (inputYear < 1900) {
+                year.setError(this.getCtx().getString(errorMessageResId));
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean validateMinConsumption(TextInputEditText year, int errorMessageResId) {
+        if (!year.getText().toString().isEmpty()) {
+            float value = Float.valueOf(year.getText().toString());
+            if (value < 0.1) {
+                year.setError(this.getCtx().getString(errorMessageResId));
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     protected boolean validateImage(boolean field, AppCompatButton imgBtn, int errorMessageResId){
         if (!field){

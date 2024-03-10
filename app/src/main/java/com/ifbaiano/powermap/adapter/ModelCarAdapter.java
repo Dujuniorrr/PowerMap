@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
+import com.ifbaiano.powermap.adapter.contract.AdapterCustom;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
 import com.ifbaiano.powermap.model.CarModel;
 import com.ifbaiano.powermap.model.EletricCarModel;

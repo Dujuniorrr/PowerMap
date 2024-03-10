@@ -3,6 +3,11 @@
     <string name="maps_key">AIzaSyCN2c343t_dg98fYSpNnjy9KbASfQit2rc</string>
     <string name="your_location">Sua localização!</string>
 
+    <string name="data_car_error">Nenhum carro encontrado!</string>
+    <string name="data_model_error">Nenhum modelo encontrado!</string>
+    <string name="data_user_error">Nenhum usuário encontrado!</string>
+    <string name="data_schedule_error">Nenhum agendamento encontrado!</string>
+
 
     <string name="invalid_auth"> Credenciais inválidas </string>
     <string name="back">Voltar</string>

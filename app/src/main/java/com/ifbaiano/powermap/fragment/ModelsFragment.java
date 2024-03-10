@@ -18,6 +18,7 @@ import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.carModels.AddCarModelActivity;
 import com.ifbaiano.powermap.activity.carModels.EditCarModelActivity;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
+import com.ifbaiano.powermap.appearance.MessageHandlerAppearance;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
  */
 public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditClickListener, ModelCarAdapter.DeleteClickListener {
 
+
+    MessageHandlerAppearance errorTagManager;
     AppCompatButton addBtn;
     ProgressBar progressBar;
     RecyclerView recyclerView;
@@ -65,6 +68,7 @@ public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditCli
                              Bundle savedInstanceState) {
         this.mainActivity =  (AppCompatActivity) getActivity();
         rootView = inflater.inflate(R.layout.fragment_models, container, false);
+        errorTagManager = new MessageHandlerAppearance(rootView.findViewById(R.id.errorMessageRecords));
         this.makeInstances();
         this.findViewById();
         addBtn.setOnClickListener(v -> {
@@ -93,14 +97,22 @@ public class ModelsFragment extends Fragment  implements ModelCarAdapter.EditCli
     }
 
     private void listModels(){
-
+        errorTagManager.clearErrorTag();
         recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         new Thread(() -> {
             setModelList();
 
-            mainActivity.runOnUiThread( this::formatRecycleView);
+            mainActivity.runOnUiThread( () -> {
+                if(carModels.size() > 0){
+                    formatRecycleView();
+                }
+                else{
+                    progressBar.setVisibility(View.GONE);
+                    errorTagManager.showErrorTag(mainActivity.getString(R.string.data_model_error));
+                }
+            });
         }).start();
     }
 

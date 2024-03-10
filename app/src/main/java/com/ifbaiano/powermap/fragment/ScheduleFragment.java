@@ -20,6 +20,7 @@ import com.ifbaiano.powermap.activity.schedule.AddScheduleActivity;
 import com.ifbaiano.powermap.activity.users.RegisterAdminActivity;
 import com.ifbaiano.powermap.adapter.ScheduleAdapter;
 import com.ifbaiano.powermap.adapter.UsersAdapter;
+import com.ifbaiano.powermap.appearance.MessageHandlerAppearance;
 import com.ifbaiano.powermap.appearance.StatusBarAppearance;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.ScheduleDaoSqlite;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 public class ScheduleFragment extends Fragment implements  ScheduleAdapter.CheckClickListener{
 
     ProgressBar progressBar;
+    MessageHandlerAppearance errorTagManager;
     FloatingActionButton floatingActionbtn;
     AppCompatActivity mainActivity;
     View rootView;
@@ -64,7 +66,7 @@ public class ScheduleFragment extends Fragment implements  ScheduleAdapter.Check
         this.mainActivity =  (AppCompatActivity) getActivity();
         rootView = inflater.inflate(R.layout.fragment_schedule, container, false);
         StatusBarAppearance.changeStatusBarColor(mainActivity, R.color.sub_background_form);
-
+        errorTagManager = new MessageHandlerAppearance(rootView.findViewById(R.id.errorMessageRecords));
         this.findViewsById();
         this.listSchedules();
         return rootView;
@@ -73,10 +75,20 @@ public class ScheduleFragment extends Fragment implements  ScheduleAdapter.Check
     public void listSchedules(){
         recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
+        errorTagManager.clearErrorTag();
 
         new Thread(() -> {
             schedules = new ScheduleDaoSqlite(mainActivity.getApplicationContext()).findByUserId(UserFactory.getUserInMemory(mainActivity).getId());
-            mainActivity.runOnUiThread( this::formatRecycleView);
+            mainActivity.runOnUiThread(() -> {
+                if(schedules.size() > 0){
+                    formatRecycleView();
+                }
+                else{
+                    progressBar.setVisibility(View.GONE);
+                    errorTagManager.showErrorTag(mainActivity.getString(R.string.data_schedule_error));
+                }
+
+            });
         }).start();
     }
 

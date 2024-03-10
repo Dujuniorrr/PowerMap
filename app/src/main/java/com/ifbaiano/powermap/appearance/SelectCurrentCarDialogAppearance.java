@@ -3,6 +3,7 @@ package com.ifbaiano.powermap.appearance;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 
 public class SelectCurrentCarDialogAppearance implements  CarAdapter.OnClickListener {
     MapFragment mapFragment;
+
+    MessageHandlerAppearance errorTagManager;
     CalculateDialogAppearance calculateDialogAppearance;
     Car car = null;
     CarModelAppearence carModelAppearence;
@@ -48,16 +51,27 @@ public class SelectCurrentCarDialogAppearance implements  CarAdapter.OnClickList
         this.mapFragment = mapFragment;
         this.calculateDialogAppearance = calculateDialogAppearance;
         this.verifier = new CalculateConsumptionVerifier(this.ctx);
+
     }
 
     public void createSelectDialog() {
-        dialog = new Dialog(this.ctx);
-        this.configDialog();
         this.makeInstances();
-        this.findViewById();
-        this.listCars();
 
-        dialog.show();
+        if(carService.findAll().size() > 0){
+            dialog = new Dialog(this.ctx);
+
+            errorTagManager = new MessageHandlerAppearance(dialog.findViewById(R.id.errorMessageRecords));
+
+            this.configDialog();
+            this.findViewById();
+            this.listCars();
+
+            dialog.show();
+        }
+        else{
+            Toast.makeText(ctx, ctx.getResources().getString(R.string.data_car_error), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void findViewById(){
@@ -90,7 +104,14 @@ public class SelectCurrentCarDialogAppearance implements  CarAdapter.OnClickList
 
         new Thread(() -> {
             cars = carService.findAll();
-            mainActivity.runOnUiThread( this::formatRecycleView);
+            if(cars.size() > 0){
+                mainActivity.runOnUiThread( this::formatRecycleView);
+                errorTagManager.clearErrorTag();
+            }
+            else{
+                progressBar.setVisibility(View.GONE);
+                errorTagManager.showErrorTag(dialog.getContext().getString(R.string.data_car_error));
+            }
         }).start();
     }
 
@@ -115,6 +136,7 @@ public class SelectCurrentCarDialogAppearance implements  CarAdapter.OnClickList
             WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
             layoutParams.copyFrom(window.getAttributes());
             layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//            layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
             window.setAttributes(layoutParams);
         }
         assert window != null;

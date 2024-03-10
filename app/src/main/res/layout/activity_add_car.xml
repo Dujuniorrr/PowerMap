@@ -7,6 +7,21 @@
     android:background="@color/white"
     tools:context=".activity.cars.AddCarActivity">
 
+  <TextView
+      android:visibility="gone"
+      android:id="@+id/errorMessageRecords"
+      android:textStyle="bold"
+      android:drawableTop="@drawable/baseline_warning_24"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/red_custom"
+      android:textSize="20sp"
+      android:drawablePadding="15dp"
+      android:text=""
+      android:gravity="center"/>
+
   <androidx.appcompat.widget.AppCompatButton
       android:id="@+id/backButon"
       android:layout_width="36dp"

@@ -22,6 +22,7 @@ import com.ifbaiano.powermap.activity.cars.AddCarActivity;
 import com.ifbaiano.powermap.activity.users.RegisterAdminActivity;
 import com.ifbaiano.powermap.adapter.CarAdapter;
 import com.ifbaiano.powermap.adapter.UsersAdapter;
+import com.ifbaiano.powermap.appearance.MessageHandlerAppearance;
 import com.ifbaiano.powermap.dao.firebase.UserDaoFirebase;
 import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
 import com.ifbaiano.powermap.dao.sqlite.UserDaoSqlite;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 public class UsersFragment extends Fragment {
 
 
+    MessageHandlerAppearance errorTagManager;
     ProgressBar progressBar;
     RecyclerView recyclerView;
     ArrayList<User> users;
@@ -56,6 +58,7 @@ public class UsersFragment extends Fragment {
 
         this.mainActivity = (AppCompatActivity) getActivity();
         this.rootView = inflater.inflate(R.layout.fragment_users, container, false);
+        errorTagManager = new MessageHandlerAppearance(rootView.findViewById(R.id.errorMessageRecords));
         this.findViewById();
         this.listUsers(R.id.all);
         return rootView;
@@ -64,6 +67,7 @@ public class UsersFragment extends Fragment {
     public void listUsers(int type){
         recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
+        errorTagManager.clearErrorTag();
 
         new Thread(() -> {
             if(type == R.id.all){
@@ -75,7 +79,14 @@ public class UsersFragment extends Fragment {
             else if(type == R.id.admins){
                 this.users = new UserDaoFirebase(getContext()).findAllAdmins();
             }
-            mainActivity.runOnUiThread( this::formatRecycleView);
+            mainActivity.runOnUiThread(() -> {
+                if(users.size() > 0){
+                    mainActivity.runOnUiThread( this::formatRecycleView);
+                }else{
+                    progressBar.setVisibility(View.GONE);
+                    errorTagManager.showErrorTag(getString(R.string.data_user_error));
+                }
+            });
         }).start();
     }
 

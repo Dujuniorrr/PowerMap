@@ -14,6 +14,7 @@
         android:gravity="top|center_horizontal"
         android:orientation="vertical">
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,6 +53,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/errorMessageRecords"
+            android:textStyle="bold"
+            android:drawableTop="@drawable/baseline_warning_24"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red_custom"
+            android:textSize="20sp"
+            android:drawablePadding="15dp"
+            android:text=""
+            android:gravity="center"/>
+
+
+
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -63,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="10dp">
+
 
                 <ProgressBar
                     android:id="@+id/progressBar"

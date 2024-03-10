@@ -8,8 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ifbaiano.powermap.R;
-import com.ifbaiano.powermap.adapter.AdapterCustom;
-import com.ifbaiano.powermap.adapter.ModelCarAdapter;
+import com.ifbaiano.powermap.adapter.contract.AdapterCustom;
 
 public class CarModelAppearence {
     private final AdapterCustom adapter;

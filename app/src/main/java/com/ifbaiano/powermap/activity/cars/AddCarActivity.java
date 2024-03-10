@@ -34,6 +34,8 @@ public class AddCarActivity extends ActionCarBase{
     }
 
     public void submitForm(){
+
+        errorTagManager.clearErrorTag();
         submitForm.setVisibility(View.GONE);
         progressBarSubmit.setVisibility(View.VISIBLE);
         boolean isValid = new CarVerifier(getApplicationContext()).verifyCar(name, selectedCarModel.getId() != null);

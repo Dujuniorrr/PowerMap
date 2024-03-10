@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.cars.AddCarActivity;
 import com.ifbaiano.powermap.adapter.CarAdapter;
+import com.ifbaiano.powermap.appearance.MessageHandlerAppearance;
 import com.ifbaiano.powermap.dao.sqlite.CarDaoSqlite;
 import com.ifbaiano.powermap.factory.CarFactory;
 import com.ifbaiano.powermap.model.Car;
@@ -27,6 +30,8 @@ import java.util.ArrayList;
 public class CarFragment extends Fragment  implements  CarAdapter.DeleteClickListener {
 
     AppCompatButton addBtn;
+    MessageHandlerAppearance errorTagManager;
+
     ProgressBar progressBar;
     RecyclerView recyclerView;
     ArrayList<Car> cars;
@@ -56,6 +61,8 @@ public class CarFragment extends Fragment  implements  CarAdapter.DeleteClickLis
         this.mainActivity = (AppCompatActivity) getActivity();
         this.rootView = inflater.inflate(R.layout.fragment_car, container, false);
 
+        errorTagManager = new MessageHandlerAppearance(rootView.findViewById(R.id.errorMessageRecords));
+
         this.findViewById();
         this.makeInstances();
         this.formatRecycleView();
@@ -73,7 +80,14 @@ public class CarFragment extends Fragment  implements  CarAdapter.DeleteClickLis
 
         new Thread(() -> {
             cars = carService.findAll();
-            mainActivity.runOnUiThread( this::formatRecycleView);
+            if(cars.size() > 0){
+                errorTagManager.clearErrorTag();
+                mainActivity.runOnUiThread( this::formatRecycleView);
+            }
+            else{
+                progressBar.setVisibility(View.GONE);
+                errorTagManager.showErrorTag(getString(R.string.data_car_error));
+            }
         }).start();
     }
 
@@ -107,6 +121,9 @@ public class CarFragment extends Fragment  implements  CarAdapter.DeleteClickLis
                 mainActivity.runOnUiThread(() -> {
                     cars.remove(position);
                     adapter.notifyItemRemoved(position);
+                    if(cars.size() < 1){
+                        errorTagManager.showErrorTag(getString(R.string.data_car_error));
+                    }
                 });
             }
             else{

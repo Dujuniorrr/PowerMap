@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -118,14 +119,8 @@ public class ScheduleVerifier extends Verifier {
         String[] dateParts = dateString.split("/");
         int day = Integer.parseInt(dateParts[0]);
         int month = Integer.parseInt(dateParts[1]);
-        int year = Integer.parseInt(dateParts[2]);
 
         if ((day < 1 || day > 31) || (month < 1 || month > 12)) {
-            dateText.setError(getCtx().getString(errorMessageResId));
-            return false;
-        }
-
-        if (year < 1900 || year > Calendar.getInstance().get(Calendar.YEAR)) {
             dateText.setError(getCtx().getString(errorMessageResId));
             return false;
         }

@@ -38,7 +38,8 @@
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@id/calculate"
         android:backgroundTint="@color/red"
-        android:drawableStart="@drawable/baseline_autorenew_24"
+        android:drawableTint="@color/black"
+        android:drawableStart="@drawable/baseline_directions_car_24"
         android:gravity="center_vertical|start"
         android:contentDescription="@string/select_car_model" />
 

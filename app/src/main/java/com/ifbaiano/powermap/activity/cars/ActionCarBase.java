@@ -15,6 +15,7 @@ import com.ifbaiano.powermap.R;
 import com.ifbaiano.powermap.activity.MenuActivity;
 import com.ifbaiano.powermap.adapter.ModelCarAdapter;
 import com.ifbaiano.powermap.appearance.CarModelAppearence;
+import com.ifbaiano.powermap.appearance.MessageHandlerAppearance;
 import com.ifbaiano.powermap.dao.firebase.EletricCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.HybridCarModelDaoFirebase;
 import com.ifbaiano.powermap.dao.firebase.StorageDaoFirebase;
@@ -27,7 +28,7 @@ import com.ifbaiano.powermap.service.HybridCarModelService;
 import java.util.ArrayList;
 
 abstract public class ActionCarBase extends AppCompatActivity implements ModelCarAdapter.OnClickListener {
-
+    MessageHandlerAppearance errorTagManager;
     TextInputEditText name;
     AppCompatButton  submitForm;
     ProgressBar progressBar, progressBarSubmit;
@@ -48,6 +49,7 @@ abstract public class ActionCarBase extends AppCompatActivity implements ModelCa
         this.makeInstances();
 
         this.listModels();
+
 
         submitForm.setOnClickListener(v -> {
             submitForm();
@@ -71,6 +73,8 @@ abstract public class ActionCarBase extends AppCompatActivity implements ModelCa
             startActivity(new Intent(this, MenuActivity.class));
         });
 
+        errorTagManager = new MessageHandlerAppearance(findViewById(R.id.errorMessageRecords));
+
         name = findViewById(R.id.name);
         recyclerView = findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,14 +84,21 @@ abstract public class ActionCarBase extends AppCompatActivity implements ModelCa
     }
 
     public void listModels(){
-
+        errorTagManager.clearErrorTag();
         recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         new Thread(() -> {
             setModelList();
 
-            runOnUiThread( this::formatRecycleView);
+            runOnUiThread( () -> {
+                if(carModels.size() > 0){
+                    formatRecycleView();
+                }else{
+                    progressBar.setVisibility(View.GONE);
+                    errorTagManager.showErrorTag(getString(R.string.data_model_error));
+                }
+            });
         }).start();
     }
 
