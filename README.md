@@ -10,8 +10,11 @@
 - [Resultado Final](#resultado-final--aplicação-rodando)
 
 ## Introdução
-
 <a id="introdução"></a>
+
+O PowerMap é um projeto desenvolvido como parte do curso de Laborátorio de Programação para Dispositivos Móveis, com o objetivo de explorar e aplicar os conceitos aprendidos nessa disciplina. Este projeto representa uma iniciativa para entender e solucionar desafios enfrentados pelos motoristas de veículos elétricos e híbridos, especialmente relacionados à infraestrutura de carregamento.
+
+Durante o desenvolvimento deste aplicativo, foram utilizadas diversas técnicas e tecnologias específicas para dispositivos móveis, visando criar uma solução eficaz e intuitiva para os usuários. Ao longo do processo, foram aplicados conhecimentos sobre design de interfaces, programação em plataformas móveis e integração com serviços web.
 
 ## Problema a ser resolvido
 <a id="problema-a-ser-resolvido"></a>
@@ -74,10 +77,12 @@ O requisitos funcionais do aplicativo são os seguintes:
 <a id="resultado-final--aplicação-rodando"></a>
 
 <div style="display: flex">
-  <img src="/media/1.jpeg" width="200px" />    
-   <img src="/media/2.jpeg" width="200px"   />    
-  <img src="/media/3.jpeg"  width="200px"  />    
-  <img src="/media/4.jpeg" width="200px"   />    
-  <img src="/media/5.jpeg" width="200px"   />    
-  <img src="/media/6.jpeg" width="200px"   />    
+  <img src="/media/1.jpeg" width="200px" height="360px" />    
+   <img src="/media/2.jpeg" width="200px" height="360px"  />    
+  <img src="/media/3.jpeg"  width="200px"  height="360px"  />    
+  <img src="/media/4.jpeg" width="200px"   height="360px"  />    
+  <img src="/media/9.jpeg" width="200px"   height="360px"  />    
+  <img src="/media/6.jpeg" width="200px"  height="360px"  />    
+  <img src="/media/7.jpeg" width="200px"   height="360px"  />    
+  <img src="/media/8.jpeg" width="200px"   height="360px"  />    
 </div>
