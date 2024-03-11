@@ -68,9 +68,16 @@ O requisitos funcionais do aplicativo são os seguintes:
 - JSON
 - Shared Preferences
 - Material Desing
-- Bumptech 
-
-
+- Bumptech
+ 
 ## Resultado Final  
-
 <a id="resultado-final--aplicação-rodando"></a>
+
+<div style="display: flex">
+  <img src="/media/1.jpeg" width="200px" />    
+   <img src="/media/2.jpeg" width="200px"   />    
+  <img src="/media/3.jpeg"  width="200px"  />    
+  <img src="/media/4.jpeg" width="200px"   />    
+  <img src="/media/5.jpeg" width="200px"   />    
+  <img src="/media/6.jpeg" width="200px"   />    
+</div>
