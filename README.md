@@ -33,7 +33,8 @@ Dessa forma, os motoristas têm acesso a informações precisas e atualizadas so
 ## Requisitos Funcionais
 <a id="mini-documentação--requisitos-funcionais"></a>
 
-O requisitos funcionais do aplicativo são os seguintes:
+É possível visualizar o [documento de requisitos (PDF)](/media/DOCUMENTO_DE_REQUISITOS_Power_MAP.docx.pdf)
+, mas de forma resumida, os requisitos funcionais do aplicativo são os seguintes:
 
 ```markdown
  [RF001] Realizar Cadastro
