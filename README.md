@@ -66,12 +66,12 @@ Dessa forma, os motoristas têm acesso a informações precisas e atualizadas so
 
 - Java
 - Firebase
-- Firbase Storage
+- Firebase Storage
 - SQL Lite
 - APIs
 - JSON
 - Shared Preferences
-- Material Desing
+- Material Design
 - Bumptech
  
 ## Resultado Final  
